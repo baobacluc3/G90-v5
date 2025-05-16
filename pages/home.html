@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Chủ - Petcare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/custom.css">
+  
+</head>
+<body>
+    <div id="header"></div>
+
+    <!-- Banner -->
+    <section class="banner-section">
+        <div class="banner-content">
+            <h1>Chào mừng đến với Petcare🐾</h1>
+            
+            <div class="banner-buttons">
+                <a href="user/about.html" class="btn btn-primary me-2">
+                    <i class="fas fa-user"></i> Về chúng tôi
+                </a>
+                <a href="user/clinics.html" class="btn btn-primary">
+                    <i class="fas fa-paw"></i> Chi nhánh
+                </a>
+            </div>
+        </div>
+    </section>
+    
+     <!-- DỊCH VỤ  -->
+<section class="services py-5">
+    <div class="container">
+        <h2 class="text-center text-primary fw-bold mb-4">DỊCH VỤ CHÚNG TÔI CUNG CẤP? </h2>
+        <div class="row">
+            <!-- Dịch vụ 1 -->
+            <div class="col-md-4">
+                <div class="card service-card">
+                    <img src="../assets/images/dichvu1.png" class="card-img-top" alt="Cấp cứu 24/24">
+                    <div class="card-body">
+                        <h5 class="card-title text-white bg-success p-2">Cấp cứu 24/24</h5>
+                        <p class="card-text">Dịch vụ cấp cứu hoạt động 24/24, liên hệ ngay tới hotline chi nhánh gần nhất để được hỗ trợ kịp thời.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dịch vụ 2 -->
+            <div class="col-md-4">
+                <div class="card service-card">
+                    <img src="../assets/images/dichvu2.png" class="card-img-top" alt="Tiêm phòng Vaccine">
+                    <div class="card-body">
+                        <h5 class="card-title text-white bg-success p-2">Tiêm phòng Vaccine</h5>
+                        <p class="card-text">Sử dụng các hãng vaccine hàng đầu từ Mỹ và Châu Âu, đảm bảo an toàn cho thú cưng của bạn.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dịch vụ 3 -->
+             <div class="col-md-4">
+                  <div class="card service-card">
+                <img src="../assets/images/dichvu3.png" class="card-img-top" alt="Chăm sóc lông">
+                <div class="card-body">
+                    <h5 class="card-title text-white bg-success p-2">Chăm sóc lông</h5>
+                    <p class="card-text">Dịch vụ cắt tỉa, vệ sinh và chăm sóc lông giúp thú cưng luôn sạch sẽ, thơm tho và khỏe mạnh.</p>
+                    </div>
+                 </div>
+            </div>
+       </div>
+    </div>
+</section>
+
+    <!-- TẠI SAO NÊN CHỌN PETCARE? -->
+<section class="why-choose-us py-5">
+    <div class="container">
+        <h2 class="text-center text-primary fw-bold mb-4">TẠI SAO NÊN CHỌN PETCARE?</h2>
+        <div class="row align-items-center">
+            <!-- Hình ảnh bên trái -->
+            <div class="col-md-5">
+                <img src="../assets/images/TSC PetCare.png" alt="Bệnh viện thú y Petcare" class="img-fluid rounded shadow">
+            </div>
+            <!-- Nội dung bên phải -->
+            <div class="col-md-7">
+                <p>Hệ thống bệnh viện thú y Petcare có uy tín và chất lượng hàng đầu. Chúng tôi đã phục vụ hàng nghìn khách hàng với sự tin tưởng tuyệt đối.</p>
+                <div class="row">
+                    <div class="col-6">
+                        <p>✔ Thương hiệu uy tín <span class="badge bg-success">100</span></p>
+                        <p>✔ Bác sĩ trình độ cao <span class="badge bg-success">100</span></p>
+                        <p>✔ Giá cả hợp lý <span class="badge bg-success">100</span></p>
+                    </div>
+                    <div class="col-6">
+                        <p>✔ Dịch vụ toàn diện <span class="badge bg-success">100</span></p>
+                        <p>✔ Máy móc hiện đại <span class="badge bg-success">99</span></p>
+                        <p>✔ Phục vụ tận tâm <span class="badge bg-success">100</span></p>
+                    </div>
+                </div>
+                <p>Chúng tôi mang đến dịch vụ chất lượng, uy tín, hiện đại và chuyên nghiệp, đảm bảo thú cưng của bạn luôn được chăm sóc tốt nhất.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+   <!-- BỘ SƯU TẬP HÌNH ẢNH -->
+<section class="gallery py-5">
+    <div class="container">
+        <h2 class="text-center text-primary fw-bold mb-4">BỘ SƯU TẬP HÌNH ẢNH</h2>
+        
+        <!-- Tabs điều hướng -->
+        <div class="text-center mb-4">
+            <button class="btn btn-outline-primary" onclick="filterGallery('kham')">KHÁM CHỮA BỆNH</button>
+            <button class="btn btn-outline-primary" onclick="filterGallery('spa')">SPA - GROOMING</button>
+            <button class="btn btn-outline-primary" onclick="filterGallery('hotel')">NỘI TRÚ KHÁCH SẠN</button>
+        </div>
+
+        <!-- Lưới hình ảnh -->
+        <div class="row">
+            <!-- KHÁM CHỮA BỆNH -->
+            <div class="col-md-4 gallery-item kham">
+                <div class="image-container">
+                    <img src="/assets/images/kham1.png" alt="Khám chữa bệnh">
+                    <div class="overlay-text">TIÊM VACCINE</div>
+                </div>
+            </div>
+            <div class="col-md-4 gallery-item kham">
+                <div class="image-container">
+                    <img src="/assets/images/kham2.png" alt="Khám chữa bệnh">
+                    <div class="overlay-text">SIÊU ÂM</div>
+                </div>
+            </div>
+            <div class="col-md-4 gallery-item kham">
+                <div class="image-container">
+                    <img src="/assets/images/kham3.png" alt="Khám chữa bệnh">
+                    <div class="overlay-text">CHỤP X-QUANG</div>
+                </div>
+            </div>
+            <div class="col-md-4 gallery-item kham">
+                <div class="image-container">
+                    <img src="/assets/images/kham4.png" alt="Khám chữa bệnh">
+                    <div class="overlay-text">CẮT ĐUÔI</div>
+                </div>
+            </div>
+            <div class="col-md-4 gallery-item kham">
+                <div class="image-container">
+                    <img src="/assets/images/kham5.png" alt="Khám chữa bệnh">
+                    <div class="overlay-text">HỘ SINH</div>
+                </div>
+            </div>
+            <div class="col-md-4 gallery-item kham">
+                <div class="image-container">
+                    <img src="/assets/images/kham6.png" alt="Khám chữa bệnh">
+                    <div class="overlay-text">TRIỆT SẢN</div>
+                </div>
+            </div>
+
+            <!-- SPA - GROOMING -->
+            <div class="col-md-4 gallery-item spa">
+                <div class="image-container">
+                    <img src="/assets/images/spa1.png" alt="Spa Grooming">
+                    <div class="overlay-text">CẮT TỈA LÔNG</div>
+                </div>
+            </div>
+            <div class="col-md-4 gallery-item spa">
+                <div class="image-container">
+                    <img src="/assets/images/spa3.png" alt="Spa Grooming">
+                    <div class="overlay-text">CẮT MÓNG CHÂN</div>
+                </div>
+            </div>
+            <div class="col-md-4 gallery-item spa">
+                <div class="image-container">
+                    <img src="/assets/images/spa4.png" alt="Spa Grooming">
+                    <div class="overlay-text">VỆ SINH TAI</div>
+                </div>
+            </div>
+
+            <!-- NỘI TRÚ KHÁCH SẠN -->
+            <div class="col-md-4 gallery-item hotel">
+                <div class="image-container">
+                    <img src="/assets/images/ks1.png" alt="Khách sạn thú cưng">
+                    <div class="overlay-text">PHÒNG CHO DOG</div>
+                </div>
+            </div>
+            <div class="col-md-4 gallery-item hotel">
+                <div class="image-container">
+                    <img src="/assets/images/ks2.png" alt="Khách sạn thú cưng">
+                    <div class="overlay-text">PHÒNG CHO DOG</div>
+                </div>
+            </div>
+            <div class="col-md-4 gallery-item hotel">
+                <div class="image-container">
+                    <img src="/assets/images/ks3.png" alt="Khách sạn thú cưng">
+                    <div class="overlay-text">PHÒNG CHO CAT</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- ĐỘI NGŨ BÁC SĨ & NHÂN VIÊN -->
+<section class="team py-5">
+    <div class="container">
+        <h2 class="text-center text-primary fw-bold mb-4">ĐỘI NGŨ BÁC SĨ & NHÂN VIÊN</span></h2>
+        <p class="text-center text-muted">
+            Tâm huyết với nghề và tình yêu thương với thú cưng đã gắn bó chúng tôi, những con người xa lạ lại với nhau thành một tập thể đoàn kết và sẻ chia.
+        </p>
+
+
+        <!-- Lưới nhân viên -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow border-0">
+                    <img src="/assets/images/bs1.png" class="card-img-top" alt="Dr. Huy Nguyễn">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-primary fw-bold">Dr. Huy Nguyễn</h5>
+                        <p class="text-muted">BÁC SĨ ĐA KHOA</p>
+                        <div class="social-icons">
+                            <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="btn btn-outline-info"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-outline-success"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="btn btn-outline-danger"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card shadow border-0">
+                    <img src="/assets/images/bs2.png" class="card-img-top" alt="Dr. Nam Nguyễn">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-primary fw-bold">Dr. Nam Nguyễn</h5>
+                        <p class="text-muted">BÁC SĨ ĐA KHOA</p>
+                        <div class="social-icons">
+                            <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="btn btn-outline-info"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-outline-success"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="btn btn-outline-danger"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow border-0">
+                    <img src="/assets/images/bs3.png" class="card-img-top" alt="Dr. Tình Nguyễn">
+                    <div class="card-body text-center">
+                        <h5 class="card-title text-primary fw-bold">Dr. Tình Nguyễn</h5>
+                        <p class="text-muted">BÁC SĨ ĐA KHOA</p>
+                        <div class="social-icons">
+                            <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="btn btn-outline-info"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="btn btn-outline-success"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="btn btn-outline-danger"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- KHÁCH HÀNG NÓI GÌ? -->
+<section class="testimonials py-5">
+    <div class="container">
+        <h2 class="text-center text-primary fw-bold mb-4">KHÁCH HÀNG NÓI GÌ?</span></h2>
+        <p class="text-center text-muted">
+            Một số cảm nhận trong rất nhiều cảm nhận tuyệt vời từ khách hàng của chúng tôi. Đây là nguồn động lực mạnh mẽ giúp chúng tôi không ngừng cố gắng nâng cao chất lượng dịch vụ.
+        </p>
+
+        <div class="row">
+
+            <!-- Cảm nhận khách hàng 1 -->
+            <div class="col-md-6">
+                <div class="testimonial-box shadow p-4">
+                    <div class="d-flex align-items-center">
+                        <img src="/assets/images/kh1.png" class="testimonial-avatar" alt="Chị Thương">
+                        <div>
+                            <h5 class="text-primary fw-bold">Chị Thương</h5>
+                            <p class="text-success">PET: BÉ KEM</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "Mình đến đây khám mèo thấy các bác sĩ rất nhiệt tình, chu đáo lắm. Tư vấn kỹ càng nên mình rất yên tâm. Mèo của mình đã được chữa khỏi bệnh ở đây. Cảm ơn các bác sĩ!"
+                    </p>
+                    <div class="rating">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cảm nhận khách hàng 2 -->
+            <div class="col-md-6">
+                <div class="testimonial-box shadow p-4">
+                    <div class="d-flex align-items-center">
+                        <img src="/assets/images/kh2.png" class="testimonial-avatar" alt="Chị Sáu">
+                        <div>
+                            <h5 class="text-primary fw-bold">Chị Sáu</h5>
+                            <p class="text-success">PET: BÉ BẠCH</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "Mình đưa bé đến đây trị tiêu chảy, hô hấp đều khỏi, rất tin tưởng dịch vụ và bác sĩ. Hôm nay đưa bé đến triệt sản thì đúng ngày hội yêu thương nên được rất nhiều ưu đãi."
+                    </p>
+                    <div class="rating">
+                        ⭐⭐⭐⭐⭐
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <!-- HỆ THỐNG CHI NHÁNH  -->
+<section class="branches py-5">
+    <div class="container">
+        <h2 class="text-center text-primary fw-bold mb-4">HỆ THỐNG CHI NHÁNH</span></h2>
+        <p class="text-center text-muted">
+            Hãy liên hệ ngay với chi nhánh gần nhất để nhận được tư vấn miễn phí và hỗ trợ thông tin chi tiết về các dịch vụ.
+        </p>
+
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <div class="branch-box shadow p-3">
+                    <img src="/assets/images/logo.png" class="branch-img" alt="Cẩm Lệ">
+                    <h5 class="text-primary fw-bold">PetCare CẨM LỆ</h5>
+                    <p class="text-danger">HOTLINE: 0961 555 911</p>
+                    <p>010 Trần Phước Thành,Quận Cẩm Lệ,TP.Đà Nẵng.</p>
+                    <button class="btn btn-primary">FANPAGE</button>
+                    <button class="btn btn-outline-primary">CHỈ ĐƯỜNG</button>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="branch-box shadow p-3">
+                    <img src="/assets/images/logo.png" class="branch-img" alt="Hải Châu">
+                    <h5 class="text-primary fw-bold">PetCare HẢI CHÂU</h5>
+                    <p class="text-danger">HOTLINE: 0862 555 911</p>
+                    <p>015 Quang Trung,Quận Hải Châu,TP.Đà Nẵng.</p>
+                    <button class="btn btn-primary">FANPAGE</button>
+                    <button class="btn btn-outline-primary">CHỈ ĐƯỜNG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <!-- ĐĂNG KÝ NHẬN TIN ƯU ĐÃI -->
+<section class="newsletter py-5">
+    <div class="container text-center">
+        <h2 class="text-primary fw-bold">ĐĂNG KÝ NHẬN TIN ƯU ĐÃI</span></h2>
+        <p class="text-muted">
+            Đăng ký email và bạn sẽ nhận được thông tin về các sự kiện, chương trình ưu đãi sớm nhất.
+        </p>
+
+        <div class="d-flex justify-content-center align-items-center">
+            <input type="email" class="form-control w-50 me-2" placeholder="Địa chỉ email của bạn">
+            <button class="btn btn-primary">ĐĂNG KÝ</button>
+        </div>
+    </div>
+</section>
+<div id="footer"></div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    fetch('../../components/header.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('header').innerHTML = data);
+
+    fetch('../../components/footer.html')
+        .then(response => response.text())
+        .then(data => document.getElementById('footer').innerHTML = data);
+    fetch('../components/modal.html')
+        .then(response => response.text())
+        .then(data => {
+                document.getElementById('modalContainer').innerHTML = data;
+            });
+    
+        // Hàm mở modal với nội dung tùy chỉnh
+        function openModal(title, content, onConfirm) {
+            const modal = new bootstrap.Modal(document.getElementById('commonModal'));
+            document.getElementById('commonModalLabel').innerText = title;
+            document.querySelector('.modal-body').innerText = content;
+
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            confirmBtn.onclick = function() {
+                onConfirm();
+                modal.hide();
+            };
+
+            modal.show();
+        }
+        function filterGallery(category) {
+    // Ẩn hết
+    const items = document.querySelectorAll('.gallery-item');
+    items.forEach(item => {
+        if (item.classList.contains(category)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+
+    // Cập nhật class active cho button
+    const buttons = document.querySelectorAll('.text-center .btn');
+    buttons.forEach(btn => btn.classList.remove('btn-success', 'active'));
+    event.target.classList.add('btn-success', 'active');
+}
+</script>
+</body>
+<div id="footer"></div>
+</html>

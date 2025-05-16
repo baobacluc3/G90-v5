@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Hỗ Trợ - Petcare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/user.css">
+</head>
+<body>
+     <!-- Banner Chatbot -->
+<div class="promo-banner position-relative text-center text-white">
+    <img src="/assets/images/banner.png" alt="Khuyến mãi" class="img-fluid w-100 banner-img">
+    <div class="banner-overlay position-absolute top-50 start-50 translate-middle">
+        <h1 class="fw-bold">CHATBOT</h1>
+        <nav class="mt-3">
+            <a href="../home.html" class="text-white text-decoration-none fw-light">TRANG CHỦ</a>
+            <span class="mx-2">•</span>
+            <span class="text-white fw-light">CHATBOT</span>
+        </nav>
+    </div>  
+</div>
+
+    <div class="container chatbot-section py-5">
+        <h1 class="text-center mb-5">Chatbot Hỗ Trợ</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card chatbot-card">
+                    <div class="card-body">
+                        <div class="chat-window" id="chatWindow">
+                            <!-- Tin nhắn sẽ được thêm động từ localStorage hoặc tin nhắn mặc định -->
+                        </div>
+                        <form id="chatForm" class="mt-3">
+                            <div class="input-group">
+                                <input type="text" id="chatInput" class="form-control" placeholder="Nhập tin nhắn..." required>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i> Gửi
+                                </button>
+                            </div>
+                        </form>
+                        <div class="text-end mt-2">
+                            <button class="btn btn-danger btn-sm" onclick="clearChatHistory()">
+                                <i class="fas fa-trash"></i> Xóa Lịch Sử Chat
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+    <div id="modalContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        fetch('../../components/footer.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('footer').innerHTML = data);
+
+        fetch('../../components/modal.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('modalContainer').innerHTML = data;
+            });
+
+        function openModal(title, content, onConfirm) {
+            const modal = new bootstrap.Modal(document.getElementById('commonModal'));
+            document.getElementById('commonModalLabel').innerText = title;
+            document.querySelector('.modal-body').innerText = content;
+
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            confirmBtn.onclick = function() {
+                onConfirm();
+                modal.hide();
+            };
+
+            modal.show();
+        }
+
+        // Tải lịch sử chat từ localStorage
+        function loadChatHistory() {
+            const chatWindow = document.getElementById('chatWindow');
+            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+
+            if (chatHistory.length === 0) {
+                // Nếu không có lịch sử, hiển thị tin nhắn mặc định
+                const defaultMessage = {
+                    type: 'bot',
+                    text: 'Xin chào! Tôi là chatbot của Petcare. Bạn cần giúp gì? Ví dụ: "Đặt lịch", "Xem khuyến mãi", "Giỏ hàng" ,"Đơn hàng" ,"Tiêm phòng".',
+                    time: '10:00 AM'
+                };
+                chatHistory.push(defaultMessage);
+            }
+
+            chatHistory.forEach(message => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${message.type}-message`;
+                messageDiv.innerHTML = `<p>${message.text}</p><small class="text-muted">${message.time}</small>`;
+                chatWindow.appendChild(messageDiv);
+            });
+
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        // Lưu tin nhắn vào localStorage
+        function saveChatMessage(type, text, time) {
+            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+            chatHistory.push({ type, text, time });
+            localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+        }
+
+        // Xóa lịch sử chat
+        function clearChatHistory() {
+            openModal('Xóa Lịch Sử Chat', 'Bạn có chắc chắn muốn xóa toàn bộ lịch sử chat không?', function() {
+                localStorage.removeItem('chatHistory');
+                const chatWindow = document.getElementById('chatWindow');
+                chatWindow.innerHTML = '';
+                loadChatHistory(); // Tải lại tin nhắn mặc định
+            });
+        }
+
+        // Xử lý form chat
+        document.getElementById('chatForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const chatInput = document.getElementById('chatInput');
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Thêm tin nhắn của người dùng
+            const chatWindow = document.getElementById('chatWindow');
+            const userMessageTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message user-message';
+            userMessage.innerHTML = `<p>${message}</p><small class="text-muted">${userMessageTime}</small>`;
+            chatWindow.appendChild(userMessage);
+
+            // Lưu tin nhắn của người dùng vào localStorage
+            saveChatMessage('user', message, userMessageTime);
+
+            // Giả lập phản hồi từ bot
+            setTimeout(() => {
+                let botResponse = 'Tôi không hiểu yêu cầu của bạn. Vui lòng thử lại!';
+                if (message.toLowerCase().includes('đặt lịch')) {
+                    botResponse = 'Bạn có muốn đặt lịch dịch vụ không? Hãy vào <a href="booking.html">Đặt Lịch</a> để tiếp tục!';
+                } else if (message.toLowerCase().includes('khuyến mãi')) {
+                    botResponse = 'Xem các chương trình khuyến mãi tại đây: <a href="promotions.html">Khuyến Mãi</a>';
+                } else if (message.toLowerCase().includes('giỏ hàng')) {
+                    botResponse = 'Bạn muốn xem giỏ hàng? Truy cập tại đây: <a href="cart.html">Giỏ Hàng</a>';
+                } else if (message.toLowerCase().includes('đơn hàng')) {
+                    botResponse = 'Kiểm tra đơn hàng của bạn tại đây: <a href="orders.html">Đơn Hàng</a>';
+                } else if (message.toLowerCase().includes('tiêm phòng')) {
+                    botResponse = 'Xem lịch sử tiêm phòng của thú cưng tại đây: <a href="vaccination.html">Tiêm Phòng</a>';
+                }
+
+                const botMessageTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                const botMessage = document.createElement('div');
+                botMessage.className = 'chat-message bot-message';
+                botMessage.innerHTML = `<p>${botResponse}</p><small class="text-muted">${botMessageTime}</small>`;
+                chatWindow.appendChild(botMessage);
+
+                // Lưu tin nhắn của bot vào localStorage
+                saveChatMessage('bot', botResponse, botMessageTime);
+
+                // Cuộn xuống tin nhắn mới nhất
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }, 1000);
+
+            // Reset input
+            chatInput.value = '';
+        });
+
+        // Tải lịch sử chat khi trang được tải
+        window.onload = loadChatHistory;
+    </script>
+</body>
+</html>

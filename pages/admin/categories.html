@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Danh Mục - Petcare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body>
+    <div id="header"></div>
+    <div class="container mt-5">
+        <div class="row">
+            <div id="sidebar"></div>
+            <div class="col-md-9">
+                <h2 class="text-center mb-4">Quản Lý Danh Mục</h2>
+                <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Thêm Danh Mục</button>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tên Danh Mục</th>
+                            <th>Mô Tả</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categoryList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCategoryModalLabel">Thêm Danh Mục</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addCategoryForm">
+                        <div class="mb-3">
+                            <label for="categoryName" class="form-label">Tên Danh Mục:</label>
+                            <input type="text" class="form-control" id="categoryName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoryDescription" class="form-label">Mô Tả:</label>
+                            <textarea class="form-control" id="categoryDescription"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/category.js" type="module"></script>
+    <script>
+        fetch('../../components/header.html').then(response => response.text()).then(data => document.getElementById('header').innerHTML = data);
+        fetch('../../components/sidebar.html').then(response => response.text()).then(data => document.getElementById('sidebar').innerHTML = data);
+    </script>
+</body>
+</html>

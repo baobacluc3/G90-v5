@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thực phẩm chức năng - Petcare</title>  
+  
+    <!-- Bootstrap & Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/user.css" />
+  </head>
+  <body style="font-family: 'Poppins', sans-serif;">
+
+    <!-- Banner house -->
+    <div class="promo-banner position-relative text-center text-white">
+      <img src="/assets/images/banner.png" alt="Banner Giới thiệu" class="img-fluid w-100 banner-img" />
+      <div class="banner-overlay position-absolute top-50 start-50 translate-middle">
+        <h1 class="fw-bold">THỰC PHẨM CHỨC NĂNG</h1>
+        <nav class="mt-3">
+          <a href="../home.html" class="text-white text-decoration-none fw-light">TRANG CHỦ</a>
+          <span class="mx-2">•</span>
+          <span class="text-white fw-light">THỰC PHẨM CHỨC NĂNG</span>
+        </nav>
+      </div>
+    </div>
+    <div class="filter-bar">
+        <div class="results">Hiện tại có 5 kết quả</div>
+        <select>
+            <option>Mới nhất</option>
+            <option>Giá thấp đến cao</option>
+            <option>Giá cao đến thấp</option>
+        </select>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card">
+            <img src="/assets/images/TPBS.png" alt="Product 1">
+            <h3>Gel dinh dưỡng Bioline dành cho chó</h3>
+            <p>21.000 ₫</p>
+        </div>
+        <div class="product-card">
+            <img src="/assets/images/Thuoc2.png" alt="Product 2">
+            <h3>Viên bổ sung canxi Calium Phosphorus cho thú cưng </h3>
+            <p>120.000 ₫</p>
+        </div>
+        <div class="product-card">
+            <img src="/assets/images/Thuoc3.png" alt="Product 3">
+            <h3>Giải độc gan VB Livo Plus</h3>
+            <p>280.000 ₫</p>
+        </div>
+        <div class="product-card">
+            <img src="/assets/images/Thuoc4.png" alt="Product 4">
+            <h3>Men tiêu hóa Biotic cho chó mèo </h3>
+            <p>120.000 ₫</p>
+        </div>
+        <div class="product-card">
+            <img src="/assets/images/Thuoc5.png" alt="Product 5">
+            <h3>Bột nhổ lông tai cho chó mèo</h3>
+            <p>156.000 ₫</p>
+        </div>      
+    </div>
+<!-- Footer -->
+<div id="footer"></div>
+    <script>
+        fetch('../../components/footer.html')
+      .then(response => response.text())
+      .then(data => document.getElementById('footer').innerHTML = data);
+        // JavaScript để xử lý bộ lọc (có thể mở rộng thêm)
+        const filterSelect = document.querySelector('.filter-bar select');
+        filterSelect.addEventListener('change', (e) => {
+            const products = document.querySelectorAll('.product-card');
+            const sortedProducts = Array.from(products).sort((a, b) => {
+                const priceA = parseFloat(a.querySelector('p').textContent.replace(/[^0-9]/g, ''));
+                const priceB = parseFloat(b.querySelector('p').textContent.replace(/[^0-9]/g, ''));
+                if (e.target.value === 'Giá thấp đến cao') {
+                    return priceA - priceB;
+                } else if (e.target.value === 'Giá cao đến thấp') {
+                    return priceB - priceA;
+                }
+                return 0;
+            });
+            const productGrid = document.querySelector('.product-grid');
+            productGrid.innerHTML = '';
+            sortedProducts.forEach(product => productGrid.appendChild(product));
+        });
+    </script>
+</body>
+</html>

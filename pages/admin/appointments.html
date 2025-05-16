@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản Lý Lịch Hẹn - Petcare</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../css/admin.css" />
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <div class="container appointments-section py-5">
+      <h1 class="text-center mb-5">Quản Lý Lịch Hẹn</h1>
+
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input
+              type="text"
+              id="searchInput"
+              class="form-control"
+              placeholder="Tìm kiếm theo tên khách hàng..."
+            />
+            <button class="btn btn-primary" onclick="searchAppointments()">
+              Tìm kiếm
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="input-group">
+            <label class="input-group-text" for="statusFilter"
+              ><i class="fas fa-filter"></i> Trạng thái:</label
+            >
+            <select id="statusFilter" class="form-select">
+              <option value="all">Tất Cả</option>
+              <option value="Chờ xác nhận">Chờ Xác Nhận</option>
+              <option value="Đã xác nhận">Đã Xác Nhận</option>
+              <option value="Hoàn thành">Hoàn Thành</option>
+              <option value="Đã hủy">Đã Hủy</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4 text-end">
+          <button class="btn btn-success" onclick="addAppointment()">
+            <i class="fas fa-plus"></i> Thêm Lịch Hẹn
+          </button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table
+              class="table table-striped appointment-table"
+              id="appointmentTable"
+            >
+              <thead>
+                <tr>
+                  <th>Mã Lịch Hẹn</th>
+                  <th>Khách Hàng</th>
+                  <th>Thú Cưng</th>
+                  <th>Dịch Vụ</th>
+                  <th>Ngày</th>
+                  <th>Giờ</th>
+                  <th>Trạng Thái</th>
+                  <th>Hành Động</th>
+                </tr>
+              </thead>
+              <tbody id="appointmentList"></tbody>
+            </table>
+          </div>
+
+          <nav aria-label="Appointment pagination">
+            <ul class="pagination justify-content-center" id="pagination"></ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="appointmentModal"
+      tabindex="-1"
+      aria-labelledby="appointmentModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="appointmentModalLabel">
+              Thêm Lịch Hẹn
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="appointmentForm">
+              <input type="hidden" id="appointmentId" name="appointmentId" />
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="hoTen" class="form-label"
+                      >Tên Khách Hàng <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="hoTen"
+                      name="hoTen"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="soDienThoai" class="form-label"
+                      >Số Điện Thoại <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="tel"
+                      class="form-control"
+                      id="soDienThoai"
+                      name="soDienThoai"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="tenThuCung" class="form-label"
+                      >Tên Thú Cưng</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="tenThuCung"
+                      name="tenThuCung"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="dichVu" class="form-label"
+                      >Dịch Vụ <span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="form-select"
+                      id="dichVu"
+                      name="dichVu"
+                      required
+                    >
+                      <option value="">Chọn dịch vụ</option>
+                      <option value="Khám tổng quát">Khám tổng quát</option>
+                      <option value="Chăm sóc lông">Chăm sóc lông</option>
+                      <option value="Tiêm phòng">Tiêm phòng</option>
+                      <option value="Tắm rửa">Tắm rửa</option>
+                      <option value="Phẫu thuật">Phẫu thuật</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="chiNhanh" class="form-label"
+                      >Chi Nhánh <span class="text-danger">*</span></label
+                    >
+                    <select
+                      class="form-select"
+                      id="chiNhanh"
+                      name="chiNhanh"
+                      required
+                    >
+                      <option value="">Chọn chi nhánh</option>
+                      <option value="Petcare Cẩm Lệ">Petcare Cẩm Lệ</option>
+                      <option value="Petcare Hải Châu">Petcare Hải Châu</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="ngay" class="form-label"
+                      >Ngày <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="ngay"
+                      name="ngay"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="gio" class="form-label"
+                      >Giờ <span class="text-danger">*</span></label
+                    >
+                    <input
+                      type="time"
+                      class="form-control"
+                      id="gio"
+                      name="gio"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="ghiChu" class="form-label">Ghi Chú</label>
+                <textarea
+                  class="form-control"
+                  id="ghiChu"
+                  name="ghiChu"
+                  rows="3"
+                ></textarea>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Hủy
+                </button>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../../js/appointment.js"></script>
+
+    <script>
+      const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      if (!currentUser || currentUser.role !== "admin") {
+        window.location.href = "../auth/login.html";
+      }
+
+      fetch("../../components/header.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header").innerHTML = data;
+          const scripts = document
+            .getElementById("header")
+            .getElementsByTagName("script");
+          for (let script of scripts) {
+            eval(script.innerHTML);
+          }
+        });
+
+      fetch("../../components/footer.html")
+        .then((response) => response.text())
+        .then((data) => (document.getElementById("footer").innerHTML = data));
+    </script>
+  </body>
+</html>

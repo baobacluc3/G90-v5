@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Báo Cáo - Petcare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <!-- Thư viện Chart.js để vẽ biểu đồ -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="container reports-section py-5">
+        <h1 class="text-center mb-5">Báo Cáo Tổng Quan</h1>
+        <div class="row">
+            <!-- Biểu đồ doanh thu -->
+            <div class="col-md-6 mb-4">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <h4 class="card-title">Doanh Thu Theo Tháng</h4>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <!-- Biểu đồ người dùng -->
+            <div class="col-md-6 mb-4">
+                <div class="card report-card">
+                    <div class="card-body">
+                        <h4 class="card-title">Số Lượng Người Dùng</h4>
+                        <canvas id="usersChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped report-table">
+                        <thead>
+                            <tr>
+                                <th>Tháng</th>
+                                <th>Doanh Thu (VNĐ)</th>
+                                <th>Số Người Dùng Mới</th>
+                                <th>Số Đơn Hàng</th>
+                                <th>Hành Động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tháng 1/2025</td>
+                                <td>5.000.000</td>
+                                <td>50</td>
+                                <td>20</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" onclick="openModal('Chi Tiết Báo Cáo', 'Báo Cáo Tháng 1/2025\nDoanh Thu: 5.000.000 VNĐ\nNgười Dùng Mới: 50\nĐơn Hàng: 20', function() {})">
+                                        <i class="fas fa-eye"></i> Xem Chi Tiết
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Tháng 2/2025</td>
+                                <td>7.000.000</td>
+                                <td>70</td>
+                                <td>30</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" onclick="openModal('Chi Tiết Báo Cáo', 'Báo Cáo Tháng 2/2025\nDoanh Thu: 7.000.000 VNĐ\nNgười Dùng Mới: 70\nĐơn Hàng: 30', function() {})">
+                                        <i class="fas fa-eye"></i> Xem Chi Tiết
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+    <div id="modalContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        fetch('../../components/header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+                const scripts = document.getElementById('header').getElementsByTagName('script');
+                for (let script of scripts) {
+                    eval(script.innerHTML);
+                }
+            });
+
+        fetch('../../components/footer.html')
+            .then(response => response.text())
+            .then(data => document.getElementById('footer').innerHTML = data);
+
+        fetch('../../components/modal.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('modalContainer').innerHTML = data;
+            });
+
+        function openModal(title, content, onConfirm) {
+            const modal = new bootstrap.Modal(document.getElementById('commonModal'));
+            document.getElementById('commonModalLabel').innerText = title;
+            document.querySelector('.modal-body').innerText = content;
+
+            const confirmBtn = document.getElementById('modalConfirmBtn');
+            confirmBtn.onclick = function() {
+                onConfirm();
+                modal.hide();
+            };
+
+            modal.show();
+        }
+
+        // Biểu đồ Doanh Thu
+        const revenueChart = new Chart(document.getElementById('revenueChart'), {
+            type: 'line',
+            data: {
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4'],
+                datasets: [{
+                    label: 'Doanh Thu (VNĐ)',
+                    data: [5000000, 7000000, 6000000, 8000000],
+                    borderColor: '#16a085',
+                    backgroundColor: 'rgba(22, 160, 133, 0.2)',
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Biểu đồ Người Dùng
+        const usersChart = new Chart(document.getElementById('usersChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4'],
+                datasets: [{
+                    label: 'Số Người Dùng Mới',
+                    data: [50, 70, 60, 80],
+                    backgroundColor: '#16a085'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Header Paddy.vn Style</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/custom.css">
+</head>
+<body>
+    <header>
+        <div class="top-header">
+            <a class="navbar-brand d-flex align-items-center" href="../index.html">
+                <img src="/assets/images/logo.png" alt="Petcare Logo" class="me-2" style="height: 42px; margin-right: 10px;">
+                <strong>Petcare</strong>
+            </a>
+
+            <div class="search-bar">
+                <div class="input-group">
+                    <input type="text" class="form-control border-0" placeholder="Tìm kiếm...">
+                    <button class="btn btn-outline-secondary border-0" type="button">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </div>
+                  
+            <div class="user-actions">
+                <div class="hotline">
+                    <i class="bi bi-telephone-fill"></i> 039.556.0056
+                </div>
+                <a href="../pages/user/booking.html" class="booking">
+                    <i class="bi bi-calendar-event"></i> Đặt Lịch
+                </a>
+                <a class="login-btn" href="/index.html">Đăng Nhập</a>
+                <a class="logout-btn" href="#" style="display: none;" onclick="logoutUser(); window.location.href = '../pages/auth/login.html';">Đăng Xuất</a>
+                <a href="../pages/user/cart.html" class="cart position-relative">
+                    <i class="bi bi-cart3"></i> Giỏ Hàng <span class="cart-count">0</span>
+                </a>
+            </div>
+           
+        </div>
+
+        <nav class="menu">
+            <ul class="nav">
+                <li class="nav-item"><a class="nav-link" href="/pages/home.html">Trang chủ</a></li> 
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="smartDevicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                       Giới thiệu
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="smartDevicesDropdown">
+                        <li><a class="dropdown-item" href="../pages/user/about.html">Với chúng tôi</a></li>
+                        <li><a class="dropdown-item" href="../pages/user/clinics.html">Hệ thống chi nhánh </a></li>
+                        
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="petShopDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Mua sắm theo danh mục
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="petShopDropdown">
+                  
+                      <!-- THỨC ĂN VÀ THỰC PHẨM DINH DƯỠNG -->
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">Thức ăn & Thực phẩm dinh dưỡng</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/pages/user/food.html">Thức ăn hạt cho chó</a></li>
+                          <li><a class="dropdown-item" href="/pages/user/milk.html">Sữa cho cún lớn và nhỏ</a></li>                       
+                        </ul>
+                      </li>
+                  
+                      <!-- ĐỒ DÙNG & ĐỒ CHƠI & PHỤ KIỆN -->
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">Đồ dùng & Đồ chơi & Phụ kiện</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/pages/user/clother.html">Quần áo cho chó mèo</a></li>
+                          <li><a class="dropdown-item" href="/pages/user/toy.html">Đồ chơi phụ kiện chó mèo</a></li>
+                          
+                        </ul>
+                      </li>
+                  
+                      <!-- VỆ SINH VÀ CHĂM SÓC -->
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">Vệ sinh & Chăm sóc</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/pages/user/Shower gel.html">Sữa tắm  & Nước hoa</a></li>
+                          <li><a class="dropdown-item" href="/pages/user/diaper.html">Bỉm & Tã & Khay vệ sinh</a></li>
+                        </ul>
+                      </li>
+                  
+                      <!-- CHUỒNG, NHÀ, BALO, QUẦY, ĐỆM -->
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">Chuồng, Nhà, Balo, Quầy, Đệm</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/pages/user/house.html">Chuồng & Nhà & Quầy chó</a></li>
+                          <li><a class="dropdown-item" href="/pages/user/balo.html">Balo & Túi vận chuyển</a></li>                         
+                        </ul>
+                      </li>
+                  
+                      <!-- THUỐC VÀ THỰC PHẨM CHỨC NĂNG -->
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item dropdown-toggle" href="#">Thuốc & Thực phẩm chức năng</a>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/pages/user/medicine.html">Thuốc thú y </a></li>
+                          <li><a class="dropdown-item" href="/pages/user/TPCN.html">Thực phẩm chức năng</a></li>
+                        </ul>
+                      </li>
+                  
+                    </ul>
+                  </li>
+                  
+                 
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="smartDevicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                       Dịch vụ
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="smartDevicesDropdown">
+                        <li><a class="dropdown-item" href="/pages/user/Spa-grooming.html">Spa-grooming</a></li>
+                        <li><a class="dropdown-item" href="/pages/user/pet-hotel.html">Khách sạn thú cưng</a></li>
+                        <li><a class="dropdown-item" href="/pages/user/review.html">Đánh giá dịch vụ</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="smartDevicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                       Thông tin
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="smartDevicesDropdown">
+                        <li><a class="dropdown-item" href="../pages/user/promotions.html">Sự kiện và khuyến mãi</a></li>
+                        <li><a class="dropdown-item" href="../pages/user/kt.html">Kiến thức thú y</a></li>
+                        <li><a class="dropdown-item" href="../pages/user/CSPet.html">Chăm sóc thú cưng</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/pages/user/contact.html">Liên hệ</a></li>   
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="smartDevicesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                       Hồ sơ thông tin
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="smartDevicesDropdown">
+                        <li><a class="dropdown-item" href="../pages/user/profile.html">Thông tin cá nhân</a></li>
+                        <li><a class="dropdown-item" href="../pages/user/pet-profile.html">Hồ sơ thú cưng</a></li>
+                        <li><a class="dropdown-item" href="../pages/user/vaccination.html">Lịch tiêm phòng</a></li>
+                    </ul>
+                </li> 
+                <li class="nav-item"><a class="nav-link" href="/pages/user/chatbot-suport.html">Chatbot</a></li>               
+            </ul>
+        </nav>
+    </header>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          document.querySelectorAll('.dropdown-submenu > a').forEach(function (element) {
+            element.addEventListener('click', function (e) {
+              let nextEl = this.nextElementSibling;
+              if (nextEl && nextEl.classList.contains('dropdown-menu')) {
+                e.preventDefault();
+                if (nextEl.style.display === 'block') {
+                  nextEl.style.display = 'none';
+                } else {
+                  // Ẩn các menu con khác nếu có
+                  let openSubmenus = this.closest('.dropdown-menu').querySelectorAll('.dropdown-menu');
+                  openSubmenus.forEach(function (submenu) {
+                    submenu.style.display = 'none';
+                  });
+                  nextEl.style.display = 'block';
+                }
+              }
+            });
+          });
+        });
+        document.querySelector('.btn').addEventListener('click', () => {
+    const keyword = document.querySelector('.form-control').value;
+    fetch('/api/timkiem?query=' + encodeURIComponent(keyword))
+        .then(res => res.json())
+        .then(data => {
+            console.log('Kết quả:', data);
+            // TODO: Render kết quả ra giao diện
+        });
+});
+      </script>
+      
+</body>
+</html>

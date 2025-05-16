@@ -1,0 +1,65 @@
+/* === Kiểu dáng cho Auth Pages === */
+.auth-section {
+    position: relative;
+    min-height: 100vh;
+    background: url('https://images.unsplash.com/photo-1601758177266-6e6c0d692069') no-repeat center center/cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.auth-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.auth-card .form-label {
+    font-weight: 500;
+    color: #1a3c34;
+}
+
+.auth-card .form-control {
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.auth-card .form-control:focus {
+    border-color: #16a085;
+    box-shadow: 0 0 8px rgba(22, 160, 133, 0.3);
+}
+
+.auth-card .input-group-text {
+    background-color: #f4f7fa;
+    border-color: #dee2e6;
+    color: #16a085;
+}
+
+.toggle-password {
+    border-radius: 8px;
+    border-color: #dee2e6;
+}
+
+.auth-card a {
+    color: #16a085;
+    text-decoration: none;
+}
+
+.auth-card a:hover {
+    text-decoration: underline;
+}
+
