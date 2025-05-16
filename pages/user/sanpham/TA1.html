@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ganador Dog Food</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+
+    .container {
+      display: flex;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+      background-color: #fff;
+    }
+
+    .product-img {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .product-img img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+
+    .product-info {
+      flex: 2;
+      padding: 20px;
+    }
+
+    .product-info h1 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      font-size: 24px;
+      color: #000;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .desc {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .note {
+      font-size: 14px;
+      color: #d00;
+      font-style: italic;
+    }
+
+    .quantity-box {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+    }
+
+    .quantity-box button {
+      width: 30px;
+      height: 30px;
+      font-size: 18px;
+    }
+
+    .quantity-box input {
+      width: 40px;
+      text-align: center;
+      margin: 0 5px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .btn-buy {
+      background-color: #007bff;
+    }
+
+    .btn-zalo {
+      background-color: #2673d2;
+    }
+
+    .btn-hotline {
+      background-color: #e63946;
+    }
+
+    .sidebar {
+      width: 280px;
+      padding: 20px;
+      background-color: #f1f1f1;
+      margin-left: 20px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .sidebar h3 {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .sidebar div {
+      margin-bottom: 15px;
+    }
+
+    .phone {
+      color: red;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <div style="display: flex; justify-content: center;">
+    <div class="container">
+      <div class="product-img">
+        <img src="/assets/images/food.png" alt="Ganador Adult Salmon & Rice" />
+      </div>
+
+      <div class="product-info">
+        <h1>Thức ăn cho chó Ganador Adult Salmon & Rice</h1>
+        <div class="price">29.000 ₫</div>
+        <p class="desc">
+          Thức ăn cho chó Ganador Adult Salmon & Rice là thực phẩm dành cho chó trưởng thành với công thức chế biến được nghiên cứu bởi các chuyên gia
+        </p>
+        <p class="note">
+          <strong>Lưu ý:</strong> Giá sản phẩm có thể thay đổi theo từng thời điểm. <em style="color:blue;">Kết bạn Zalo</em> hoặc <em style="color:red;">Gọi Hotline</em> để xem thêm hình ảnh/video chi tiết.
+        </p>
+
+        <div class="quantity-box">
+          <button onclick="changeQuantity(-1)">-</button>
+          <input type="text" id="quantity" value="1" readonly />
+          <button onclick="changeQuantity(1)">+</button>
+        </div>
+
+        <div class="buttons">
+          <button class="btn btn-buy">ĐẶT MUA</button>
+          <button class="btn btn-zalo">CHAT ZALO</button>
+          <button class="btn btn-hotline">GỌI HOTLINE</button>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <h3>📍Hệ thống cửa hàng</h3>
+        <div><strong>Cửa Hàng Cẩm Lệ:</strong><br />010 Trần Phước Thành, Quận Cẩm Lệ, TP. Đà Nẵng.</div>
+        <div><strong>Cửa Hải Châu:</strong><br /> 015 Quang Trung, Quận Hải Châu, TP. Đà Nẵng</div>
+        <div class="phone">📞 0395560056</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function changeQuantity(amount) {
+      const input = document.getElementById('quantity');
+      let current = parseInt(input.value);
+      if (current + amount >= 1) {
+        input.value = current + amount;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-/* === Kiểu dáng cho Profile === */
+/* ===  Profile === */
 .profile-section {
     background-color: #f8f9fa;
     border-radius: 15px;
@@ -108,7 +108,7 @@
     color: #1a3c34;
 }
 
-/* === Kiểu dáng cho Booking === */
+/* ===  Booking === */
 .booking-section {
     background-color: #f4f7fa;
     border-radius: 15px;
@@ -165,7 +165,7 @@
     padding-right: 2.5rem;
 }
 
-/* === Kiểu dáng cho Pet Profile === */
+/* ===  Pet Profile === */
 .pet-profile-section {
     background-color: #f8f9fa;
     border-radius: 15px;
@@ -299,7 +299,7 @@
     font-size: 1rem;
 }
 
-/* === Kiểu dáng cho Cart === */
+/* ===  Cart === */
 .cart-section {
     background-color: #f4f7fa;
     border-radius: 15px;
@@ -344,7 +344,7 @@
 
 
 
-/* === Kiểu dáng cho Orders === */
+/* ===  Orders === */
 .orders-section {
     background-color: #f4f7fa;
     border-radius: 15px;
@@ -389,7 +389,7 @@
 }
 
 
-/* === Kiểu dáng cho Chatbot === */
+/* ===  Chatbot === */
 .chatbot-section {
     background-color: #f4f7fa;
     border-radius: 15px;
@@ -543,6 +543,11 @@
     border-radius: 4px;
     font-size: 14px;
 }
+.product-grid a {
+  text-decoration: none;
+  color: inherit;
+}
+
 
 /* Lưới sản phẩm */
 .product-grid {
