@@ -1,73 +1,459 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quản Lý Khuyến Mãi - Petcare</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/custom.css">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../css/admin.css" />
+    <style>
+      .promo-section {
+        background-color: #f4f7fa;
+        border-radius: 15px;
+      }
+      
+      .stats-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+      
+      .stats-card-success {
+        background: linear-gradient(135deg, #55a3ff 0%, #003d82 100%);
+      }
+      
+      .stats-card-warning {
+        background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+      }
+      
+      .stats-card-info {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+      }
+      
+      .promo-table {
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      .filter-section {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
     <div id="header"></div>
-    <div class="container mt-5">
-        <div class="row">
-            <div id="sidebar"></div>
-            <div class="col-md-9">
-                <h2 class="text-center mb-4">Quản Lý Chương Trình Khuyến Mãi</h2>
-                <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addPromoModal">Thêm Khuyến Mãi</button>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Tên Chương Trình</th>
-                            <th>Ngày Bắt Đầu</th>
-                            <th>Ngày Kết Thúc</th>
-                            <th>Giảm Giá (%)</th>
-                            <th>Hành Động</th>
-                        </tr>
-                    </thead>
-                    <tbody id="promoList"></tbody>
-                </table>
-            </div>
+
+    <div class="container promo-section py-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary">Quản Lý Chương Trình Khuyến Mãi</h1>
+        <div class="btn-group">
+          <button class="btn btn-outline-success" onclick="exportPromos()">
+            <i class="fas fa-file-excel"></i> Xuất Excel
+          </button>
+          <button class="btn btn-primary" onclick="addPromo()">
+            <i class="fas fa-plus"></i> Thêm Khuyến Mãi
+          </button>
         </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="stats-card">
+            <div class="d-flex justify-content-between">
+              <div>
+                <h4 id="totalPromos">0</h4>
+                <p class="mb-0">Tổng chương trình</p>
+              </div>
+              <div class="align-self-center">
+                <i class="fas fa-tags fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card stats-card-success">
+            <div class="d-flex justify-content-between">
+              <div>
+                <h4 id="activePromos">0</h4>
+                <p class="mb-0">Đang hoạt động</p>
+              </div>
+              <div class="align-self-center">
+                <i class="fas fa-play-circle fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card stats-card-warning">
+            <div class="d-flex justify-content-between">
+              <div>
+                <h4 id="expiringSoon">0</h4>
+                <p class="mb-0">Sắp hết hạn</p>
+              </div>
+              <div class="align-self-center">
+                <i class="fas fa-clock fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stats-card stats-card-info">
+            <div class="d-flex justify-content-between">
+              <div>
+                <h4 id="totalUsage">0</h4>
+                <p class="mb-0">Lượt sử dụng</p>
+              </div>
+              <div class="align-self-center">
+                <i class="fas fa-chart-line fa-2x"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fas fa-search"></i>
+              </span>
+              <input
+                type="text"
+                id="searchInput"
+                class="form-control"
+                placeholder="Tìm kiếm theo tên chương trình..."
+              />
+              <button class="btn btn-primary" onclick="searchPromos()">
+                Tìm kiếm
+              </button>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <select id="statusFilter" class="form-select" onchange="filterByStatus()">
+              <option value="all">Tất cả trạng thái</option>
+              <option value="Hoạt động">Hoạt động</option>
+              <option value="Tạm dừng">Tạm dừng</option>
+              <option value="Đã kết thúc">Đã kết thúc</option>
+              <option value="Sắp bắt đầu">Sắp bắt đầu</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select id="timeFilter" class="form-select" onchange="filterByTime()">
+              <option value="all">Tất cả thời gian</option>
+              <option value="thisMonth">Tháng này</option>
+              <option value="lastMonth">Tháng trước</option>
+              <option value="thisYear">Năm này</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-outline-secondary w-100" onclick="resetFilters()">
+              <i class="fas fa-refresh"></i> Reset
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="promo-table">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="table-light">
+              <tr>
+                <th>Mã</th>
+                <th>Tên Chương Trình</th>
+                <th>Ngày Bắt Đầu</th>
+                <th>Ngày Kết Thúc</th>
+                <th>Giảm Giá</th>
+                <th>Số Tiền Tối Đa</th>
+                <th>Sử Dụng</th>
+                <th>Trạng Thái</th>
+                <th>Hành Động</th>
+              </tr>
+            </thead>
+            <tbody id="promoList">
+            </tbody>
+          </table>
+        </div>
+
+        <nav aria-label="Promo pagination">
+          <ul class="pagination justify-content-center" id="pagination"></ul>
+        </nav>
+      </div>
     </div>
 
-    <div class="modal fade" id="addPromoModal" tabindex="-1" aria-labelledby="addPromoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addPromoModalLabel">Thêm Chương Trình Khuyến Mãi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div
+      class="modal fade"
+      id="promoModal"
+      tabindex="-1"
+      aria-labelledby="promoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="promoModalLabel">Thêm Chương Trình Khuyến Mãi</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="promoForm">
+              <input type="hidden" id="promoId" name="promoId" />
+              
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="mb-3">
+                    <label for="tenChuongTrinh" class="form-label">
+                      Tên Chương Trình <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="tenChuongTrinh"
+                      name="tenChuongTrinh"
+                      required
+                    />
+                  </div>
                 </div>
-                <div class="modal-body">
-                    <form id="addPromoForm">
-                        <div class="mb-3">
-                            <label for="promoName" class="form-label">Tên Chương Trình:</label>
-                            <input type="text" class="form-control" id="promoName" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="startDate" class="form-label">Ngày Bắt Đầu:</label>
-                            <input type="date" class="form-control" id="startDate" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="endDate" class="form-label">Ngày Kết Thúc:</label>
-                            <input type="date" class="form-control" id="endDate" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="discount" class="form-label">Giảm Giá (%):</label>
-                            <input type="number" class="form-control" id="discount" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
-                    </form>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="phanTramGiam" class="form-label">
+                      Phần Trăm Giảm (%) <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="phanTramGiam"
+                      name="phanTramGiam"
+                      min="1"
+                      max="100"
+                      required
+                    />
+                  </div>
                 </div>
-            </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="moTa" class="form-label">Mô Tả</label>
+                <textarea
+                  class="form-control"
+                  id="moTa"
+                  name="moTa"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="soTienToiDa" class="form-label">
+                      Số Tiền Giảm Tối Đa (VND)
+                    </label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="soTienToiDa"
+                      name="soTienToiDa"
+                      min="0"
+                      step="1000"
+                      placeholder="Để trống nếu không giới hạn"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="ngayBatDau" class="form-label">
+                      Ngày Bắt Đầu <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="ngayBatDau"
+                      name="ngayBatDau"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="mb-3">
+                    <label for="ngayKetThuc" class="form-label">
+                      Ngày Kết Thúc <span class="text-danger">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="ngayKetThuc"
+                      name="ngayKetThuc"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="soLuongToiDa" class="form-label">
+                      Số Lượng Sử Dụng Tối Đa
+                    </label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="soLuongToiDa"
+                      name="soLuongToiDa"
+                      min="1"
+                      placeholder="Để trống nếu không giới hạn"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="trangThai" class="form-label">Trạng Thái</label>
+                    <select
+                      class="form-select"
+                      id="trangThai"
+                      name="trangThai"
+                    >
+                      <option value="Sắp bắt đầu">Sắp bắt đầu</option>
+                      <option value="Hoạt động">Hoạt động</option>
+                      <option value="Tạm dừng">Tạm dừng</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="dieuKienApDung" class="form-label">
+                  Điều Kiện Áp Dụng
+                </label>
+                <textarea
+                  class="form-control"
+                  id="dieuKienApDung"
+                  name="dieuKienApDung"
+                  rows="2"
+                  placeholder="Ví dụ: Áp dụng cho đơn hàng từ 500.000 VND"
+                ></textarea>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Hủy
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save"></i> Lưu
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+
+    <div
+      class="modal fade"
+      id="promoDetailModal"
+      tabindex="-1"
+      aria-labelledby="promoDetailModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="promoDetailModalLabel">
+              Chi Tiết Chương Trình
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body" id="promoDetailContent"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/promo.js" type="module"></script>
+    <script src="../../js/promo.js"></script>
     <script>
-        fetch('../../components/header.html').then(response => response.text()).then(data => document.getElementById('header').innerHTML = data);
-        fetch('../../components/sidebar.html').then(response => response.text()).then(data => document.getElementById('sidebar').innerHTML = data);
+      // Check admin access
+      const currentUser = JSON.parse(localStorage.getItem("loggedInUser"));
+      if (!currentUser || currentUser.role !== "admin") {
+        window.location.href = "../auth/login.html";
+      }
+
+      fetch("../../components/header.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("header").innerHTML = data;
+          const scripts = document
+            .getElementById("header")
+            .getElementsByTagName("script");
+          for (let script of scripts) {
+            eval(script.innerHTML);
+          }
+        });
+
+      fetch("../../components/footer.html")
+        .then((response) => response.text())
+        .then((data) => (document.getElementById("footer").innerHTML = data));
+
+      window.exportPromos = function () {
+        window.open("/api/promos/export", "_blank");
+      };
+
+      window.resetFilters = function () {
+        document.getElementById("searchInput").value = "";
+        document.getElementById("statusFilter").value = "all";
+        document.getElementById("timeFilter").value = "all";
+        currentSearch = "";
+        currentStatus = "all";
+        currentPage = 1;
+        loadPromos();
+      };
+
+      window.filterByTime = function () {
+        currentPage = 1;
+        loadPromos();
+      };
     </script>
-</body>
+  </body>
 </html>

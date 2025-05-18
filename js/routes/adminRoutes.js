@@ -434,7 +434,6 @@ router.post("/categories", (req, res) => {
   });
 });
 
-//category
 
 router.get("/inventory", (req, res) => {
   const { search, category, page = 1, limit = 10 } = req.query;
@@ -1236,5 +1235,676 @@ router.delete("/customers/:id", (req, res) => {
     });
   });
 });
+
+
+
+
+
+
+router.get("/promos", (req, res) => {
+  const { search, status, page = 1, limit = 10 } = req.query;
+
+  let query = `
+    SELECT 
+      ID_ChuongTrinh,
+      TenChuongTrinh,
+      MoTa,
+      PhanTramGiam,
+      SoTienToiDa,
+      NgayBatDau,
+      NgayKetThuc,
+      SoLuongToiDa,
+      SoLuongDaSuDung,
+      TrangThai,
+      DieuKienApDung,
+      NgayTao,
+      NgayCapNhat
+    FROM ChuongTrinhKhuyenMai
+    WHERE 1=1
+  `;
+
+  let countQuery = `
+    SELECT COUNT(*) as total
+    FROM ChuongTrinhKhuyenMai
+    WHERE 1=1
+  `;
+
+  let params = [];
+  let countParams = [];
+
+
+  if (search) {
+    query += " AND TenChuongTrinh LIKE ?";
+    countQuery += " AND TenChuongTrinh LIKE ?";
+    params.push(`%${search}%`);
+    countParams.push(`%${search}%`);
+  }
+
+  if (status && status !== "all") {
+    query += " AND TrangThai = ?";
+    countQuery += " AND TrangThai = ?";
+    params.push(status);
+    countParams.push(status);
+  }
+
+  query += " ORDER BY NgayTao DESC LIMIT ? OFFSET ?";
+  params.push(parseInt(limit), (parseInt(page) - 1) * parseInt(limit));
+
+  const statsQuery = `
+    SELECT 
+      COUNT(*) as total,
+      SUM(CASE WHEN TrangThai = 'Hoạt động' THEN 1 ELSE 0 END) as active,
+      SUM(CASE WHEN TrangThai = 'Hoạt động' AND NgayKetThuc <= DATE_ADD(CURDATE(), INTERVAL 7 DAY) THEN 1 ELSE 0 END) as expiringSoon,
+      SUM(SoLuongDaSuDung) as totalUsage
+    FROM ChuongTrinhKhuyenMai
+  `;
+
+  db.query(countQuery, countParams, (err, countResult) => {
+    if (err) {
+      console.error("Lỗi đếm khuyến mãi:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    db.query(query, params, (err, results) => {
+      if (err) {
+        console.error("Lỗi lấy danh sách khuyến mãi:", err);
+        return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+      }
+
+      db.query(statsQuery, (err, statsResult) => {
+        if (err) {
+          console.error("Lỗi lấy thống kê khuyến mãi:", err);
+          return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+        }
+
+        res.json({
+          success: true,
+          data: results,
+          total: countResult[0].total,
+          page: parseInt(page),
+          limit: parseInt(limit),
+          stats: statsResult[0]
+        });
+      });
+    });
+  });
+});
+
+router.get("/promos/:id", (req, res) => {
+  const { id } = req.params;
+
+  const query = `
+    SELECT 
+      *,
+      DATE_FORMAT(NgayBatDau, '%Y-%m-%d') as NgayBatDau,
+      DATE_FORMAT(NgayKetThuc, '%Y-%m-%d') as NgayKetThuc
+    FROM ChuongTrinhKhuyenMai 
+    WHERE ID_ChuongTrinh = ?
+  `;
+
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      console.error("Lỗi lấy chi tiết khuyến mãi:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    if (results.length === 0) {
+      return res.status(404).json({ 
+        success: false, 
+        message: "Không tìm thấy chương trình khuyến mãi" 
+      });
+    }
+
+    res.json({ success: true, data: results[0] });
+  });
+});
+
+router.post("/promos", (req, res) => {
+  const {
+    tenChuongTrinh,
+    moTa,
+    phanTramGiam,
+    soTienToiDa,
+    ngayBatDau,
+    ngayKetThuc,
+    soLuongToiDa,
+    dieuKienApDung,
+    trangThai
+  } = req.body;
+
+  if (!tenChuongTrinh || !phanTramGiam || !ngayBatDau || !ngayKetThuc) {
+    return res.status(400).json({
+      success: false,
+      message: "Thiếu thông tin bắt buộc"
+    });
+  }
+
+  if (phanTramGiam < 1 || phanTramGiam > 100) {
+    return res.status(400).json({
+      success: false,
+      message: "Phần trăm giảm phải từ 1% đến 100%"
+    });
+  }
+
+  if (new Date(ngayKetThuc) <= new Date(ngayBatDau)) {
+    return res.status(400).json({
+      success: false,
+      message: "Ngày kết thúc phải sau ngày bắt đầu"
+    });
+  }
+
+  const query = `
+    INSERT INTO ChuongTrinhKhuyenMai (
+      TenChuongTrinh, MoTa, PhanTramGiam, SoTienToiDa, 
+      NgayBatDau, NgayKetThuc, SoLuongToiDa, DieuKienApDung, TrangThai
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  db.query(query, [
+    tenChuongTrinh,
+    moTa,
+    phanTramGiam,
+    soTienToiDa || null,
+    ngayBatDau,
+    ngayKetThuc,
+    soLuongToiDa || null,
+    dieuKienApDung,
+    trangThai || 'Sắp bắt đầu'
+  ], (err, result) => {
+    if (err) {
+      console.error("Lỗi tạo chương trình khuyến mãi:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    res.json({
+      success: true,
+      message: "Tạo chương trình khuyến mãi thành công",
+      id: result.insertId
+    });
+  });
+});
+
+router.put("/promos/:id", (req, res) => {
+  const { id } = req.params;
+  const {
+    tenChuongTrinh,
+    moTa,
+    phanTramGiam,
+    soTienToiDa,
+    ngayBatDau,
+    ngayKetThuc,
+    soLuongToiDa,
+    dieuKienApDung,
+    trangThai
+  } = req.body;
+
+  if (!tenChuongTrinh || !phanTramGiam || !ngayBatDau || !ngayKetThuc) {
+    return res.status(400).json({
+      success: false,
+      message: "Thiếu thông tin bắt buộc"
+    });
+  }
+
+  if (phanTramGiam < 1 || phanTramGiam > 100) {
+    return res.status(400).json({
+      success: false,
+      message: "Phần trăm giảm phải từ 1% đến 100%"
+    });
+  }
+
+  if (new Date(ngayKetThuc) <= new Date(ngayBatDau)) {
+    return res.status(400).json({
+      success: false,
+      message: "Ngày kết thúc phải sau ngày bắt đầu"
+    });
+  }
+
+  const query = `
+    UPDATE ChuongTrinhKhuyenMai 
+    SET TenChuongTrinh = ?, MoTa = ?, PhanTramGiam = ?, SoTienToiDa = ?,
+        NgayBatDau = ?, NgayKetThuc = ?, SoLuongToiDa = ?, 
+        DieuKienApDung = ?, TrangThai = ?, NgayCapNhat = NOW()
+    WHERE ID_ChuongTrinh = ?
+  `;
+
+  db.query(query, [
+    tenChuongTrinh,
+    moTa,
+    phanTramGiam,
+    soTienToiDa || null,
+    ngayBatDau,
+    ngayKetThuc,
+    soLuongToiDa || null,
+    dieuKienApDung,
+    trangThai,
+    id
+  ], (err, result) => {
+    if (err) {
+      console.error("Lỗi cập nhật chương trình khuyến mãi:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy chương trình khuyến mãi"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Cập nhật chương trình khuyến mãi thành công"
+    });
+  });
+});
+
+router.put("/promos/:id/status", (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+
+  if (!status) {
+    return res.status(400).json({
+      success: false,
+      message: "Thiếu thông tin trạng thái"
+    });
+  }
+
+  const validStatuses = ['Sắp bắt đầu', 'Hoạt động', 'Tạm dừng', 'Đã kết thúc'];
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({
+      success: false,
+      message: "Trạng thái không hợp lệ"
+    });
+  }
+
+  const query = `
+    UPDATE ChuongTrinhKhuyenMai 
+    SET TrangThai = ?, NgayCapNhat = NOW()
+    WHERE ID_ChuongTrinh = ?
+  `;
+
+  db.query(query, [status, id], (err, result) => {
+    if (err) {
+      console.error("Lỗi cập nhật trạng thái khuyến mãi:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy chương trình khuyến mãi"
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Cập nhật trạng thái thành công"
+    });
+  });
+});
+
+router.delete("/promos/:id", (req, res) => {
+  const { id } = req.params;
+
+  const checkQuery = `
+    SELECT COUNT(*) as count 
+    FROM LichSuSuDungKhuyenMai 
+    WHERE ID_ChuongTrinh = ?
+  `;
+
+  db.query(checkQuery, [id], (err, checkResult) => {
+    if (err) {
+      console.error("Lỗi kiểm tra sử dụng khuyến mãi:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    if (checkResult[0].count > 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Không thể xóa chương trình đã có lịch sử sử dụng"
+      });
+    }
+
+    const deleteQuery = "DELETE FROM ChuongTrinhKhuyenMai WHERE ID_ChuongTrinh = ?";
+    db.query(deleteQuery, [id], (err, result) => {
+      if (err) {
+        console.error("Lỗi xóa chương trình khuyến mãi:", err);
+        return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          success: false,
+          message: "Không tìm thấy chương trình khuyến mãi"
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Xóa chương trình khuyến mãi thành công"
+      });
+    });
+  });
+});
+
+router.get("/promos/export", (req, res) => {
+  const query = `
+    SELECT 
+      ID_ChuongTrinh as 'Mã CT',
+      TenChuongTrinh as 'Tên Chương Trình',
+      PhanTramGiam as 'Giảm Giá (%)',
+      SoTienToiDa as 'Số Tiền Tối Đa',
+      NgayBatDau as 'Ngày Bắt Đầu',
+      NgayKetThuc as 'Ngày Kết Thúc',
+      SoLuongToiDa as 'Số Lượng Tối Đa',
+      SoLuongDaSuDung as 'Đã Sử Dụng',
+      TrangThai as 'Trạng Thái',
+      NgayTao as 'Ngày Tạo'
+    FROM ChuongTrinhKhuyenMai
+    ORDER BY NgayTao DESC
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Lỗi xuất báo cáo khuyến mãi:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      "attachment; filename=chuong-trinh-khuyen-mai-" + Date.now() + ".xlsx"
+    );
+
+    try {
+      const workbook = require("xlsx").utils.book_new();
+      const worksheet = require("xlsx").utils.json_to_sheet(results);
+      require("xlsx").utils.book_append_sheet(workbook, worksheet, "Khuyến Mãi");
+      const excelBuffer = require("xlsx").write(workbook, {
+        bookType: "xlsx",
+        type: "buffer",
+      });
+
+      res.send(excelBuffer);
+    } catch (error) {
+      console.error("Lỗi tạo file Excel:", error);
+      res.status(500).json({ success: false, message: "Lỗi tạo file Excel" });
+    }
+  });
+});
+
+router.get("/promos/:id/usage-history", (req, res) => {
+  const { id } = req.params;
+  const { page = 1, limit = 10 } = req.query;
+
+  const query = `
+    SELECT 
+      ls.*,
+      tk.HoTen as TenKhachHang,
+      tk.Gmail as EmailKhachHang,
+      dh.TongTien as TongTienDonHang,
+      dh.TrangThai as TrangThaiDonHang
+    FROM LichSuSuDungKhuyenMai ls
+    LEFT JOIN TaiKhoan tk ON ls.ID_TaiKhoan = tk.ID_TaiKhoan
+    LEFT JOIN DonHang dh ON ls.ID_DonHang = dh.ID_DonHang
+    WHERE ls.ID_ChuongTrinh = ?
+    ORDER BY ls.ThoiGianSuDung DESC
+    LIMIT ? OFFSET ?
+  `;
+
+  const countQuery = `
+    SELECT COUNT(*) as total
+    FROM LichSuSuDungKhuyenMai
+    WHERE ID_ChuongTrinh = ?
+  `;
+
+  db.query(countQuery, [id], (err, countResult) => {
+    if (err) {
+      console.error("Lỗi đếm lịch sử sử dụng:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    db.query(query, [id, parseInt(limit), (parseInt(page) - 1) * parseInt(limit)], (err, results) => {
+      if (err) {
+        console.error("Lỗi lấy lịch sử sử dụng:", err);
+        return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+      }
+
+      res.json({
+        success: true,
+        data: results,
+        total: countResult[0].total,
+        page: parseInt(page),
+        limit: parseInt(limit)
+      });
+    });
+  });
+});
+
+router.post("/promos/apply", (req, res) => {
+  const { promoId, orderId, userId } = req.body;
+
+  if (!promoId || !orderId || !userId) {
+    return res.status(400).json({
+      success: false,
+      message: "Thiếu thông tin bắt buộc"
+    });
+  }
+
+  const promoQuery = `
+    SELECT * FROM ChuongTrinhKhuyenMai 
+    WHERE ID_ChuongTrinh = ? AND TrangThai = 'Hoạt động'
+    AND NgayBatDau <= CURDATE() AND NgayKetThuc >= CURDATE()
+  `;
+
+  db.query(promoQuery, [promoId], (err, promoResults) => {
+    if (err) {
+      console.error("Lỗi lấy thông tin khuyến mãi:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    if (promoResults.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Chương trình khuyến mãi không tồn tại hoặc đã hết hạn"
+      });
+    }
+
+    const promo = promoResults[0];
+
+    if (promo.SoLuongToiDa && promo.SoLuongDaSuDung >= promo.SoLuongToiDa) {
+      return res.status(400).json({
+        success: false,
+        message: "Chương trình khuyến mãi đã hết lượt sử dụng"
+      });
+    }
+
+    const usageCheckQuery = `
+      SELECT COUNT(*) as count 
+      FROM LichSuSuDungKhuyenMai 
+      WHERE ID_ChuongTrinh = ? AND ID_TaiKhoan = ?
+    `;
+
+    db.query(usageCheckQuery, [promoId, userId], (err, usageResults) => {
+      if (err) {
+        console.error("Lỗi kiểm tra lịch sử sử dụng:", err);
+        return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+      }
+
+      if (usageResults[0].count > 0) {
+        return res.status(400).json({
+          success: false,
+          message: "Bạn đã sử dụng chương trình khuyến mãi này rồi"
+        });
+      }
+
+      const orderQuery = "SELECT * FROM DonHang WHERE ID_DonHang = ?";
+      db.query(orderQuery, [orderId], (err, orderResults) => {
+        if (err) {
+          console.error("Lỗi lấy thông tin đơn hàng:", err);
+          return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+        }
+
+        if (orderResults.length === 0) {
+          return res.status(400).json({
+            success: false,
+            message: "Đơn hàng không tồn tại"
+          });
+        }
+
+        const order = orderResults[0];
+        
+        let discountAmount = (order.TongTien * promo.PhanTramGiam) / 100;
+        
+        if (promo.SoTienToiDa && discountAmount > promo.SoTienToiDa) {
+          discountAmount = promo.SoTienToiDa;
+        }
+
+        db.beginTransaction((err) => {
+          if (err) {
+            console.error("Lỗi bắt đầu transaction:", err);
+            return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+          }
+
+          const updateOrderQuery = `
+            UPDATE DonHang 
+            SET ID_ChuongTrinh = ?, SoTienGiam = ?, TongTien = TongTien - ?
+            WHERE ID_DonHang = ?
+          `;
+
+          db.query(updateOrderQuery, [promoId, discountAmount, discountAmount, orderId], (err) => {
+            if (err) {
+              return db.rollback(() => {
+                console.error("Lỗi cập nhật đơn hàng:", err);
+                res.status(500).json({ success: false, message: "Lỗi cập nhật đơn hàng" });
+              });
+            }
+
+            const insertHistoryQuery = `
+              INSERT INTO LichSuSuDungKhuyenMai (ID_ChuongTrinh, ID_TaiKhoan, ID_DonHang, SoTienGiam)
+              VALUES (?, ?, ?, ?)
+            `;
+
+            db.query(insertHistoryQuery, [promoId, userId, orderId, discountAmount], (err) => {
+              if (err) {
+                return db.rollback(() => {
+                  console.error("Lỗi thêm lịch sử sử dụng:", err);
+                  res.status(500).json({ success: false, message: "Lỗi lưu lịch sử" });
+                });
+              }
+
+              db.commit((err) => {
+                if (err) {
+                  return db.rollback(() => {
+                    console.error("Lỗi commit transaction:", err);
+                    res.status(500).json({ success: false, message: "Lỗi hoàn thành giao dịch" });
+                  });
+                }
+
+                res.json({
+                  success: true,
+                  message: "Áp dụng khuyến mãi thành công",
+                  discountAmount: discountAmount,
+                  newTotal: order.TongTien - discountAmount
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+router.get("/promos/available/:userId", (req, res) => {
+  const { userId } = req.params;
+
+  const query = `
+    SELECT kt.*
+    FROM ChuongTrinhKhuyenMai kt
+    WHERE kt.TrangThai = 'Hoạt động'
+    AND kt.NgayBatDau <= CURDATE() 
+    AND kt.NgayKetThuc >= CURDATE()
+    AND (kt.SoLuongToiDa IS NULL OR kt.SoLuongDaSuDung < kt.SoLuongToiDa)
+    AND kt.ID_ChuongTrinh NOT IN (
+      SELECT ls.ID_ChuongTrinh 
+      FROM LichSuSuDungKhuyenMai ls 
+      WHERE ls.ID_TaiKhoan = ?
+    )
+    ORDER BY kt.PhanTramGiam DESC
+  `;
+
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error("Lỗi lấy danh sách khuyến mãi khả dụng:", err);
+      return res.status(500).json({ success: false, message: "Lỗi máy chủ" });
+    }
+
+    res.json({
+      success: true,
+      data: results
+    });
+  });
+});
+
+router.get("/promos/stats/overview", (req, res) => {
+  const queries = {
+    total: "SELECT COUNT(*) as count FROM ChuongTrinhKhuyenMai",
+    active: "SELECT COUNT(*) as count FROM ChuongTrinhKhuyenMai WHERE TrangThai = 'Hoạt động'",
+    expiringSoon: `
+      SELECT COUNT(*) as count 
+      FROM ChuongTrinhKhuyenMai 
+      WHERE TrangThai = 'Hoạt động' 
+      AND NgayKetThuc <= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
+    `,
+    totalSavings: `
+      SELECT IFNULL(SUM(SoTienGiam), 0) as total
+      FROM LichSuSuDungKhuyenMai
+    `,
+    totalUsage: `
+      SELECT COUNT(*) as count
+      FROM LichSuSuDungKhuyenMai
+    `,
+    topPromos: `
+      SELECT 
+        kt.TenChuongTrinh,
+        COUNT(ls.ID_LichSu) as SoLanSuDung,
+        SUM(ls.SoTienGiam) as TongTienGiam
+      FROM ChuongTrinhKhuyenMai kt
+      LEFT JOIN LichSuSuDungKhuyenMai ls ON kt.ID_ChuongTrinh = ls.ID_ChuongTrinh
+      GROUP BY kt.ID_ChuongTrinh
+      ORDER BY SoLanSuDung DESC
+      LIMIT 5
+    `
+  };
+
+  const results = {};
+  const queryKeys = Object.keys(queries);
+  let completed = 0;
+
+  queryKeys.forEach((key) => {
+    db.query(queries[key], (err, result) => {
+      if (err) {
+        console.error(`Lỗi thống kê ${key}:`, err);
+        results[key] = null;
+      } else {
+        results[key] = result;
+      }
+
+      completed++;
+      if (completed === queryKeys.length) {
+        res.json({
+          success: true,
+          data: results
+        });
+      }
+    });
+  });
+});
+
+
 
 module.exports = router;

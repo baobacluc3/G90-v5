@@ -142,7 +142,8 @@ INSERT INTO ChucVu (TenCV, MoTaCV, TrangThai) VALUES
 
 INSERT INTO TaiKhoan (HoTen, NamSinh, GioiTinh, DiaChi, DienThoai, Gmail, ID_ChucVu, TenDangNhap, MatKhau) VALUES
 ('Nguyễn Văn Anh', '2000-01-01', 1, 'Đà Nẵng', '0987654321', 'nguyenvana@gmail.com', 1, 'admin', 'password123'),
-('Trần Tuấn', '2001-05-05', 0, 'Tam Kỳ', '0901234567', 'trant@gmail.com', 2, 'admin2', 'password456');
+('Trần Tuấn', '2001-05-05', 0, 'Tam Kỳ', '0901234567', 'trant@gmail.com', 2, 'admin2', 'password456'),
+('le the bao', '2000-01-01', 1, 'Đà Nẵng', '312313213', 'lethebao@gmail.com', 3, 'user', 'lethebao@gmail.com');
 
 INSERT INTO KhachHang (HoTen, Email, DienThoai, DiaChi, NgayTao, LanCuoiMua) VALUES
 ('Nguyễn Thị Hoa', 'hoa.nguyen@gmail.com', '0901234567', 'Quận 1, TP.HCM', '2025-01-15', '2025-05-10'),
@@ -241,3 +242,322 @@ UPDATE DonHang SET TongTien = (
     FROM ChiTietDonHang 
     WHERE ChiTietDonHang.ID_DonHang = DonHang.ID_DonHang
 ) WHERE ID_DonHang IN (1, 2, 3, 4, 5, 6);
+
+CREATE TABLE IF NOT EXISTS ChuongTrinhKhuyenMai (
+    ID_ChuongTrinh INT AUTO_INCREMENT PRIMARY KEY,
+    TenChuongTrinh VARCHAR(255) NOT NULL,
+    MoTa TEXT,
+    PhanTramGiam DECIMAL(5,2) NOT NULL,
+    SoTienToiDa DECIMAL(12,2) DEFAULT NULL,
+    NgayBatDau DATE NOT NULL,
+    NgayKetThuc DATE NOT NULL,
+    SoLuongToiDa INT DEFAULT NULL,
+    SoLuongDaSuDung INT DEFAULT 0,
+    TrangThai ENUM('Sắp bắt đầu', 'Hoạt động', 'Tạm dừng', 'Đã kết thúc') DEFAULT 'Sắp bắt đầu',
+    DieuKienApDung TEXT,
+    NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    NgayCapNhat TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_status (TrangThai),
+    INDEX idx_dates (NgayBatDau, NgayKetThuc),
+    CONSTRAINT chk_discount CHECK (PhanTramGiam > 0 AND PhanTramGiam <= 100),
+    CONSTRAINT chk_dates CHECK (NgayKetThuc > NgayBatDau)
+);
+
+CREATE TABLE IF NOT EXISTS LichSuSuDungKhuyenMai (
+    ID_LichSu INT AUTO_INCREMENT PRIMARY KEY,
+    ID_ChuongTrinh INT NOT NULL,
+    ID_TaiKhoan INT NOT NULL,
+    ID_DonHang INT NOT NULL,
+    SoTienGiam DECIMAL(12,2) NOT NULL,
+    ThoiGianSuDung TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_program (ID_ChuongTrinh),
+    INDEX idx_user (ID_TaiKhoan),
+    INDEX idx_order (ID_DonHang),
+    FOREIGN KEY (ID_ChuongTrinh) REFERENCES ChuongTrinhKhuyenMai(ID_ChuongTrinh) ON DELETE CASCADE,
+    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan) ON DELETE CASCADE,
+    FOREIGN KEY (ID_DonHang) REFERENCES DonHang(ID_DonHang) ON DELETE CASCADE
+);
+
+SET @col_exists = (SELECT COUNT(*) 
+    FROM INFORMATION_SCHEMA.COLUMNS 
+    WHERE TABLE_SCHEMA = DATABASE() 
+    AND TABLE_NAME = 'DonHang' 
+    AND COLUMN_NAME = 'ID_ChuongTrinh');
+
+SET @sql = IF(@col_exists = 0, 
+    'ALTER TABLE DonHang ADD COLUMN ID_ChuongTrinh INT DEFAULT NULL', 
+    'SELECT "Column ID_ChuongTrinh already exists" as message');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @col_exists = (SELECT COUNT(*) 
+    FROM INFORMATION_SCHEMA.COLUMNS 
+    WHERE TABLE_SCHEMA = DATABASE() 
+    AND TABLE_NAME = 'DonHang' 
+    AND COLUMN_NAME = 'SoTienGiam');
+
+SET @sql = IF(@col_exists = 0, 
+    'ALTER TABLE DonHang ADD COLUMN SoTienGiam DECIMAL(12,2) DEFAULT 0', 
+    'SELECT "Column SoTienGiam already exists" as message');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+SET @fk_exists = (SELECT COUNT(*) 
+    FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE 
+    WHERE TABLE_SCHEMA = DATABASE() 
+    AND TABLE_NAME = 'DonHang' 
+    AND CONSTRAINT_NAME = 'fk_donhang_chuongtrinh');
+
+SET @sql = IF(@fk_exists = 0, 
+    'ALTER TABLE DonHang ADD CONSTRAINT fk_donhang_chuongtrinh FOREIGN KEY (ID_ChuongTrinh) REFERENCES ChuongTrinhKhuyenMai(ID_ChuongTrinh) ON DELETE SET NULL', 
+    'SELECT "Foreign key constraint already exists" as message');
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+INSERT INTO ChuongTrinhKhuyenMai (
+    TenChuongTrinh, 
+    MoTa, 
+    PhanTramGiam, 
+    SoTienToiDa, 
+    NgayBatDau, 
+    NgayKetThuc, 
+    SoLuongToiDa, 
+    SoLuongDaSuDung, 
+    TrangThai, 
+    DieuKienApDung
+) VALUES
+('Giảm giá 20% cho khách hàng mới', 
+ 'Chương trình khuyến mãi dành cho khách hàng lần đầu mua hàng tại Petcare', 
+ 20.00, 
+ 200000, 
+ '2025-01-01', 
+ '2025-12-31', 
+ 1000, 
+ 50, 
+ 'Hoạt động',
+ 'Áp dụng cho khách hàng lần đầu mua hàng, đơn hàng tối thiểu 500.000 VND'),
+
+('Flash Sale cuối tuần', 
+ 'Giảm giá sốc vào cuối tuần cho tất cả sản phẩm thức ăn', 
+ 15.00, 
+ 150000, 
+ '2025-05-24', 
+ '2025-05-25', 
+ 500, 
+ 120, 
+ 'Hoạt động',
+ 'Áp dụng cho tất cả sản phẩm thức ăn, không giới hạn giá trị đơn hàng'),
+
+('Khuyến mãi tháng 6', 
+ 'Chào mừng tháng 6 với ưu đãi đặc biệt', 
+ 25.00, 
+ 300000, 
+ '2025-06-01', 
+ '2025-06-30', 
+ 2000, 
+ 0, 
+ 'Sắp bắt đầu',
+ 'Áp dụng cho đơn hàng từ 1.000.000 VND trở lên'),
+
+('Back to School', 
+ 'Ưu đãi mùa tựu trường cho thú cưng', 
+ 10.00, 
+ 100000, 
+ '2025-08-15', 
+ '2025-09-15', 
+ NULL, 
+ 0, 
+ 'Sắp bắt đầu',
+ 'Áp dụng cho tất cả sản phẩm đồ chơi và phụ kiện'),
+
+('Chương trình đã kết thúc', 
+ 'Chương trình giảm giá Tết Nguyên Đán', 
+ 30.00, 
+ 500000, 
+ '2025-01-20', 
+ '2025-02-10', 
+ 1500, 
+ 1500, 
+ 'Đã kết thúc',
+ 'Áp dụng cho tất cả sản phẩm, đơn hàng tối thiểu 2.000.000 VND');
+
+INSERT INTO LichSuSuDungKhuyenMai (
+    ID_ChuongTrinh, 
+    ID_TaiKhoan, 
+    ID_DonHang, 
+    SoTienGiam
+) VALUES
+(1, 1, 1, 100000),
+(1, 2, 2, 150000),
+(2, 1, 3, 45000),
+(2, 2, 4, 138000);
+
+DELIMITER //
+CREATE PROCEDURE UpdatePromoStatus()
+BEGIN
+    UPDATE ChuongTrinhKhuyenMai
+    SET TrangThai = CASE
+        WHEN NgayKetThuc < CURDATE() THEN 'Đã kết thúc'
+        WHEN NgayBatDau <= CURDATE() AND NgayKetThuc >= CURDATE() AND TrangThai != 'Tạm dừng' THEN 'Hoạt động'
+        WHEN NgayBatDau > CURDATE() THEN 'Sắp bắt đầu'
+        ELSE TrangThai
+    END
+    WHERE TrangThai != 'Đã kết thúc';
+    
+    UPDATE ChuongTrinhKhuyenMai
+    SET TrangThai = 'Đã kết thúc'
+    WHERE SoLuongToiDa IS NOT NULL 
+    AND SoLuongDaSuDung >= SoLuongToiDa 
+    AND TrangThai != 'Đã kết thúc';
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER update_promo_usage
+    AFTER INSERT ON LichSuSuDungKhuyenMai
+    FOR EACH ROW
+BEGIN
+    UPDATE ChuongTrinhKhuyenMai 
+    SET SoLuongDaSuDung = SoLuongDaSuDung + 1
+    WHERE ID_ChuongTrinh = NEW.ID_ChuongTrinh;
+    
+    UPDATE ChuongTrinhKhuyenMai
+    SET TrangThai = 'Đã kết thúc'
+    WHERE ID_ChuongTrinh = NEW.ID_ChuongTrinh
+    AND SoLuongToiDa IS NOT NULL 
+    AND SoLuongDaSuDung >= SoLuongToiDa;
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER update_promo_status_on_update
+    BEFORE UPDATE ON ChuongTrinhKhuyenMai
+    FOR EACH ROW
+BEGIN
+    IF NEW.TrangThai != 'Tạm dừng' OR OLD.TrangThai = 'Tạm dừng' THEN
+        IF NEW.NgayKetThuc < CURDATE() THEN
+            SET NEW.TrangThai = 'Đã kết thúc';
+        ELSEIF NEW.NgayBatDau <= CURDATE() AND NEW.NgayKetThuc >= CURDATE() THEN
+            IF OLD.TrangThai != 'Tạm dừng' THEN
+                SET NEW.TrangThai = 'Hoạt động';
+            END IF;
+        ELSEIF NEW.NgayBatDau > CURDATE() THEN
+            SET NEW.TrangThai = 'Sắp bắt đầu';
+        END IF;
+        
+        IF NEW.SoLuongToiDa IS NOT NULL AND NEW.SoLuongDaSuDung >= NEW.SoLuongToiDa THEN
+            SET NEW.TrangThai = 'Đã kết thúc';
+        END IF;
+    END IF;
+END //
+DELIMITER ;
+
+
+SELECT 'Đã tạo thành công hệ thống quản lý khuyến mãi!' as message;
+
+
+
+CREATE TABLE ThuCung (
+    ID_ThuCung INT AUTO_INCREMENT PRIMARY KEY,
+    TenThuCung VARCHAR(100) NOT NULL,
+    TenChuSoHuu VARCHAR(100) NOT NULL,
+    Loai VARCHAR(50) NOT NULL, 
+    Giong VARCHAR(100),
+    Tuoi INT,
+    GioiTinh VARCHAR(10), 
+    CanNang DECIMAL(5,2),
+    SoDienThoai VARCHAR(15),
+    DiaChi TEXT,
+    TrangThaiSucKhoe VARCHAR(50) DEFAULT 'Khỏe mạnh',
+    NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    NgayCapNhatCuoi TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE LichSuSucKhoe (
+    ID_LichSu INT AUTO_INCREMENT PRIMARY KEY,
+    ID_ThuCung INT NOT NULL,
+    NgayKham DATE NOT NULL,
+    TrangThaiSucKhoe VARCHAR(50) NOT NULL,
+    NhietDo DECIMAL(4,1), 
+    CanNang DECIMAL(5,2), 
+    TrieuChung TEXT, 
+    ChanDoan TEXT, 
+    PhuongPhapDieuTri TEXT, 
+    NgayTaiKham DATE, -- Ngày tái khám
+    BacSiPhuTrach VARCHAR(100), 
+    GhiChu TEXT,
+    NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ID_ThuCung) REFERENCES ThuCung(ID_ThuCung) ON DELETE CASCADE
+);
+
+CREATE TABLE DonThuoc (
+    ID_DonThuoc INT AUTO_INCREMENT PRIMARY KEY,
+    ID_LichSu INT NOT NULL,
+    TenThuoc VARCHAR(200) NOT NULL,
+    LieuLuong VARCHAR(100),
+    TanSuat VARCHAR(100), 
+    ThoiGianSuDung VARCHAR(100), 
+    GhiChu TEXT,
+    NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ID_LichSu) REFERENCES LichSuSucKhoe(ID_LichSu) ON DELETE CASCADE
+);
+
+CREATE TABLE LichTiemPhong (
+    ID_TiemPhong INT AUTO_INCREMENT PRIMARY KEY,
+    ID_ThuCung INT NOT NULL,
+    LoaiVaccine VARCHAR(100) NOT NULL,
+    NgayTiem DATE NOT NULL,
+    NgayTiemTiepTheo DATE,
+    TrangThai VARCHAR(50) DEFAULT 'Hoàn thành', 
+    BacSiThucHien VARCHAR(100),
+    GhiChu TEXT,
+    NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ID_ThuCung) REFERENCES ThuCung(ID_ThuCung) ON DELETE CASCADE
+);
+
+INSERT INTO ThuCung (TenThuCung, TenChuSoHuu, Loai, Giong, Tuoi, GioiTinh, CanNang, SoDienThoai, DiaChi, TrangThaiSucKhoe) VALUES
+('Buddy', 'Nguyễn Văn An', 'Chó', 'Golden Retriever', 3, 'Đực', 25.5, '0901234567', '123 Trần Phú, Hải Châu, Đà Nẵng', 'Khỏe mạnh'),
+('Luna', 'Trần Thị Bình', 'Mèo', 'Persian', 2, 'Cái', 4.2, '0912345678', '456 Lê Lợi, Thanh Khê, Đà Nẵng', 'Cần theo dõi'),
+('Max', 'Lê Văn Cường', 'Chó', 'Husky', 4, 'Đực', 22.0, '0923456789', '789 Nguyễn Văn Linh, Cẩm Lệ, Đà Nẵng', 'Khỏe mạnh'),
+('Mimi', 'Phạm Thị Dung', 'Mèo', 'Scottish Fold', 1, 'Cái', 3.8, '0934567890', '101 Hùng Vương, Hải Châu, Đà Nẵng', 'Đang điều trị'),
+('Charlie', 'Hoàng Văn Em', 'Chó', 'Poodle', 5, 'Đực', 8.5, '0945678901', '202 Điện Biên Phủ, Thanh Khê, Đà Nẵng', 'Khỏe mạnh');
+
+INSERT INTO LichSuSucKhoe (ID_ThuCung, NgayKham, TrangThaiSucKhoe, NhietDo, CanNang, TrieuChung, ChanDoan, PhuongPhapDieuTri, NgayTaiKham, BacSiPhuTrach, GhiChu) VALUES
+(1, '2024-01-15', 'Khỏe mạnh', 38.5, 25.5, 'Không có triệu chứng bất thường', 'Sức khỏe tốt', 'Tiêm phòng định kỳ', '2024-07-15', 'BS. Nguyễn Văn Hùng', 'Khuyến nghị tiêm phòng dại'),
+(2, '2024-02-10', 'Cần theo dõi', 39.2, 4.2, 'Ho khan, mắt chảy nước', 'Viêm đường hô hấp trên', 'Kháng sinh và thuốc ho', '2024-02-24', 'BS. Trần Thị Lan', 'Theo dõi trong 2 tuần'),
+(3, '2024-01-20', 'Khỏe mạnh', 38.3, 22.0, 'Không có', 'Kiểm tra sức khỏe định kỳ', 'Không cần điều trị', '2024-07-20', 'BS. Lê Văn Minh', 'Duy trì chế độ ăn hiện tại'),
+(4, '2024-03-05', 'Đang điều trị', 40.1, 3.8, 'Nôn mửa, tiêu chảy, mệt mỏi', 'Viêm dạ dày ruột', 'Thuốc kháng sinh, probiotic', '2024-03-19', 'BS. Phạm Văn Đức', 'Cần nhịn ăn 12h trước khi uống thuốc'),
+(5, '2024-02-28', 'Khỏe mạnh', 38.7, 8.5, 'Không có', 'Kiểm tra sức khỏe sau cắt lông', 'Không cần điều trị', NULL, 'BS. Hoàng Thị Mai', 'Lông mọc lại bình thường');
+
+INSERT INTO LichTiemPhong (ID_ThuCung, LoaiVaccine, NgayTiem, NgayTiemTiepTheo, TrangThai, BacSiThucHien, GhiChu) VALUES
+(1, 'Vaccine 5 in 1', '2024-01-15', '2025-01-15', 'Hoàn thành', 'BS. Nguyễn Văn Hùng', 'Phản ứng tốt'),
+(1, 'Vaccine dại', '2024-01-15', '2025-01-15', 'Hoàn thành', 'BS. Nguyễn Văn Hùng', 'Không có phản ứng phụ'),
+(2, 'Vaccine 3 in 1 cho mèo', '2024-02-10', '2025-02-10', 'Hoàn thành', 'BS. Trần Thị Lan', 'Sức khỏe ổn định sau tiêm'),
+(3, 'Vaccine 5 in 1', '2024-01-20', '2025-01-20', 'Hoàn thành', 'BS. Lê Văn Minh', 'Tiêm phòng định kỳ'),
+(4, 'Vaccine 3 in 1 cho mèo', '2024-03-05', '2025-03-05', 'Hoàn thành', 'BS. Phạm Văn Đức', 'Tiêm khi sức khỏe ổn định'),
+(5, 'Vaccine 5 in 1', '2024-02-28', '2025-02-28', 'Hoàn thành', 'BS. Hoàng Thị Mai', 'Hoàn tất tiêm phòng năm');
+
+INSERT INTO DonThuoc (ID_LichSu, TenThuoc, LieuLuong, TanSuat, ThoiGianSuDung, GhiChu) VALUES
+(2, 'Amoxicillin', '250mg', '2 lần/ngày', '7 ngày', 'Uống sau bữa ăn'),
+(2, 'Thuốc ho cho thú cưng', '5ml', '3 lần/ngày', '5 ngày', 'Lắc đều trước khi dùng'),
+(4, 'Metronidazole', '200mg', '2 lần/ngày', '10 ngày', 'Uống trước bữa ăn 30 phút'),
+(4, 'Probiotic', '1 gói', '1 lần/ngày', '14 ngày', 'Pha với thức ăn');
+
+UPDATE ThuCung tc
+SET TrangThaiSucKhoe = (
+    SELECT TrangThaiSucKhoe 
+    FROM LichSuSucKhoe lsk 
+    WHERE lsk.ID_ThuCung = tc.ID_ThuCung 
+    ORDER BY lsk.NgayKham DESC 
+    LIMIT 1
+),
+NgayCapNhatCuoi = (
+    SELECT NgayKham 
+    FROM LichSuSucKhoe lsk 
+    WHERE lsk.ID_ThuCung = tc.ID_ThuCung 
+    ORDER BY lsk.NgayKham DESC 
+    LIMIT 1
+);

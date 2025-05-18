@@ -23,8 +23,7 @@
 
     <div class="container order-process-section py-5">
       <div class="row">
-        <div class="col-md-3" id="sidebar"></div>
-        <div class="col-md-9">
+        <div class="col-md-12">
           <h2 class="text-center mb-4">Xử Lý Đơn Hàng</h2>
 
           <div class="row mb-4">
@@ -149,9 +148,7 @@
           }
         });
 
-      fetch("../../components/sidebar.html")
-        .then((response) => response.text())
-        .then((data) => (document.getElementById("sidebar").innerHTML = data));
+      
 
       fetch("../../components/footer.html")
         .then((response) => response.text())

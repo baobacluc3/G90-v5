@@ -12,7 +12,7 @@
     <div id="header"></div>
     <div class="container mt-5">
         <div class="row">
-            <div id="sidebar"></div>
+           
             <div class="col-md-9">
                 <h2 class="text-center mb-4">Quản Lý Danh Mục</h2>
                 <button class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addCategoryModal">Thêm Danh Mục</button>
@@ -57,7 +57,6 @@
     <script src="../../js/category.js" type="module"></script>
     <script>
         fetch('../../components/header.html').then(response => response.text()).then(data => document.getElementById('header').innerHTML = data);
-        fetch('../../components/sidebar.html').then(response => response.text()).then(data => document.getElementById('sidebar').innerHTML = data);
     </script>
 </body>
 </html>
