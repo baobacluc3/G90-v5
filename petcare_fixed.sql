@@ -215,23 +215,4 @@ INSERT INTO ThanhToan (ID_HoaDon, SoTien, PhuongThuc, TrangThai) VALUES
 (3, 750000, 'Tiền mặt', 'Đã xác nhận');
 
 
-
--- -- DonHang table (simplified for reference)
--- CREATE TABLE IF NOT EXISTS DonHang (
---   ID_DonHang INT AUTO_INCREMENT PRIMARY KEY,
---   ID_KhachHang INT,
---   NgayDat DATETIME DEFAULT CURRENT_TIMESTAMP,
---   TongTien DECIMAL(10,2) DEFAULT 0,
---   TrangThai VARCHAR(50) DEFAULT 'Đang xử lý',
---   FOREIGN KEY (ID_KhachHang) REFERENCES KhachHang(ID_KhachHang)
--- );
-
--- Sample data for DonHang
--- INSERT INTO DonHang (ID_KhachHang, NgayDat, TongTien, TrangThai) VALUES
--- (1, '2025-03-15', 350000, 'Hoàn thành'),
--- (1, '2025-05-10', 420000, 'Hoàn thành'),
--- (2, '2025-04-20', 250000, 'Hoàn thành'),
--- (2, '2025-05-05', 180000, 'Hoàn thành'),
--- (3, '2025-04-10', 520000, 'Hoàn thành'),
--- (3, '2025-04-28', 150000, 'Hoàn thành'),
--- (4, '2025-05-12', 630000, 'Đang xử lý');
+ .
