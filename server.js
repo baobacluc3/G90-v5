@@ -7,12 +7,22 @@ app.use(express.static(path.join(__dirname, ".")));
 
 const authRouter = require("./js/routes/loginRoute");
 const adminRouter = require("./js/routes/adminRoutes");
-
+const orderTrackingRouter = require("./js/routes/orderTrackingRoutes");
 app.use("/api", authRouter);
 app.use("/api", adminRouter);
-
+app.use("/api", orderTrackingRouter);
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "pages/home.html"));
+});
+
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
+
+app.use((req, res) => {
+  console.log(`404: ${req.method} ${req.path}`);
+  res.status(404).json({ error: "Not Found" });
 });
 
 const PORT = 3000;

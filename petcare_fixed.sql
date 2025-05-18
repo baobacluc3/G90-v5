@@ -24,7 +24,6 @@ CREATE TABLE TaiKhoan (
     FOREIGN KEY (ID_ChucVu) REFERENCES ChucVu(ID_ChucVu)
 );
 
-
 CREATE TABLE DonMucSP (
     ID_DonMuc INT AUTO_INCREMENT PRIMARY KEY,
     TenDonMuc Varchar(50),
@@ -43,7 +42,7 @@ CREATE TABLE SanPham (
     FOREIGN KEY (ID_DonMuc) REFERENCES DonMucSP(ID_DonMuc)
 );
 
-CREATE TABLE IF NOT EXISTS LichSuDatLich (
+CREATE TABLE LichSuDatLich (
     ID_LichSu INT AUTO_INCREMENT PRIMARY KEY,
     HoTen VARCHAR(100) NOT NULL,
     SoDienThoai VARCHAR(15),
@@ -59,23 +58,82 @@ CREATE TABLE IF NOT EXISTS LichSuDatLich (
     FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
 );
 
-CREATE TABLE IF NOT EXISTS KhachHang (
-  ID_KhachHang INT AUTO_INCREMENT PRIMARY KEY,
-  HoTen VARCHAR(100) NOT NULL,
-  Email VARCHAR(100) NOT NULL UNIQUE,
-  DienThoai VARCHAR(15),
-  DiaChi VARCHAR(255),
-  NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  LanCuoiMua DATETIME DEFAULT NULL
+CREATE TABLE KhachHang (
+    ID_KhachHang INT AUTO_INCREMENT PRIMARY KEY,
+    HoTen VARCHAR(100) NOT NULL,
+    Email VARCHAR(100) NOT NULL UNIQUE,
+    DienThoai VARCHAR(15),
+    DiaChi VARCHAR(255),
+    NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    LanCuoiMua DATETIME DEFAULT NULL
 );
 
+CREATE TABLE DonHang (
+    ID_DonHang INT AUTO_INCREMENT PRIMARY KEY,
+    ID_TaiKhoan INT,
+    NgayDat TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    TongTien DECIMAL(12,2) DEFAULT 0,
+    TrangThai VARCHAR(50) DEFAULT 'Chờ xác nhận',
+    MucDoUuTien VARCHAR(20) DEFAULT 'Bình thường',
+    GhiChu TEXT,
+    NgayCapNhat TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    DiaChiGiaoHang TEXT,
+    PhuongThucThanhToan VARCHAR(50),
+    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
+);
 
-INSERT INTO KhachHang (HoTen, Email, DienThoai, DiaChi, NgayTao, LanCuoiMua) VALUES
-('Nguyễn Thị Hoa', 'hoa.nguyen@gmail.com', '0901234567', 'Quận 1, TP.HCM', '2025-01-15', '2025-05-10'),
-('Trần Văn Minh', 'minh.tran@gmail.com', '0912345678', 'Quận Hải Châu, Đà Nẵng', '2025-02-20', '2025-05-05'),
-('Lê Thị Thu', 'thu.le@gmail.com', '0923456789', 'Quận Cẩm Lệ, Đà Nẵng', '2025-03-05', '2025-04-28'),
-('Phạm Văn Đức', 'duc.pham@gmail.com', '0934567890', 'Quận 7, TP.HCM', '2025-03-10', '2025-05-12'),
-('Hoàng Thị Mai', 'mai.hoang@gmail.com', '0945678901', 'Quận 3, TP.HCM', '2025-04-01', NULL);
+CREATE TABLE ChiTietDonHang (
+    ID_ChiTietDonHang INT AUTO_INCREMENT PRIMARY KEY,
+    ID_DonHang INT,
+    ID_SanPham INT,
+    SoLuong INT,
+    Gia DECIMAL(10,2),
+    ThanhTien DECIMAL(12,2),
+    FOREIGN KEY (ID_DonHang) REFERENCES DonHang(ID_DonHang),
+    FOREIGN KEY (ID_SanPham) REFERENCES SanPham(ID_SanPham)
+);
+
+CREATE TABLE LichSuTrangThaiDonHang (
+    ID_LichSu INT AUTO_INCREMENT PRIMARY KEY,
+    ID_DonHang INT,
+    TrangThai VARCHAR(50),
+    GhiChu TEXT,
+    ThoiGian TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    NguoiCapNhat INT,
+    FOREIGN KEY (ID_DonHang) REFERENCES DonHang(ID_DonHang),
+    FOREIGN KEY (NguoiCapNhat) REFERENCES TaiKhoan(ID_TaiKhoan)
+);
+
+CREATE TABLE HoaDon (
+    ID_HoaDon INT AUTO_INCREMENT PRIMARY KEY,
+    NgayLap DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TongTien DECIMAL(10,2) NOT NULL,
+    ID_TaiKhoan INT,
+    TrangThai VARCHAR(50) DEFAULT 'Chưa thanh toán',
+    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
+);
+
+CREATE TABLE ChiTietHoaDon (
+    ID_ChiTiet INT AUTO_INCREMENT PRIMARY KEY,
+    ID_HoaDon INT,
+    ID_SanPham INT,
+    SoLuong INT DEFAULT 1,
+    Gia DECIMAL(10,2),
+    FOREIGN KEY (ID_HoaDon) REFERENCES HoaDon(ID_HoaDon),
+    FOREIGN KEY (ID_SanPham) REFERENCES SanPham(ID_SanPham)
+);
+
+CREATE TABLE ThanhToan (
+    ID_ThanhToan INT AUTO_INCREMENT PRIMARY KEY,
+    ID_HoaDon INT,
+    SoTien DECIMAL(10,2) NOT NULL,
+    PhuongThuc VARCHAR(50) DEFAULT 'Chuyển khoản',
+    TrangThai VARCHAR(50) DEFAULT 'Chờ xác nhận',
+    NgayThanhToan DATETIME DEFAULT CURRENT_TIMESTAMP,
+    GhiChu TEXT,
+    FOREIGN KEY (ID_HoaDon) REFERENCES HoaDon(ID_HoaDon)
+);
+
 
 INSERT INTO ChucVu (TenCV, MoTaCV, TrangThai) VALUES
 ('Admin', 'Quản trị hệ thống', 'Hoạt động'),
@@ -85,6 +143,13 @@ INSERT INTO ChucVu (TenCV, MoTaCV, TrangThai) VALUES
 INSERT INTO TaiKhoan (HoTen, NamSinh, GioiTinh, DiaChi, DienThoai, Gmail, ID_ChucVu, TenDangNhap, MatKhau) VALUES
 ('Nguyễn Văn Anh', '2000-01-01', 1, 'Đà Nẵng', '0987654321', 'nguyenvana@gmail.com', 1, 'admin', 'password123'),
 ('Trần Tuấn', '2001-05-05', 0, 'Tam Kỳ', '0901234567', 'trant@gmail.com', 2, 'admin2', 'password456');
+
+INSERT INTO KhachHang (HoTen, Email, DienThoai, DiaChi, NgayTao, LanCuoiMua) VALUES
+('Nguyễn Thị Hoa', 'hoa.nguyen@gmail.com', '0901234567', 'Quận 1, TP.HCM', '2025-01-15', '2025-05-10'),
+('Trần Văn Minh', 'minh.tran@gmail.com', '0912345678', 'Quận Hải Châu, Đà Nẵng', '2025-02-20', '2025-05-05'),
+('Lê Thị Thu', 'thu.le@gmail.com', '0923456789', 'Quận Cẩm Lệ, Đà Nẵng', '2025-03-05', '2025-04-28'),
+('Phạm Văn Đức', 'duc.pham@gmail.com', '0934567890', 'Quận 7, TP.HCM', '2025-03-10', '2025-05-12'),
+('Hoàng Thị Mai', 'mai.hoang@gmail.com', '0945678901', 'Quận 3, TP.HCM', '2025-04-01', NULL);
 
 INSERT INTO DonMucSP (TenDonMuc) VALUES 
 ('Thức ăn hạt'),
@@ -107,94 +172,51 @@ INSERT INTO SanPham (TenSP, MoTa, Gia, SoLuong, ID_DonMuc, TrangThai) VALUES
 ('Hạt Classic Pets Small Breed Dog Flavour - 2kg', '', 110000, 100, 1, 'Còn hàng'),
 ('Hạt ZOI Dog thức ăn chó 1kg', '', 35000, 100, 1, 'Còn hàng');
 
-
-
 INSERT INTO LichSuDatLich (HoTen, SoDienThoai, DichVu, ChiNhanh, TenThuCung, Ngay, Gio, GhiChu, TrangThai, ID_TaiKhoan) VALUES
 ('Nguyễn Văn A', '0987654321', 'Khám tổng quát', 'Petcare Cẩm Lệ', 'Luna', '2025-05-20', '09:00:00', 'Khám định kỳ', 'Chờ xác nhận', 1),
 ('Trần Thị B', '0901234567', 'Chăm sóc lông', 'Petcare Hải Châu', 'Max', '2025-05-21', '14:00:00', 'Cắt tỉa lông', 'Đã xác nhận', 2),
-('Lê Văn C', '0912345678', 'Tiêm phòng', 'Petcare Cẩm Lệ', 'Buddy', '2025-05-22', '10:30:00', 'Tiêm vaccine', 'Hoàn thành', 1); 
+('Lê Văn C', '0912345678', 'Tiêm phòng', 'Petcare Cẩm Lệ', 'Buddy', '2025-05-22', '10:30:00', 'Tiêm vaccine', 'Hoàn thành', 1);
 
+INSERT INTO DonHang (ID_TaiKhoan, TongTien, TrangThai, MucDoUuTien, DiaChiGiaoHang, PhuongThucThanhToan) VALUES
+(1, 500000, 'Chờ xác nhận', 'Bình thường', '123 Trần Phú, Hải Châu, Đà Nẵng', 'Tiền mặt'),
+(2, 750000, 'Đã xác nhận', 'Cao', '456 Lê Lợi, Thanh Khê, Đà Nẵng', 'Chuyển khoản'),
+(1, 300000, 'Đang chuẩn bị', 'Trung bình', '789 Nguyễn Văn Linh, Cẩm Lệ, Đà Nẵng', 'COD'),
+(2, 920000, 'Đang giao hàng', 'Cao', '101 Hùng Vương, Hải Châu, Đà Nẵng', 'Thẻ tín dụng'),
+(1, 450000, 'Đã giao hàng', 'Bình thường', '202 Điện Biên Phủ, Thanh Khê, Đà Nẵng', 'Tiền mặt'),
+(2, 680000, 'Đã hủy', 'Bình thường', '303 Phan Châu Trinh, Hải Châu, Đà Nẵng', 'Chuyển khoản');
 
-CREATE TABLE IF NOT EXISTS DonHang (
-    ID_DonHang INT AUTO_INCREMENT PRIMARY KEY,
-    ID_TaiKhoan INT NOT NULL,
-    NgayDat DATETIME DEFAULT CURRENT_TIMESTAMP,
-    TongTien DECIMAL(10,2) DEFAULT 0,
-    TrangThai VARCHAR(50) DEFAULT 'Chờ xử lý',
-    DiaChi VARCHAR(255),
-    GhiChu TEXT,
-    PhuongThucThanhToan VARCHAR(50),
-    PhuongThucVanChuyen VARCHAR(50),
-    PhiVanChuyen DECIMAL(10,2) DEFAULT 0,
-    MaGiamGia VARCHAR(50),
-    GiamGia DECIMAL(10,2) DEFAULT 0,
-    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
-);
+INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, Gia, ThanhTien) VALUES
+(1, 1, 2, 29000, 58000),
+(1, 2, 1, 57000, 57000),
+(1, 3, 1, 392000, 392000),
+(2, 4, 2, 370000, 740000),
+(2, 5, 1, 25000, 25000),
+(3, 6, 1, 805000, 805000),
+(4, 7, 3, 110000, 330000),
+(4, 8, 2, 35000, 70000),
+(5, 1, 5, 29000, 145000),
+(5, 2, 2, 57000, 114000),
+(6, 3, 1, 392000, 392000),
+(6, 4, 1, 370000, 370000);
 
-CREATE TABLE IF NOT EXISTS ChiTietDonHang (
-    ID_ChiTiet INT AUTO_INCREMENT PRIMARY KEY,
-    ID_DonHang INT NOT NULL,
-    ID_SanPham INT NOT NULL,
-    SoLuong INT DEFAULT 1,
-    DonGia DECIMAL(10,2) NOT NULL,
-    GiamGia DECIMAL(10,2) DEFAULT 0,
-    FOREIGN KEY (ID_DonHang) REFERENCES DonHang(ID_DonHang) ON DELETE CASCADE,
-    FOREIGN KEY (ID_SanPham) REFERENCES SanPham(ID_SanPham)
-);
-
-INSERT INTO DonHang (ID_TaiKhoan, TongTien, TrangThai, DiaChi, GhiChu, PhuongThucThanhToan) 
-VALUES 
-(1, 359000, 'Chờ xử lý', '123 Đường Nguyễn Văn Linh, Quận Cẩm Lệ, Đà Nẵng', 'Giao hàng giờ hành chính', 'COD'),
-(2, 210000, 'Đang giao', '456 Đường Hùng Vương, Quận Hải Châu, Đà Nẵng', 'Gọi trước khi giao', 'Chuyển khoản'),
-(1, 500000, 'Hoàn thành', '789 Đường Trần Phú, Quận Hải Châu, Đà Nẵng', NULL, 'COD');
-
-
-INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, DonGia)
-VALUES 
-(1, 1, 2, 29000),  
-(1, 3, 1, 392000); 
-
-INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, DonGia)
-VALUES 
-(2, 1, 2, 29000), 
-(2, 2, 2, 57000),  
-(2, 8, 1, 35000);  
-
-INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, DonGia)
-VALUES 
-(3, 4, 1, 370000), 
-(3, 6, 1, 110000), 
-(3, 5, 1, 25000); 
-
-CREATE TABLE IF NOT EXISTS HoaDon (
-    ID_HoaDon INT AUTO_INCREMENT PRIMARY KEY,
-    NgayLap DATETIME DEFAULT CURRENT_TIMESTAMP,
-    TongTien DECIMAL(10,2) NOT NULL,
-    ID_TaiKhoan INT,
-    TrangThai VARCHAR(50) DEFAULT 'Chưa thanh toán',
-    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
-);
-
-CREATE TABLE IF NOT EXISTS ChiTietHoaDon (
-    ID_ChiTiet INT AUTO_INCREMENT PRIMARY KEY,
-    ID_HoaDon INT,
-    ID_SanPham INT,
-    SoLuong INT DEFAULT 1,
-    Gia DECIMAL(10,2),
-    FOREIGN KEY (ID_HoaDon) REFERENCES HoaDon(ID_HoaDon),
-    FOREIGN KEY (ID_SanPham) REFERENCES SanPham(ID_SanPham)
-);
-
-CREATE TABLE IF NOT EXISTS ThanhToan (
-    ID_ThanhToan INT AUTO_INCREMENT PRIMARY KEY,
-    ID_HoaDon INT,
-    SoTien DECIMAL(10,2) NOT NULL,
-    PhuongThuc VARCHAR(50) DEFAULT 'Chuyển khoản',
-    TrangThai VARCHAR(50) DEFAULT 'Chờ xác nhận',
-    NgayThanhToan DATETIME DEFAULT CURRENT_TIMESTAMP,
-    GhiChu TEXT,
-    FOREIGN KEY (ID_HoaDon) REFERENCES HoaDon(ID_HoaDon)
-);
+INSERT INTO LichSuTrangThaiDonHang (ID_DonHang, TrangThai, GhiChu) VALUES
+(1, 'Chờ xác nhận', 'Đơn hàng vừa được tạo'),
+(2, 'Chờ xác nhận', 'Đơn hàng vừa được tạo'),
+(2, 'Đã xác nhận', 'Đơn hàng đã được xác nhận và đang chuẩn bị'),
+(3, 'Chờ xác nhận', 'Đơn hàng vừa được tạo'),
+(3, 'Đã xác nhận', 'Đơn hàng đã được xác nhận'),
+(3, 'Đang chuẩn bị', 'Đang đóng gói sản phẩm'),
+(4, 'Chờ xác nhận', 'Đơn hàng vừa được tạo'),
+(4, 'Đã xác nhận', 'Đơn hàng đã được xác nhận'),
+(4, 'Đang chuẩn bị', 'Đang đóng gói sản phẩm'),
+(4, 'Đang giao hàng', 'Đơn hàng đã được giao cho shipper'),
+(5, 'Chờ xác nhận', 'Đơn hàng vừa được tạo'),
+(5, 'Đã xác nhận', 'Đơn hàng đã được xác nhận'),
+(5, 'Đang chuẩn bị', 'Đang đóng gói sản phẩm'),
+(5, 'Đang giao hàng', 'Đơn hàng đã được giao cho shipper'),
+(5, 'Đã giao hàng', 'Đơn hàng đã được giao thành công'),
+(6, 'Chờ xác nhận', 'Đơn hàng vừa được tạo'),
+(6, 'Đã hủy', 'Khách hàng yêu cầu hủy đơn hàng');
 
 INSERT INTO HoaDon (TongTien, ID_TaiKhoan, TrangThai) VALUES
 (500000, 1, 'Đã thanh toán'),
@@ -213,3 +235,9 @@ INSERT INTO ChiTietHoaDon (ID_HoaDon, ID_SanPham, SoLuong, Gia) VALUES
 INSERT INTO ThanhToan (ID_HoaDon, SoTien, PhuongThuc, TrangThai) VALUES
 (1, 500000, 'Chuyển khoản', 'Đã xác nhận'),
 (3, 750000, 'Tiền mặt', 'Đã xác nhận');
+
+UPDATE DonHang SET TongTien = (
+    SELECT SUM(ThanhTien) 
+    FROM ChiTietDonHang 
+    WHERE ChiTietDonHang.ID_DonHang = DonHang.ID_DonHang
+) WHERE ID_DonHang IN (1, 2, 3, 4, 5, 6);
