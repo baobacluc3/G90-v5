@@ -1,94 +1,90 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Đăng Nhập - Petcare</title>
-  <link 
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
-    rel="stylesheet"
-  >
-  <link 
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
-    rel="stylesheet"
-  >
-  <link 
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" 
-    rel="stylesheet"
-  >
-  <!-- Đường dẫn tới file CSS riêng của bạn -->
-  <link href="../../css/auth.css" rel="stylesheet">
-</head>
-<body>
-  <div class="auth-section">
-    <div class="container">
-      <div class="row justify-content-center align-items-center min-vh-100">
-        <div class="col-md-5">
-          <div class="card auth-card">
-            <div class="card-body">
-              <h2 class="text-center mb-4">Đăng Nhập</h2>
-              <form id="loginForm">
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <i class="fas fa-envelope"></i>
-                    </span>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      class="form-control" 
-                      placeholder="Nhập email" 
-                      required
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng Nhập - Petcare</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="../../css/auth.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="auth-section">
+      <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+          <div class="col-md-5">
+            <div class="card auth-card">
+              <div class="card-body">
+                <h2 class="text-center mb-4">Đăng Nhập</h2>
+                <form id="loginForm">
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <i class="fas fa-envelope"></i>
+                      </span>
+                      <input
+                        type="email"
+                        id="email"
+                        class="form-control"
+                        placeholder="Nhập email"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Mật Khẩu</label>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <i class="fas fa-lock"></i>
+                      </span>
+                      <input
+                        type="password"
+                        id="password"
+                        class="form-control"
+                        placeholder="Nhập mật khẩu"
+                        required
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-outline-secondary toggle-password"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="mb-3 text-end">
+                    <a href="forgot-password.html" class="text-muted"
+                      >Quên mật khẩu?</a
                     >
                   </div>
-                </div>
-                <div class="mb-3">
-                  <label for="password" class="form-label">Mật Khẩu</label>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <i class="fas fa-lock"></i>
-                    </span>
-                    <input 
-                      type="password" 
-                      id="password" 
-                      class="form-control" 
-                      placeholder="Nhập mật khẩu" 
-                      required
-                    >
-                    <button 
-                      type="button" 
-                      class="btn btn-outline-secondary toggle-password"
-                    >
-                      <i class="fas fa-eye"></i>
-                    </button>
-                  </div>
-                </div>
-                <div class="mb-3 text-end">
-                  <a href="forgot-password.html" class="text-muted">Quên mật khẩu?</a>
-                </div>
-                <button type="submit" class="btn btn-primary w-100">
-                  <i class="fas fa-sign-in-alt"></i> Đăng Nhập
-                </button>
-              </form>
-              <p class="text-center mt-3">
-                Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a>
-              </p>
+                  <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-sign-in-alt"></i> Đăng Nhập
+                  </button>
+                </form>
+                <p class="text-center mt-3">
+                  Chưa có tài khoản? <a href="register.html">Đăng ký ngay</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Nơi chứa modal chung -->
-  <div id="modalContainer"></div>
+    <div id="modalContainer"></div>
 
-  <!-- Load Bootstrap Bundle (chứa Popper) trước khi gọi JS của bạn -->
-  <script 
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  ></script>
-  <!-- Load script xử lý login; type="module" để dùng import/export -->
-  <script type="module" src="/js/auth/login.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="/js/auth/login.js"></script>
+  </body>
 </html>

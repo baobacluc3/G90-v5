@@ -98,7 +98,6 @@ function updatePagination(total, page, limit) {
 
   let paginationHTML = "";
 
-  // Previous button
   if (page > 1) {
     paginationHTML += `<li class="page-item">
             <a class="page-link" href="#" onclick="changePage(${
@@ -107,7 +106,6 @@ function updatePagination(total, page, limit) {
         </li>`;
   }
 
-  // Page numbers
   for (
     let i = Math.max(1, page - 2);
     i <= Math.min(totalPages, page + 2);
@@ -119,7 +117,6 @@ function updatePagination(total, page, limit) {
         </li>`;
   }
 
-  // Next button
   if (page < totalPages) {
     paginationHTML += `<li class="page-item">
             <a class="page-link" href="#" onclick="changePage(${
@@ -131,13 +128,11 @@ function updatePagination(total, page, limit) {
   pagination.innerHTML = paginationHTML;
 }
 
-// Change page
 function changePage(page) {
   currentPage = page;
   loadUsers();
 }
 
-// Search users
 function searchUsers() {
   const searchInput = document.getElementById("searchInput");
   currentSearch = searchInput.value.trim();
@@ -145,7 +140,6 @@ function searchUsers() {
   loadUsers();
 }
 
-// Add user
 function addUser() {
   console.log("Add user clicked"); // Debug log
   document.getElementById("userModalLabel").textContent = "Thêm Người Dùng";
@@ -160,7 +154,6 @@ function addUser() {
   modal.show();
 }
 
-// Edit user
 async function editUser(id) {
   const result = await apiRequest(`/users?search=&page=1&limit=100`);
   const user = result.data.find((u) => u.ID_TaiKhoan === id);
@@ -182,7 +175,6 @@ async function editUser(id) {
   }
 }
 
-// Delete user
 function deleteUser(id) {
   if (confirm("Bạn có chắc chắn muốn xóa người dùng này?")) {
     deleteUserConfirm(id);
@@ -200,7 +192,7 @@ async function deleteUserConfirm(id) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("DOM loaded"); // Debug log
+  console.log("DOM loaded");
 
   loadUsers();
 
@@ -224,10 +216,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       let result;
       if (userId) {
-        // Update user
         result = await apiRequest(`/users/${userId}`, "PUT", userData);
       } else {
-        // Create user
         if (!matKhau) {
           alert("Vui lòng nhập mật khẩu cho người dùng mới");
           return;

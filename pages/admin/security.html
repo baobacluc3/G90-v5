@@ -112,7 +112,6 @@
     <script type="module">
         import { loadRoles } from './js/security.js';
         
-        // Check admin access
         const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
         if (!currentUser || currentUser.role !== 'admin') {
             window.location.href = '../auth/login.html';

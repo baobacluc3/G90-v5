@@ -21,3 +21,4 @@ async function apiRequest(endpoint, method = "GET", data = null) {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = { apiRequest };
 }
+export { apiRequest };

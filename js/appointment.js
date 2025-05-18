@@ -19,7 +19,6 @@ let currentSearch = "";
 let currentStatus = "all";
 const itemsPerPage = 10;
 
-// Load appointments with pagination, search and filter
 async function loadAppointments() {
   const searchQuery = currentSearch
     ? `&search=${encodeURIComponent(currentSearch)}`
@@ -113,14 +112,12 @@ function getStatusButtons(id, currentStatus) {
   return buttons;
 }
 
-// Format date
 function formatDate(dateString) {
   if (!dateString) return "";
   const date = new Date(dateString);
   return date.toLocaleDateString("vi-VN");
 }
 
-// Update pagination
 function updatePagination(total, page, limit) {
   const totalPages = Math.ceil(total / limit);
   const pagination = document.getElementById("pagination");
@@ -129,7 +126,6 @@ function updatePagination(total, page, limit) {
 
   let paginationHTML = "";
 
-  // Previous button
   if (page > 1) {
     paginationHTML += `<li class="page-item">
             <a class="page-link" href="#" onclick="changePage(${
@@ -138,7 +134,6 @@ function updatePagination(total, page, limit) {
         </li>`;
   }
 
-  // Page numbers
   for (
     let i = Math.max(1, page - 2);
     i <= Math.min(totalPages, page + 2);
@@ -150,7 +145,6 @@ function updatePagination(total, page, limit) {
         </li>`;
   }
 
-  // Next button
   if (page < totalPages) {
     paginationHTML += `<li class="page-item">
             <a class="page-link" href="#" onclick="changePage(${
@@ -202,7 +196,6 @@ window.viewAppointment = async function (id) {
   }
 };
 
-// Add appointment
 window.addAppointment = function () {
   console.log("Add appointment clicked"); // Debug log
   document.getElementById("appointmentModalLabel").textContent =
@@ -320,7 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
         result = await apiRequest("/appointments", "POST", appointmentData);
       }
 
-      console.log("Result:", result); // Debug log
+      console.log("Result:", result);
 
       if (result.success) {
         alert(

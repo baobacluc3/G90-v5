@@ -62,6 +62,25 @@ CREATE TABLE IF NOT EXISTS LichSuDatLich (
     FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
 );
 
+-- KhachHang table
+CREATE TABLE IF NOT EXISTS KhachHang (
+  ID_KhachHang INT AUTO_INCREMENT PRIMARY KEY,
+  HoTen VARCHAR(100) NOT NULL,
+  Email VARCHAR(100) NOT NULL UNIQUE,
+  DienThoai VARCHAR(15),
+  DiaChi VARCHAR(255),
+  NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  LanCuoiMua DATETIME DEFAULT NULL
+);
+
+
+-- Sample data for KhachHang
+INSERT INTO KhachHang (HoTen, Email, DienThoai, DiaChi, NgayTao, LanCuoiMua) VALUES
+('Nguyễn Thị Hoa', 'hoa.nguyen@gmail.com', '0901234567', 'Quận 1, TP.HCM', '2025-01-15', '2025-05-10'),
+('Trần Văn Minh', 'minh.tran@gmail.com', '0912345678', 'Quận Hải Châu, Đà Nẵng', '2025-02-20', '2025-05-05'),
+('Lê Thị Thu', 'thu.le@gmail.com', '0923456789', 'Quận Cẩm Lệ, Đà Nẵng', '2025-03-05', '2025-04-28'),
+('Phạm Văn Đức', 'duc.pham@gmail.com', '0934567890', 'Quận 7, TP.HCM', '2025-03-10', '2025-05-12'),
+('Hoàng Thị Mai', 'mai.hoang@gmail.com', '0945678901', 'Quận 3, TP.HCM', '2025-04-01', NULL);
 
 -- Insert ChucVu
 INSERT INTO ChucVu (TenCV, MoTaCV, TrangThai) VALUES
@@ -103,3 +122,137 @@ INSERT INTO LichSuDatLich (HoTen, SoDienThoai, DichVu, ChiNhanh, TenThuCung, Nga
 ('Nguyễn Văn A', '0987654321', 'Khám tổng quát', 'Petcare Cẩm Lệ', 'Luna', '2025-05-20', '09:00:00', 'Khám định kỳ', 'Chờ xác nhận', 1),
 ('Trần Thị B', '0901234567', 'Chăm sóc lông', 'Petcare Hải Châu', 'Max', '2025-05-21', '14:00:00', 'Cắt tỉa lông', 'Đã xác nhận', 2),
 ('Lê Văn C', '0912345678', 'Tiêm phòng', 'Petcare Cẩm Lệ', 'Buddy', '2025-05-22', '10:30:00', 'Tiêm vaccine', 'Hoàn thành', 1); 
+
+-- Add these tables to your petcare database
+
+-- Table: DonHang (Orders)
+CREATE TABLE IF NOT EXISTS DonHang (
+    ID_DonHang INT AUTO_INCREMENT PRIMARY KEY,
+    ID_TaiKhoan INT NOT NULL,
+    NgayDat DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TongTien DECIMAL(10,2) DEFAULT 0,
+    TrangThai VARCHAR(50) DEFAULT 'Chờ xử lý',
+    DiaChi VARCHAR(255),
+    GhiChu TEXT,
+    PhuongThucThanhToan VARCHAR(50),
+    PhuongThucVanChuyen VARCHAR(50),
+    PhiVanChuyen DECIMAL(10,2) DEFAULT 0,
+    MaGiamGia VARCHAR(50),
+    GiamGia DECIMAL(10,2) DEFAULT 0,
+    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
+);
+
+-- Table: ChiTietDonHang (Order Details)
+CREATE TABLE IF NOT EXISTS ChiTietDonHang (
+    ID_ChiTiet INT AUTO_INCREMENT PRIMARY KEY,
+    ID_DonHang INT NOT NULL,
+    ID_SanPham INT NOT NULL,
+    SoLuong INT DEFAULT 1,
+    DonGia DECIMAL(10,2) NOT NULL,
+    GiamGia DECIMAL(10,2) DEFAULT 0,
+    FOREIGN KEY (ID_DonHang) REFERENCES DonHang(ID_DonHang) ON DELETE CASCADE,
+    FOREIGN KEY (ID_SanPham) REFERENCES SanPham(ID_SanPham)
+);
+
+-- Sample data for DonHang
+INSERT INTO DonHang (ID_TaiKhoan, TongTien, TrangThai, DiaChi, GhiChu, PhuongThucThanhToan) 
+VALUES 
+(1, 359000, 'Chờ xử lý', '123 Đường Nguyễn Văn Linh, Quận Cẩm Lệ, Đà Nẵng', 'Giao hàng giờ hành chính', 'COD'),
+(2, 210000, 'Đang giao', '456 Đường Hùng Vương, Quận Hải Châu, Đà Nẵng', 'Gọi trước khi giao', 'Chuyển khoản'),
+(1, 500000, 'Hoàn thành', '789 Đường Trần Phú, Quận Hải Châu, Đà Nẵng', NULL, 'COD');
+
+-- Sample data for ChiTietDonHang
+-- Đơn hàng 1
+INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, DonGia)
+VALUES 
+(1, 1, 2, 29000),  -- 2 gói Thức ăn chó Ganador
+(1, 3, 1, 392000); -- 1 gói Dog On Red
+
+-- Đơn hàng 2
+INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, DonGia)
+VALUES 
+(2, 1, 2, 29000),  -- 2 gói Thức ăn chó Ganador
+(2, 2, 2, 57000),  -- 2 gói Hạt Pedigree
+(2, 8, 1, 35000);  -- 1 gói Hạt ZOI Dog
+
+-- Đơn hàng 3
+INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, DonGia)
+VALUES 
+(3, 4, 1, 370000), -- 1 gói Dog On GREEN
+(3, 6, 1, 110000), -- 1 gói Hạt Classic Pets
+(3, 5, 1, 25000);  -- 1 gói Hello Dog
+
+
+-- Table: HoaDon (Invoice)
+CREATE TABLE IF NOT EXISTS HoaDon (
+    ID_HoaDon INT AUTO_INCREMENT PRIMARY KEY,
+    NgayLap DATETIME DEFAULT CURRENT_TIMESTAMP,
+    TongTien DECIMAL(10,2) NOT NULL,
+    ID_TaiKhoan INT,
+    TrangThai VARCHAR(50) DEFAULT 'Chưa thanh toán',
+    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
+);
+
+-- Table: ChiTietHoaDon (Invoice Detail)
+CREATE TABLE IF NOT EXISTS ChiTietHoaDon (
+    ID_ChiTiet INT AUTO_INCREMENT PRIMARY KEY,
+    ID_HoaDon INT,
+    ID_SanPham INT,
+    SoLuong INT DEFAULT 1,
+    Gia DECIMAL(10,2),
+    FOREIGN KEY (ID_HoaDon) REFERENCES HoaDon(ID_HoaDon),
+    FOREIGN KEY (ID_SanPham) REFERENCES SanPham(ID_SanPham)
+);
+
+-- Table: ThanhToan (Payment)
+CREATE TABLE IF NOT EXISTS ThanhToan (
+    ID_ThanhToan INT AUTO_INCREMENT PRIMARY KEY,
+    ID_HoaDon INT,
+    SoTien DECIMAL(10,2) NOT NULL,
+    PhuongThuc VARCHAR(50) DEFAULT 'Chuyển khoản',
+    TrangThai VARCHAR(50) DEFAULT 'Chờ xác nhận',
+    NgayThanhToan DATETIME DEFAULT CURRENT_TIMESTAMP,
+    GhiChu TEXT,
+    FOREIGN KEY (ID_HoaDon) REFERENCES HoaDon(ID_HoaDon)
+);
+
+-- Insert sample data for testing
+INSERT INTO HoaDon (TongTien, ID_TaiKhoan, TrangThai) VALUES
+(500000, 1, 'Đã thanh toán'),
+(300000, 2, 'Chưa thanh toán'),
+(750000, 1, 'Đã thanh toán'),
+(420000, 2, 'Chưa thanh toán');
+
+INSERT INTO ChiTietHoaDon (ID_HoaDon, ID_SanPham, SoLuong, Gia) VALUES
+(1, 1, 1, 300000),
+(1, 2, 2, 100000),
+(2, 3, 1, 300000),
+(3, 4, 3, 250000),
+(4, 5, 1, 220000),
+(4, 6, 2, 100000);
+
+INSERT INTO ThanhToan (ID_HoaDon, SoTien, PhuongThuc, TrangThai) VALUES
+(1, 500000, 'Chuyển khoản', 'Đã xác nhận'),
+(3, 750000, 'Tiền mặt', 'Đã xác nhận');
+
+
+
+-- -- DonHang table (simplified for reference)
+-- CREATE TABLE IF NOT EXISTS DonHang (
+--   ID_DonHang INT AUTO_INCREMENT PRIMARY KEY,
+--   ID_KhachHang INT,
+--   NgayDat DATETIME DEFAULT CURRENT_TIMESTAMP,
+--   TongTien DECIMAL(10,2) DEFAULT 0,
+--   TrangThai VARCHAR(50) DEFAULT 'Đang xử lý',
+--   FOREIGN KEY (ID_KhachHang) REFERENCES KhachHang(ID_KhachHang)
+-- );
+
+-- Sample data for DonHang
+-- INSERT INTO DonHang (ID_KhachHang, NgayDat, TongTien, TrangThai) VALUES
+-- (1, '2025-03-15', 350000, 'Hoàn thành'),
+-- (1, '2025-05-10', 420000, 'Hoàn thành'),
+-- (2, '2025-04-20', 250000, 'Hoàn thành'),
+-- (2, '2025-05-05', 180000, 'Hoàn thành'),
+-- (3, '2025-04-10', 520000, 'Hoàn thành'),
+-- (3, '2025-04-28', 150000, 'Hoàn thành'),
+-- (4, '2025-05-12', 630000, 'Đang xử lý');

@@ -1,0 +1,65 @@
+.order-process-section .table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.order-process-section .status-select {
+  min-width: 140px;
+}
+
+.order-process-section .fa-check {
+  color: #28a745;
+}
+
+.order-process-section .fa-times {
+  color: #dc3545;
+}
+
+.order-process-section .btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+.order-detail h5 {
+  color: #4e73df;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e3e6f0;
+  padding-bottom: 0.5rem;
+}
+
+.order-detail .row {
+  margin-bottom: 0.5rem;
+}
+
+.order-detail table {
+  margin-top: 1rem;
+}
+
+.order-detail table th {
+  background-color: #f8f9fa;
+}
+
+.toast-container {
+  z-index: 1060;
+}
+
+.toast {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .order-process-section .table {
+    font-size: 0.85rem;
+  }
+
+  .order-process-section .btn-sm {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+  }
+
+  .order-process-section .status-select {
+    min-width: 100px;
+    font-size: 0.75rem;
+    padding: 0.2rem;
+  }
+}
