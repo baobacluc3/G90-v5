@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS petcare;
 USE petcare;
 
--- Table: ChucVu (Position)
 CREATE TABLE ChucVu (
     ID_ChucVu INT AUTO_INCREMENT PRIMARY KEY,
     TenCV Varchar(100),
@@ -9,7 +8,6 @@ CREATE TABLE ChucVu (
     TrangThai Varchar(20)
 );
 
--- Table: TaiKhoan (Account)
 CREATE TABLE TaiKhoan (
     ID_TaiKhoan INT AUTO_INCREMENT PRIMARY KEY,
     HoTen Varchar(100) NOT NULL,
@@ -26,7 +24,7 @@ CREATE TABLE TaiKhoan (
     FOREIGN KEY (ID_ChucVu) REFERENCES ChucVu(ID_ChucVu)
 );
 
--- Table: DonMucSP (Product Category)
+
 CREATE TABLE DonMucSP (
     ID_DonMuc INT AUTO_INCREMENT PRIMARY KEY,
     TenDonMuc Varchar(50),
@@ -34,10 +32,9 @@ CREATE TABLE DonMucSP (
     TrangThai Varchar(20)
 );
 
--- Table: SanPham (Product) - ĐÃ SỬA TenSP VARCHAR(200)
 CREATE TABLE SanPham (
     ID_SanPham INT AUTO_INCREMENT PRIMARY KEY,
-    TenSP Varchar(200),  -- Tăng từ 50 lên 200
+    TenSP Varchar(200),  
     MoTa Text,
     Gia Decimal(10,2),
     SoLuong INT(11),
@@ -62,7 +59,6 @@ CREATE TABLE IF NOT EXISTS LichSuDatLich (
     FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
 );
 
--- KhachHang table
 CREATE TABLE IF NOT EXISTS KhachHang (
   ID_KhachHang INT AUTO_INCREMENT PRIMARY KEY,
   HoTen VARCHAR(100) NOT NULL,
@@ -74,7 +70,6 @@ CREATE TABLE IF NOT EXISTS KhachHang (
 );
 
 
--- Sample data for KhachHang
 INSERT INTO KhachHang (HoTen, Email, DienThoai, DiaChi, NgayTao, LanCuoiMua) VALUES
 ('Nguyễn Thị Hoa', 'hoa.nguyen@gmail.com', '0901234567', 'Quận 1, TP.HCM', '2025-01-15', '2025-05-10'),
 ('Trần Văn Minh', 'minh.tran@gmail.com', '0912345678', 'Quận Hải Châu, Đà Nẵng', '2025-02-20', '2025-05-05'),
@@ -82,18 +77,15 @@ INSERT INTO KhachHang (HoTen, Email, DienThoai, DiaChi, NgayTao, LanCuoiMua) VAL
 ('Phạm Văn Đức', 'duc.pham@gmail.com', '0934567890', 'Quận 7, TP.HCM', '2025-03-10', '2025-05-12'),
 ('Hoàng Thị Mai', 'mai.hoang@gmail.com', '0945678901', 'Quận 3, TP.HCM', '2025-04-01', NULL);
 
--- Insert ChucVu
 INSERT INTO ChucVu (TenCV, MoTaCV, TrangThai) VALUES
 ('Admin', 'Quản trị hệ thống', 'Hoạt động'),
 ('Quản trị viên', 'Quản lý sản phẩm và đơn hàng', 'Hoạt động'),
 ('Nhân viên', 'Thực hiện công việc liên quan đến chăm sóc khách hàng', 'Hoạt động');
 
--- Insert TaiKhoan
 INSERT INTO TaiKhoan (HoTen, NamSinh, GioiTinh, DiaChi, DienThoai, Gmail, ID_ChucVu, TenDangNhap, MatKhau) VALUES
 ('Nguyễn Văn Anh', '2000-01-01', 1, 'Đà Nẵng', '0987654321', 'nguyenvana@gmail.com', 1, 'admin', 'password123'),
 ('Trần Tuấn', '2001-05-05', 0, 'Tam Kỳ', '0901234567', 'trant@gmail.com', 2, 'admin2', 'password456');
 
--- Insert DonMucSP
 INSERT INTO DonMucSP (TenDonMuc) VALUES 
 ('Thức ăn hạt'),
 ('Sữa cho chó'),
@@ -105,7 +97,6 @@ INSERT INTO DonMucSP (TenDonMuc) VALUES
 ('Balo & Túi vận chuyển'),
 ('Thuốc thú y');
 
--- Insert SanPham cho danh mục "Thức ăn hạt"
 INSERT INTO SanPham (TenSP, MoTa, Gia, SoLuong, ID_DonMuc, TrangThai) VALUES
 ('Thức ăn chó Ganador Adult Salmon & Rice', '', 29000, 100, 1, 'Còn hàng'),
 ('Hạt Pedigree Puppy vị gà và trứng 400g', '', 57000, 100, 1, 'Còn hàng'),
@@ -123,9 +114,7 @@ INSERT INTO LichSuDatLich (HoTen, SoDienThoai, DichVu, ChiNhanh, TenThuCung, Nga
 ('Trần Thị B', '0901234567', 'Chăm sóc lông', 'Petcare Hải Châu', 'Max', '2025-05-21', '14:00:00', 'Cắt tỉa lông', 'Đã xác nhận', 2),
 ('Lê Văn C', '0912345678', 'Tiêm phòng', 'Petcare Cẩm Lệ', 'Buddy', '2025-05-22', '10:30:00', 'Tiêm vaccine', 'Hoàn thành', 1); 
 
--- Add these tables to your petcare database
 
--- Table: DonHang (Orders)
 CREATE TABLE IF NOT EXISTS DonHang (
     ID_DonHang INT AUTO_INCREMENT PRIMARY KEY,
     ID_TaiKhoan INT NOT NULL,
@@ -142,7 +131,6 @@ CREATE TABLE IF NOT EXISTS DonHang (
     FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
 );
 
--- Table: ChiTietDonHang (Order Details)
 CREATE TABLE IF NOT EXISTS ChiTietDonHang (
     ID_ChiTiet INT AUTO_INCREMENT PRIMARY KEY,
     ID_DonHang INT NOT NULL,
@@ -154,36 +142,30 @@ CREATE TABLE IF NOT EXISTS ChiTietDonHang (
     FOREIGN KEY (ID_SanPham) REFERENCES SanPham(ID_SanPham)
 );
 
--- Sample data for DonHang
 INSERT INTO DonHang (ID_TaiKhoan, TongTien, TrangThai, DiaChi, GhiChu, PhuongThucThanhToan) 
 VALUES 
 (1, 359000, 'Chờ xử lý', '123 Đường Nguyễn Văn Linh, Quận Cẩm Lệ, Đà Nẵng', 'Giao hàng giờ hành chính', 'COD'),
 (2, 210000, 'Đang giao', '456 Đường Hùng Vương, Quận Hải Châu, Đà Nẵng', 'Gọi trước khi giao', 'Chuyển khoản'),
 (1, 500000, 'Hoàn thành', '789 Đường Trần Phú, Quận Hải Châu, Đà Nẵng', NULL, 'COD');
 
--- Sample data for ChiTietDonHang
--- Đơn hàng 1
+
 INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, DonGia)
 VALUES 
-(1, 1, 2, 29000),  -- 2 gói Thức ăn chó Ganador
-(1, 3, 1, 392000); -- 1 gói Dog On Red
+(1, 1, 2, 29000),  
+(1, 3, 1, 392000); 
 
--- Đơn hàng 2
 INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, DonGia)
 VALUES 
-(2, 1, 2, 29000),  -- 2 gói Thức ăn chó Ganador
-(2, 2, 2, 57000),  -- 2 gói Hạt Pedigree
-(2, 8, 1, 35000);  -- 1 gói Hạt ZOI Dog
+(2, 1, 2, 29000), 
+(2, 2, 2, 57000),  
+(2, 8, 1, 35000);  
 
--- Đơn hàng 3
 INSERT INTO ChiTietDonHang (ID_DonHang, ID_SanPham, SoLuong, DonGia)
 VALUES 
-(3, 4, 1, 370000), -- 1 gói Dog On GREEN
-(3, 6, 1, 110000), -- 1 gói Hạt Classic Pets
-(3, 5, 1, 25000);  -- 1 gói Hello Dog
+(3, 4, 1, 370000), 
+(3, 6, 1, 110000), 
+(3, 5, 1, 25000); 
 
-
--- Table: HoaDon (Invoice)
 CREATE TABLE IF NOT EXISTS HoaDon (
     ID_HoaDon INT AUTO_INCREMENT PRIMARY KEY,
     NgayLap DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -193,7 +175,6 @@ CREATE TABLE IF NOT EXISTS HoaDon (
     FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan)
 );
 
--- Table: ChiTietHoaDon (Invoice Detail)
 CREATE TABLE IF NOT EXISTS ChiTietHoaDon (
     ID_ChiTiet INT AUTO_INCREMENT PRIMARY KEY,
     ID_HoaDon INT,
@@ -204,7 +185,6 @@ CREATE TABLE IF NOT EXISTS ChiTietHoaDon (
     FOREIGN KEY (ID_SanPham) REFERENCES SanPham(ID_SanPham)
 );
 
--- Table: ThanhToan (Payment)
 CREATE TABLE IF NOT EXISTS ThanhToan (
     ID_ThanhToan INT AUTO_INCREMENT PRIMARY KEY,
     ID_HoaDon INT,
@@ -216,7 +196,6 @@ CREATE TABLE IF NOT EXISTS ThanhToan (
     FOREIGN KEY (ID_HoaDon) REFERENCES HoaDon(ID_HoaDon)
 );
 
--- Insert sample data for testing
 INSERT INTO HoaDon (TongTien, ID_TaiKhoan, TrangThai) VALUES
 (500000, 1, 'Đã thanh toán'),
 (300000, 2, 'Chưa thanh toán'),
