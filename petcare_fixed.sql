@@ -213,6 +213,3 @@ INSERT INTO ChiTietHoaDon (ID_HoaDon, ID_SanPham, SoLuong, Gia) VALUES
 INSERT INTO ThanhToan (ID_HoaDon, SoTien, PhuongThuc, TrangThai) VALUES
 (1, 500000, 'Chuyển khoản', 'Đã xác nhận'),
 (3, 750000, 'Tiền mặt', 'Đã xác nhận');
-
-
- .
