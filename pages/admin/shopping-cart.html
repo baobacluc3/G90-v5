@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giỏ Hàng - Petcare</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .cart-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 0;
+            color: white;
+        }
+        
+        .cart-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-top: 30px;
+        }
+        
+        .cart-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .cart-item {
+            border-bottom: 1px solid #eee;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-item:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+        
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .product-name {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .product-price {
+            color: #e74c3c;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .quantity-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .btn-decrease {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+        }
+        
+        .btn-increase {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .remove-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .cart-summary {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .summary-row:last-child {
+            border-bottom: 2px solid #667eea;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+        
+        .empty-cart i {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #dee2e6;
+        }
+        
+        .continue-shopping {
+            background: linear-gradient(135deg, #51cf66, #40c057);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+        
+        .continue-shopping:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(81, 207, 102, 0.3);
+        }
+        
+        .discount-code {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 2px dashed #667eea;
+        }
+        
+        .discount-input {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        
+        .apply-discount-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+        
+        .success-message, .error-message {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .cart-item {
+                padding: 15px;
+            }
+            
+            .product-image {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .quantity-control {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .cart-summary {
+                padding: 20px;
+            }
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-section">
+        <div class="container">
+            <h1 class="text-center">
+                <i class="fas fa-shopping-cart me-3"></i>
+                Giỏ Hàng Của Bạn
+            </h1>
+            <p class="text-center mt-3 opacity-90">Quản lý sản phẩm và thanh toán dễ dàng</p>
+        </div>
+    </div>
+
+    <div class="container my-5">
+        <div id="loadingSpinner" class="loading">
+            <div class="spinner"></div>
+            <p class="mt-3">Đang tải giỏ hàng...</p>
+        </div>
+
+        <div id="successMessage" class="success-message">
+            <i class="fas fa-check-circle me-2"></i>
+            <span id="successText"></span>
+        </div>
+
+        <div id="errorMessage" class="error-message">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <span id="errorText"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="cart-container">
+                    <div class="cart-header">
+                        <h3 class="mb-0">
+                            <i class="fas fa-shopping-bag me-2"></i>
+                            Sản Phẩm Đã Chọn
+                            <span id="cartCount" class="cart-badge">0</span>
+                        </h3>
+                    </div>
+                    
+                    <div id="cartItems">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    
+                    <div id="emptyCart" class="empty-cart" style="display: none;">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h4>Giỏ hàng trống</h4>
+                        <p>Bạn chưa có sản phẩm nào trong giỏ hàng</p>
+                        <a href="../user/food.html" class="continue-shopping">
+                            <i class="fas fa-plus me-2"></i>
+                            Tiếp tục mua sắm
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="cart-summary">
+                    <h4 class="text-center mb-4">
+                        <i class="fas fa-receipt me-2"></i>
+                        Tóm Tắt Đơn Hàng
+                    </h4>
+                    
+                    <div class="summary-row">
+                        <span>Tạm tính:</span>
+                        <span id="subtotal">0 VNĐ</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Phí vận chuyển:</span>
+                        <span id="shipping">0 VNĐ</span>
+                    </div>
+                    
+                    <div class="summary-row" id="discountRow" style="display: none;">
+                        <span>Giảm giá:</span>
+                        <span id="discount" class="text-success">-0 VNĐ</span>
+                    </div>
+                    
+                    <div class="summary-row">
+                        <span>Tổng cộng:</span>
+                        <span id="total" class="text-primary">0 VNĐ</span>
+                    </div>
+                    
+                    <button id="checkoutBtn" class="checkout-btn">
+                        <i class="fas fa-credit-card me-2"></i>
+                        Tiến Hành Thanh Toán
+                    </button>
+                    
+                    <div class="discount-code">
+                        <h6><i class="fas fa-tag me-2"></i>Mã giảm giá</h6>
+                        <div class="d-flex">
+                            <input type="text" id="discountCode" class="discount-input flex-grow-1" 
+                                   placeholder="Nhập mã giảm giá">
+                            <button id="applyDiscountBtn" class="apply-discount-btn">
+                                Áp dụng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        Thông Tin Thanh Toán
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="checkoutForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Thông tin giao hàng</h6>
+                                <div class="mb-3">
+                                    <label class="form-label">Họ và tên *</label>
+                                    <input type="text" class="form-control" id="customerName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Số điện thoại *</label>
+                                    <input type="tel" class="form-control" id="customerPhone" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="customerEmail">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Địa chỉ giao hàng *</label>
+                                    <textarea class="form-control" id="customerAddress" rows="3" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Phương thức thanh toán</h6>
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" 
+                                               id="cod" value="COD" checked>
+                                        <label class="form-check-label" for="cod">
+                                            <i class="fas fa-money-bill me-2"></i>
+                                            Thanh toán khi nhận hàng (COD)
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" 
+                                               id="transfer" value="TRANSFER">
+                                        <label class="form-check-label" for="transfer">
+                                            <i class="fas fa-university me-2"></i>
+                                            Chuyển khoản ngân hàng
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="paymentMethod" 
+                                               id="card" value="CARD">
+                                        <label class="form-check-label" for="card">
+                                            <i class="fas fa-credit-card me-2"></i>
+                                            Thẻ tín dụng/ghi nợ
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Ghi chú đơn hàng</label>
+                                    <textarea class="form-control" id="orderNotes" rows="3" 
+                                              placeholder="Ghi chú về đơn hàng..."></textarea>
+                                </div>
+                                
+                                <div class="order-summary bg-light p-3 rounded">
+                                    <h6>Tóm tắt đơn hàng</h6>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Tạm tính:</span>
+                                        <span id="modalSubtotal">0 VNĐ</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Phí vận chuyển:</span>
+                                        <span id="modalShipping">0 VNĐ</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between" id="modalDiscountRow" style="display: none;">
+                                        <span>Giảm giá:</span>
+                                        <span id="modalDiscount" class="text-success">-0 VNĐ</span>
+                                    </div>
+                                    <hr>
+                                    <div class="d-flex justify-content-between fw-bold">
+                                        <span>Tổng cộng:</span>
+                                        <span id="modalTotal" class="text-primary">0 VNĐ</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Hủy
+                    </button>
+                    <button type="button" class="btn btn-primary" id="confirmOrderBtn">
+                        <i class="fas fa-check me-2"></i>Xác Nhận Đặt Hàng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        class ShoppingCart {
+            constructor() {
+                this.cart = this.loadCartFromStorage();
+                this.discountCode = '';
+                this.discountAmount = 0;
+                this.shippingFee = 30000; 
+                this.init();
+            }
+
+            init() {
+                this.renderCart();
+                this.updateCartSummary();
+                this.bindEvents();
+                this.loadUserInfo();
+            }
+
+            loadCartFromStorage() {
+                const saved = localStorage.getItem('petcare_cart');
+                return saved ? JSON.parse(saved) : [];
+            }
+
+            saveCartToStorage() {
+                localStorage.setItem('petcare_cart', JSON.stringify(this.cart));
+            }
+
+            bindEvents() {
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.remove-btn')) {
+                        const id = e.target.closest('.remove-btn').dataset.id;
+                        this.removeItem(id);
+                    }
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (e.target.closest('.quantity-btn')) {
+                        const btn = e.target.closest('.quantity-btn');
+                        const id = btn.dataset.id;
+                        const action = btn.dataset.action;
+                        this.updateQuantity(id, action);
+                    }
+                });
+
+                document.addEventListener('change', (e) => {
+                    if (e.target.classList.contains('quantity-input')) {
+                        const id = e.target.dataset.id;
+                        const quantity = parseInt(e.target.value) || 1;
+                        this.setQuantity(id, quantity);
+                    }
+                });
+
+                document.getElementById('checkoutBtn').addEventListener('click', () => {
+                    if (this.cart.length === 0) {
+                        this.showMessage('Giỏ hàng trống!', 'error');
+                        return;
+                    }
+                    this.showCheckoutModal();
+                });
+
+                document.getElementById('applyDiscountBtn').addEventListener('click', () => {
+                    this.applyDiscount();
+                });
+
+                document.getElementById('confirmOrderBtn').addEventListener('click', () => {
+                    this.confirmOrder();
+                });
+            }
+
+            addToCart(product) {
+                const existingItem = this.cart.find(item => item.id === product.id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    this.cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image || '../assets/images/pet-icon.png',
+                        quantity: 1
+                    });
+                }
+                
+                this.saveCartToStorage();
+                this.renderCart();
+                this.updateCartSummary();
+                this.showMessage('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+            }
+
+            removeItem(id) {
+                if (confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+                    this.cart = this.cart.filter(item => item.id !== id);
+                    this.saveCartToStorage();
+                    this.renderCart();
+                    this.updateCartSummary();
+                    this.showMessage('Đã xóa sản phẩm khỏi giỏ hàng!', 'success');
+                }
+            }
+
+            updateQuantity(id, action) {
+                const item = this.cart.find(item => item.id === id);
+                if (!item) return;
+
+                if (action === 'increase') {
+                    item.quantity += 1;
+                } else if (action === 'decrease' && item.quantity > 1) {
+                    item.quantity -= 1;
+                }
+
+                this.saveCartToStorage();
+                this.renderCart();
+                this.updateCartSummary();
+            }
+
+            setQuantity(id, quantity) {
+                const item = this.cart.find(item => item.id === id);
+                if (!item) return;
+
+                item.quantity = Math.max(1, quantity);
+                this.saveCartToStorage();
+                this.renderCart();
+                this.updateCartSummary();
+            }
+
+            renderCart() {
+                const cartItems = document.getElementById('cartItems');
+                const emptyCart = document.getElementById('emptyCart');
+                const cartCount = document.getElementById('cartCount');
+
+                if (this.cart.length === 0) {
+                    cartItems.style.display = 'none';
+                    emptyCart.style.display = 'block';
+                    cartCount.textContent = '0';
+                    return;
+                }
+
+                cartItems.style.display = 'block';
+                emptyCart.style.display = 'none';
+                cartCount.textContent = this.cart.length;
+
+                cartItems.innerHTML = this.cart.map(item => `
+                    <div class="cart-item">
+                        <div class="row align-items-center">
+                            <div class="col-md-2">
+                                <img src="${item.image}" alt="${item.name}" class="product-image">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="product-name">${item.name}</div>
+                                <div class="product-price">${this.formatCurrency(item.price)}</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="quantity-control">
+                                    <button class="quantity-btn btn-decrease" data-id="${item.id}" data-action="decrease">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" class="quantity-input form-control" 
+                                           data-id="${item.id}" value="${item.quantity}" min="1">
+                                    <button class="quantity-btn btn-increase" data-id="${item.id}" data-action="increase">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="text-end">
+                                    <div class="fw-bold">${this.formatCurrency(item.price * item.quantity)}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <button class="remove-btn" data-id="${item.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            calculateSubtotal() {
+                return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            }
+
+            calculateTotal() {
+                const subtotal = this.calculateSubtotal();
+                const total = subtotal + this.shippingFee - this.discountAmount;
+                return Math.max(0, total);
+            }
+
+            updateCartSummary() {
+                const subtotal = this.calculateSubtotal();
+                const total = this.calculateTotal();
+
+                document.getElementById('subtotal').textContent = this.formatCurrency(subtotal);
+                document.getElementById('shipping').textContent = this.formatCurrency(this.shippingFee);
+                document.getElementById('total').textContent = this.formatCurrency(total);
+
+                document.getElementById('modalSubtotal').textContent = this.formatCurrency(subtotal);
+                document.getElementById('modalShipping').textContent = this.formatCurrency(this.shippingFee);
+                document.getElementById('modalTotal').textContent = this.formatCurrency(total);
+
+                const discountRow = document.getElementById('discountRow');
+                const modalDiscountRow = document.getElementById('modalDiscountRow');
+                
+                if (this.discountAmount > 0) {
+                    discountRow.style.display = 'flex';
+                    modalDiscountRow.style.display = 'flex';
+                    document.getElementById('discount').textContent = '-' + this.formatCurrency(this.discountAmount);
+                    document.getElementById('modalDiscount').textContent = '-' + this.formatCurrency(this.discountAmount);
+                } else {
+                    discountRow.style.display = 'none';
+                    modalDiscountRow.style.display = 'none';
+                }
+            }
+
+            async applyDiscount() {
+                const code = document.getElementById('discountCode').value.trim();
+                if (!code) {
+                    this.showMessage('Vui lòng nhập mã giảm giá!', 'error');
+                    return;
+                }
+
+                try {
+                    const discountCodes = {
+                        'SAVE10': 0.1,
+                        'SAVE20': 0.2,
+                        'PETCARE50': 50000,
+                        'WELCOME': 30000
+                    };
+
+                    if (discountCodes[code]) {
+                        const subtotal = this.calculateSubtotal();
+                        
+                        if (typeof discountCodes[code] === 'number' && discountCodes[code] < 1) {
+                            this.discountAmount = subtotal * discountCodes[code];
+                        } else {
+                            this.discountAmount = Math.min(discountCodes[code], subtotal);
+                        }
+                        
+                        this.discountCode = code;
+                        this.updateCartSummary();
+                        this.showMessage(`Đã áp dụng mã giảm giá ${code}!`, 'success');
+                    } else {
+                        this.showMessage('Mã giảm giá không hợp lệ!', 'error');
+                    }
+                } catch (error) {
+                    console.error('Error applying discount:', error);
+                    this.showMessage('Có lỗi xảy ra khi áp dụng mã giảm giá!', 'error');
+                }
+            }
+
+            showCheckoutModal() {
+                const modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+                modal.show();
+            }
+
+            loadUserInfo() {
+                const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
+                if (currentUser) {
+                    document.getElementById('customerName').value = currentUser.HoTen || '';
+                    document.getElementById('customerPhone').value = currentUser.DienThoai || '';
+                    document.getElementById('customerEmail').value = currentUser.Gmail || '';
+                }
+            }
+
+            async confirmOrder() {
+                const form = document.getElementById('checkoutForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+
+                const orderData = {
+                    customerName: document.getElementById('customerName').value,
+                    customerPhone: document.getElementById('customerPhone').value,
+                    customerEmail: document.getElementById('customerEmail').value,
+                    customerAddress: document.getElementById('customerAddress').value,
+                    paymentMethod: document.querySelector('input[name="paymentMethod"]:checked').value,
+                    orderNotes: document.getElementById('orderNotes').value,
+                    items: this.cart,
+                    subtotal: this.calculateSubtotal(),
+                    shipping: this.shippingFee,
+                    discount: this.discountAmount,
+                    discountCode: this.discountCode,
+                    total: this.calculateTotal()
+                };
+
+                try {
+                    const confirmBtn = document.getElementById('confirmOrderBtn');
+                    const originalText = confirmBtn.innerHTML;
+                    confirmBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Đang xử lý...';
+                    confirmBtn.disabled = true;
+
+                    const response = await this.submitOrder(orderData);
+
+                    if (response.success) {
+                        this.cart = [];
+                        this.saveCartToStorage();
+                        this.renderCart();
+                        this.updateCartSummary();
+
+                        bootstrap.Modal.getInstance(document.getElementById('checkoutModal')).hide();
+
+                        this.showMessage('Đặt hàng thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.', 'success');
+
+                        this.discountAmount = 0;
+                        this.discountCode = '';
+                        document.getElementById('discountCode').value = '';
+                    } else {
+                        throw new Error(response.message || 'Đặt hàng thất bại');
+                    }
+                } catch (error) {
+                    console.error('Order error:', error);
+                    this.showMessage(error.message || 'Có lỗi xảy ra khi đặt hàng!', 'error');
+                } finally {
+                    const confirmBtn = document.getElementById('confirmOrderBtn');
+                    confirmBtn.innerHTML = '<i class="fas fa-check me-2"></i>Xác Nhận Đặt Hàng';
+                    confirmBtn.disabled = false;
+                }
+            }
+
+            async submitOrder(orderData) {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve({
+                            success: true,
+                            orderId: Math.random().toString(36).substr(2, 9),
+                            message: 'Đặt hàng thành công'
+                        });
+                    }, 2000);
+                });
+
+               
+            }
+
+            formatCurrency(amount) {
+                return new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(amount);
+            }
+
+            showMessage(message, type) {
+                const successMsg = document.getElementById('successMessage');
+                const errorMsg = document.getElementById('errorMessage');
+
+                if (type === 'success') {
+                    document.getElementById('successText').textContent = message;
+                    successMsg.style.display = 'block';
+                    errorMsg.style.display = 'none';
+                } else {
+                    document.getElementById('errorText').textContent = message;
+                    errorMsg.style.display = 'block';
+                    successMsg.style.display = 'none';
+                }
+
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                    errorMsg.style.display = 'none';
+                }, 5000);
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.shoppingCart = new ShoppingCart();
+
+            if (window.shoppingCart.cart.length === 0) {
+                const sampleProducts = [
+                    {
+                        id: 'prod1',
+                        name: 'Thức ăn chó Ganador Adult Salmon & Rice',
+                        price: 29000,
+                        image: '../assets/images/food1.png'  
+                    },
+                    {
+                        id: 'prod2',
+                        name: 'Hạt Pedigree Puppy vị gà và trứng 400g',
+                        price: 57000,
+                        image: '../assets/images/food.png'
+                    }
+                ];
+
+                sampleProducts.forEach(product => {
+                    window.shoppingCart.addToCart(product);
+                });
+            }
+        });
+
+        window.addToCart = function(product) {
+            if (window.shoppingCart) {
+                window.shoppingCart.addToCart(product);
+            } else {
+                console.error('Shopping cart not initialized');
+            }
+        };
+    </script>
+</body>
+</html>
