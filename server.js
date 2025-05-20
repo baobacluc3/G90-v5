@@ -12,7 +12,7 @@ app.use("/api", authRouter);
 app.use("/api", adminRouter);
 app.use("/api", orderTrackingRouter);
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "pages/home.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 app.use((req, res, next) => {
@@ -31,7 +31,7 @@ app.listen(PORT, (err) => {
     console.error("Error starting server:", err);
   } else {
     console.log(`🚀 Server running at http://localhost:${PORT}`);
-    console.log(`🔐 Login: http://localhost:${PORT}/pages/auth/login.html`);
-    console.log(` Admin: http://localhost:${PORT}/pages/admin/project.html`);
+    //console.log(`🔐 Login: http://localhost:${PORT}/pages/auth/login.html`);
+    //console.log(` Admin: http://localhost:${PORT}/pages/admin/project.html`);
   }
 });

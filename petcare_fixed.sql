@@ -143,7 +143,7 @@ INSERT INTO ChucVu (TenCV, MoTaCV, TrangThai) VALUES
 INSERT INTO TaiKhoan (HoTen, NamSinh, GioiTinh, DiaChi, DienThoai, Gmail, ID_ChucVu, TenDangNhap, MatKhau) VALUES
 ('Nguyễn Văn Anh', '2000-01-01', 1, 'Đà Nẵng', '0987654321', 'nguyenvana@gmail.com', 1, 'admin', 'password123'),
 ('Trần Tuấn', '2001-05-05', 0, 'Tam Kỳ', '0901234567', 'trant@gmail.com', 2, 'admin2', 'password456'),
-('le the bao', '2000-01-01', 1, 'Đà Nẵng', '312313213', 'lethebao@gmail.com', 3, 'user', 'lethebao@gmail.com');
+('le the bao', '2000-01-01', 1, 'Đà Nẵng', '312313213', 'user@gmail.com', 3, 'user', 'user@gmail.com');
 
 INSERT INTO KhachHang (HoTen, Email, DienThoai, DiaChi, NgayTao, LanCuoiMua) VALUES
 ('Nguyễn Thị Hoa', 'hoa.nguyen@gmail.com', '0901234567', 'Quận 1, TP.HCM', '2025-01-15', '2025-05-10'),
@@ -561,3 +561,105 @@ NgayCapNhatCuoi = (
     ORDER BY lsk.NgayKham DESC 
     LIMIT 1
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- Thêm vào petcare_fixed.sql
+
+-- Bảng phòng chat
+CREATE TABLE ChatRooms (
+    ID_Room INT AUTO_INCREMENT PRIMARY KEY,
+    TenRoom VARCHAR(255) NOT NULL,
+    LoaiRoom ENUM('private', 'group', 'support') DEFAULT 'private',
+    MoTa TEXT,
+    NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    TrangThai ENUM('active', 'inactive') DEFAULT 'active'
+);
+
+-- Bảng thành viên trong phòng chat
+CREATE TABLE ChatRoomMembers (
+    ID_Member INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Room INT NOT NULL,
+    ID_TaiKhoan INT NOT NULL,
+    VaiTro ENUM('admin', 'member') DEFAULT 'member',
+    NgayThamGia TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    TrangThai ENUM('active', 'left') DEFAULT 'active',
+    FOREIGN KEY (ID_Room) REFERENCES ChatRooms(ID_Room) ON DELETE CASCADE,
+    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan) ON DELETE CASCADE,
+    UNIQUE KEY unique_room_member (ID_Room, ID_TaiKhoan)
+);
+
+-- Bảng tin nhắn
+CREATE TABLE ChatMessages (
+    ID_Message INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Room INT NOT NULL,
+    ID_TaiKhoan INT NOT NULL,
+    NoiDung TEXT NOT NULL,
+    LoaiTinNhan ENUM('text', 'image', 'file', 'system') DEFAULT 'text',
+    TrangThai ENUM('sent', 'delivered', 'read') DEFAULT 'sent',
+    NgayGui TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    NgayChinhSua TIMESTAMP NULL,
+    DuongDanFile VARCHAR(500) NULL,
+    FOREIGN KEY (ID_Room) REFERENCES ChatRooms(ID_Room) ON DELETE CASCADE,
+    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan) ON DELETE CASCADE,
+    INDEX idx_room_time (ID_Room, NgayGui),
+    INDEX idx_status (TrangThai)
+);
+
+-- Bảng theo dõi tin nhắn đã đọc
+CREATE TABLE ChatMessageReads (
+    ID_Read INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Message INT NOT NULL,
+    ID_TaiKhoan INT NOT NULL,
+    NgayDoc TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ID_Message) REFERENCES ChatMessages(ID_Message) ON DELETE CASCADE,
+    FOREIGN KEY (ID_TaiKhoan) REFERENCES TaiKhoan(ID_TaiKhoan) ON DELETE CASCADE,
+    UNIQUE KEY unique_message_reader (ID_Message, ID_TaiKhoan)
+);
+
+-- Bảng hỗ trợ khách hàng
+CREATE TABLE ChatSupport (
+    ID_Support INT AUTO_INCREMENT PRIMARY KEY,
+    ID_KhachHang INT NULL,
+    ID_NhanVien INT NULL,
+    ID_Room INT NOT NULL,
+    TieuDe VARCHAR(255),
+    TinhTrang ENUM('waiting', 'active', 'resolved', 'closed') DEFAULT 'waiting',
+    DoUuTien ENUM('low', 'medium', 'high', 'urgent') DEFAULT 'medium',
+    NgayTao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    NgayDong TIMESTAMP NULL,
+    DanhGia INT CHECK (DanhGia BETWEEN 1 AND 5),
+    NhanXet TEXT,
+    FOREIGN KEY (ID_KhachHang) REFERENCES TaiKhoan(ID_TaiKhoan),
+    FOREIGN KEY (ID_NhanVien) REFERENCES TaiKhoan(ID_TaiKhoan),
+    FOREIGN KEY (ID_Room) REFERENCES ChatRooms(ID_Room) ON DELETE CASCADE
+);
+
+-- Thêm dữ liệu mẫu
+INSERT INTO ChatRooms (TenRoom, LoaiRoom, MoTa) VALUES
+('Support General', 'support', 'Phòng hỗ trợ khách hàng chung'),
+('Admins', 'group', 'Nhóm quản trị viên'),
+('Staff Meeting', 'group', 'Cuộc họp nhân viên');
+
+-- Thêm thành viên vào phòng
+INSERT INTO ChatRoomMembers (ID_Room, ID_TaiKhoan, VaiTro) VALUES
+(1, 1, 'admin'),  -- Admin vào phòng support
+(1, 2, 'admin'),  -- Admin 2 vào phòng support
+(2, 1, 'admin'),  -- Admin vào nhóm admin
+(2, 2, 'member'), -- Admin 2 vào nhóm admin
+(3, 1, 'admin'),  -- Admin vào cuộc họp
+(3, 2, 'member'), -- Admin 2 vào cuộc họp
+(3, 3, 'member'); -- User vào cuộc họp
