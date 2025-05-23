@@ -1,1249 +1,1585 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thức ăn hạt Dog On Green 5kg – Protein 24% - Petcare</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/user.css">
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-    }
-    
-    .breadcrumb-section {
-      background-color: #f8f9fa;
-      padding: 12px 0;
-    }
-    
-    .product-section {
-      padding: 40px 0;
-    }
-    
-    .product-images {
-      position: relative;
-    }
-    
-    .product-main-image {
-      border-radius: 8px;
-      overflow: hidden;
-      margin-bottom: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-    
-    .product-main-image img {
-      width: 100%;
-      height: auto;
-      transition: transform 0.3s ease;
-    }
-    
-    .product-main-image:hover img {
-      transform: scale(1.05);
-    }
-    
-    .product-thumbnails {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .product-thumbnail {
-      width: 80px;
-      height: 80px;
-      border-radius: 5px;
-      overflow: hidden;
-      cursor: pointer;
-      border: 2px solid #eee;
-      transition: all 0.3s ease;
-    }
-    
-    .product-thumbnail.active {
-      border-color: #4e85fd;
-    }
-    
-    .product-thumbnail:hover {
-      border-color: #4e85fd;
-    }
-    
-    .product-thumbnail img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .discount-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: #ff6b6b;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-weight: 600;
-      z-index: 10;
-    }
-    
-    .product-title {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 15px;
-      color: #333;
-    }
-    
-    .product-rating {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    
-    .rating-stars {
-      color: #ffc107;
-      margin-right: 10px;
-    }
-    
-    .product-price {
-      margin-bottom: 20px;
-    }
-    
-    .original-price {
-      text-decoration: line-through;
-      color: #999;
-      font-size: 18px;
-    }
-    
-    .current-price {
-      font-size: 28px;
-      font-weight: 700;
-      color: #ff6b6b;
-      margin-left: 10px;
-    }
-    
-    .product-description {
-      margin-bottom: 20px;
-      line-height: 1.7;
-      color: #666;
-    }
-    
-    .quantity-selector {
-      display: flex;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .quantity-btn {
-      width: 35px;
-      height: 35px;
-      border: 1px solid #ddd;
-      background: #f8f9fa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 18px;
-      transition: all 0.2s ease;
-    }
-    
-    .quantity-btn:hover {
-      background: #e9ecef;
-    }
-    
-    .quantity-input {
-      width: 50px;
-      height: 35px;
-      border: 1px solid #ddd;
-      text-align: center;
-      font-size: 16px;
-      margin: 0 5px;
-    }
-    
-    .action-buttons {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 30px;
-    }
-    
-    .action-buttons .btn {
-      padding: 10px 20px;
-      font-weight: 600;
-      border-radius: 5px;
-      transition: all 0.3s ease;
-    }
-    
-    .btn-add-cart {
-      background-color: #4e85fd;
-      color: white;
-      flex: 2;
-    }
-    
-    .btn-add-cart:hover {
-      background-color: #3a6fd4;
-      transform: translateY(-2px);
-    }
-    
-    .btn-buy-now {
-      background-color: #ff6b6b;
-      color: white;
-      flex: 1;
-    }
-    
-    .btn-buy-now:hover {
-      background-color: #ff5252;
-      transform: translateY(-2px);
-    }
-    
-    .contact-options {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .contact-option {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .contact-option:hover {
-      background-color: #f8f9fa;
-      border-color: #4e85fd;
-    }
-    
-    .contact-option i {
-      font-size: 20px;
-      color: #4e85fd;
-    }
-    
-    .product-meta {
-      margin-top: 20px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-    }
-    
-    .meta-item {
-      display: flex;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-    
-    .meta-label {
-      width: 100px;
-      color: #777;
-    }
-    
-    .social-share {
-      display: flex;
-      gap: 10px;
-      margin-top: 20px;
-    }
-    
-    .social-icon {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-    
-    .social-icon:hover {
-      transform: translateY(-3px);
-    }
-    
-    .facebook {
-      background-color: #1877f2;
-    }
-    
-    .twitter {
-      background-color: #1da1f2;
-    }
-    
-    .pinterest {
-      background-color: #bd081c;
-    }
-    
-    .whatsapp {
-      background-color: #25d366;
-    }
-    
-    .product-info-tabs {
-      margin-top: 50px;
-    }
-    
-    .nav-tabs {
-      border-bottom: 2px solid #eee;
-      margin-bottom: 20px;
-    }
-    
-    .nav-tabs .nav-link {
-      border: none;
-      font-weight: 600;
-      color: #777;
-      padding: 12px 20px;
-      margin-right: 10px;
-      transition: all 0.3s ease;
-    }
-    
-    .nav-tabs .nav-link.active {
-      color: #4e85fd;
-      border-bottom: 2px solid #4e85fd;
-    }
-    
-    .tab-content {
-      padding: 20px 0;
-    }
-    
-    .specifications-table {
-      width: 100%;
-      margin-bottom: 20px;
-    }
-    
-    .specifications-table tr {
-      border-bottom: 1px solid #eee;
-    }
-    
-    .specifications-table td {
-      padding: 10px;
-    }
-    
-    .specifications-table td:first-child {
-      width: 30%;
-      font-weight: 600;
-      color: #555;
-    }
-    
-    .related-products {
-      margin-top: 50px;
-    }
-    
-    .section-title {
-      position: relative;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      font-weight: 700;
-      color: #333;
-    }
-    
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 80px;
-      height: 3px;
-      background-color: #4e85fd;
-    }
-    
-    .product-card {
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      transition: all 0.3s ease;
-      height: 100%;
-    }
-    
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-    }
-    
-    .product-card-img {
-      height: 200px;
-      overflow: hidden;
-    }
-    
-    .product-card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-    
-    .product-card:hover .product-card-img img {
-      transform: scale(1.1);
-    }
-    
-    .product-card-body {
-      padding: 15px;
-    }
-    
-    .product-card-title {
-      font-weight: 600;
-      margin-bottom: 10px;
-      height: 40px;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
-    
-    .product-card-price {
-      font-weight: 700;
-      color: #ff6b6b;
-    }
-    
-    .store-details {
-      position: sticky;
-      top: 20px;
-      background-color: #f8f9fa;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-    
-    .store-title {
-      font-weight: 700;
-      margin-bottom: 15px;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .store-info {
-      margin-bottom: 15px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #eee;
-    }
-    
-    .store-info-item {
-      display: flex;
-      align-items: flex-start;
-      margin-bottom: 10px;
-    }
-    
-    .store-info-item i {
-      color: #4e85fd;
-      margin-right: 10px;
-      margin-top: 5px;
-    }
-    
-    .store-map-btn {
-      width: 100%;
-      margin-top: 10px;
-    }
-    
-    .benefits {
-      margin-top: 20px;
-    }
-    
-    .benefit-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    
-    .benefit-icon {
-      width: 40px;
-      height: 40px;
-      background-color: rgba(78, 133, 253, 0.1);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #4e85fd;
-    }
-    
-    .benefit-text {
-      font-size: 14px;
-    }
-    
-    /* Reviews Section */
-    .reviews-section {
-      margin-top: 40px;
-    }
-    
-    .review-item {
-      border-bottom: 1px solid #eee;
-      padding-bottom: 20px;
-      margin-bottom: 20px;
-    }
-    
-    .review-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-    
-    .reviewer-info {
-      display: flex;
-      align-items: center;
-    }
-    
-    .reviewer-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      overflow: hidden;
-      margin-right: 15px;
-    }
-    
-    .reviewer-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    
-    .review-rating {
-      color: #ffc107;
-    }
-    
-    .verified-badge {
-      background-color: #4caf50;
-      color: white;
-      font-size: 12px;
-      padding: 3px 8px;
-      border-radius: 20px;
-      margin-left: 10px;
-    }
-    
-    /* Media Queries */
-    @media (max-width: 768px) {
-      .product-title {
-        font-size: 24px;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thức ăn hạt Dog On Green 5kg – Protein 24% - Petcare</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/user.css" />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
       }
-      
-      .action-buttons {
-        flex-direction: column;
+
+      .breadcrumb-section {
+        background-color: #f8f9fa;
+        padding: 12px 0;
       }
-      
+
+      .product-section {
+        padding: 40px 0;
+      }
+
+      .product-images {
+        position: relative;
+      }
+
+      .product-main-image {
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .product-main-image img {
+        width: 100%;
+        height: auto;
+        transition: transform 0.3s ease;
+      }
+
+      .product-main-image:hover img {
+        transform: scale(1.05);
+      }
+
+      .product-thumbnails {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
       .product-thumbnail {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
+        border-radius: 5px;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #eee;
+        transition: all 0.3s ease;
       }
-    }
-  </style>
-</head>
-<body>
-  <div id="header"></div>
-  
-  <!-- Breadcrumb -->
-  <div class="breadcrumb-section">
-    <div class="container">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb mb-0">
-          <li class="breadcrumb-item"><a href="/pages/home.html">Trang chủ</a></li>
-          <li class="breadcrumb-item"><a href="/pages/user/food.html">Thức ăn hạt</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Thức ăn hạt Dog On Green 5kg – Protein 24%</li>
-        </ol>
-      </nav>
-    </div>
-  </div>
-  
-  <!-- Product Section -->
-  <section class="product-section">
-    <div class="container">
-      <div class="row">
-        <!-- Product Images -->
-        <div class="col-lg-5 mb-4">
-          <div class="product-images">
-            <div class="discount-badge">-10%</div>
-            <div class="product-main-image">
-              <img src="/assets/images/food5.png" alt="Thức ăn hạt Dog On Green 5kg – Protein 24%" id="main-image">
-            </div>
-            <div class="product-thumbnails">
-              <div class="product-thumbnail active" onclick="changeImage('/assets/images/food2.png', this)">
-                <img src="/assets/images/food5.png" alt="Thumbnail 1">
-              </div>
-              <div class="product-thumbnail" onclick="changeImage('/assets/images/food2-2.png', this)">
-                <img src="/assets/images/food5.png" alt="Thumbnail 2">
-              </div>
-              <div class="product-thumbnail" onclick="changeImage('/assets/images/food2-3.png', this)">
-                <img src="/assets/images/food5.png" alt="Thumbnail 3">
-              </div>
-              <div class="product-thumbnail" onclick="changeImage('/assets/images/food2-4.png', this)">
-                <img src="/assets/images/food5.png" alt="Thumbnail 4">
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Product Info -->
-        <div class="col-lg-4 mb-4">
-          <h1 class="product-title">Thức ăn hạt Dog On Green 5kg – Protein 24%</h1>
-          
-          <div class="product-rating">
-            <div class="rating-stars">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star-half-alt"></i>
-            </div>
-            <span>(28 đánh giá)</span>
-          </div>
-          
-          <div class="product-price">
-            <span class="original-price">410.000 ₫</span>
-            <span class="current-price">370.000 ₫</span>
-          </div>
-          
-          <div class="product-description">
-            <p>Với hàm lượng dinh dưỡng cao cùng mùi vị ngon miệng, thức ăn hạt Dog On Green thích hợp dành cho các bé cún biếng ăn đang còi cọc ốm yếu. Sản phẩm giúp cải thiện tình trạng biếng ăn, tăng cân và phát triển cơ bắp khỏe mạnh.</p>
-          </div>
-          
-          <div class="quantity-selector">
-            <div class="quantity-btn" onclick="decreaseQuantity()">-</div>
-            <input type="text" class="quantity-input" id="quantity" value="1" readonly>
-            <div class="quantity-btn" onclick="increaseQuantity()">+</div>
-          </div>
-          
-          <div class="action-buttons">
-            <button class="btn btn-add-cart" onclick="addToCart()">
-              <i class="fas fa-shopping-cart me-2"></i> Thêm vào giỏ hàng
-            </button>
-            <button class="btn btn-buy-now" onclick="buyNow()">
-              <i class="fas fa-bolt me-2"></i> Mua ngay
-            </button>
-          </div>
-          
-          <div class="contact-options">
-            <div class="contact-option" onclick="window.open('https://zalo.me/yourcompany')">
-              <i class="fas fa-comments"></i>
-              <span>Chat Zalo</span>
-            </div>
-            <div class="contact-option" onclick="window.location.href='tel:0395560056'">
-              <i class="fas fa-phone-alt"></i>
-              <span>Gọi Hotline</span>
-            </div>
-          </div>
-          
-          <div class="product-meta">
-            <div class="meta-item">
-              <div class="meta-label">Mã sản phẩm:</div>
-              <div>DOG-GREEN-5KG</div>
-            </div>
-            <div class="meta-item">
-              <div class="meta-label">Danh mục:</div>
-              <div>Thức ăn hạt, Thức ăn chó</div>
-            </div>
-            <div class="meta-item">
-              <div class="meta-label">Tags:</div>
-              <div>Protein cao, Tăng cân</div>
-            </div>
-            <div class="meta-item">
-              <div class="meta-label">Chia sẻ:</div>
-              <div class="social-share">
-                <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-icon pinterest"><i class="fab fa-pinterest-p"></i></a>
-                <a href="#" class="social-icon whatsapp"><i class="fab fa-whatsapp"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Store Info -->
-        <div class="col-lg-3">
-          <div class="store-details">
-            <h4 class="store-title">
-              <i class="fas fa-store text-primary"></i> 
-              Hệ thống cửa hàng
-            </h4>
-            
-            <div class="store-info">
-              <div class="store-info-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                  <strong>Cơ sở Cẩm Lệ:</strong><br />
-                  010 Trần Phước Thành, Quận Cẩm Lệ, TP. Đà Nẵng.
-                </div>
-              </div>
-              <div class="store-info-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                  <strong>Cơ sở Hải Châu:</strong><br />
-                  015 Quang Trung, Quận Hải Châu, TP. Đà Nẵng.
-                </div>
-              </div>
-              <div class="store-info-item">
-                <i class="fas fa-phone-alt"></i>
-                <div>
-                  <strong class="text-danger">Hotline: 0395560056</strong>
-                </div>
-              </div>
-            </div>
-            
-            <a href="https://maps.google.com/?q=010+Trần+Phước+Thành,+Quận+Cẩm+Lệ,+Đà+Nẵng" target="_blank" class="btn btn-outline-primary store-map-btn">
-              <i class="fas fa-map-marked-alt me-2"></i> Xem bản đồ
-            </a>
-            
-            <div class="benefits">
-              <div class="benefit-item">
-                <div class="benefit-icon">
-                  <i class="fas fa-check"></i>
-                </div>
-                <div class="benefit-text">Chính hãng 100%</div>
-              </div>
-              <div class="benefit-item">
-                <div class="benefit-icon">
-                  <i class="fas fa-truck"></i>
-                </div>
-                <div class="benefit-text">Giao hàng toàn quốc</div>
-              </div>
-              <div class="benefit-item">
-                <div class="benefit-icon">
-                  <i class="fas fa-sync-alt"></i>
-                </div>
-                <div class="benefit-text">Đổi trả trong 7 ngày</div>
-              </div>
-              <div class="benefit-item">
-                <div class="benefit-icon">
-                  <i class="fas fa-headset"></i>
-                </div>
-                <div class="benefit-text">Tư vấn 24/7</div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+      .product-thumbnail.active {
+        border-color: #4e85fd;
+      }
+
+      .product-thumbnail:hover {
+        border-color: #4e85fd;
+      }
+
+      .product-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .discount-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: #ff6b6b;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: 600;
+        z-index: 10;
+      }
+
+      .product-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #333;
+      }
+
+      .product-rating {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .rating-stars {
+        color: #ffc107;
+        margin-right: 10px;
+      }
+
+      .product-price {
+        margin-bottom: 20px;
+      }
+
+      .original-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 18px;
+      }
+
+      .current-price {
+        font-size: 28px;
+        font-weight: 700;
+        color: #ff6b6b;
+        margin-left: 10px;
+      }
+
+      .product-description {
+        margin-bottom: 20px;
+        line-height: 1.7;
+        color: #666;
+      }
+
+      .quantity-selector {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .quantity-btn {
+        width: 35px;
+        height: 35px;
+        border: 1px solid #ddd;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 18px;
+        transition: all 0.2s ease;
+      }
+
+      .quantity-btn:hover {
+        background: #e9ecef;
+      }
+
+      .quantity-input {
+        width: 50px;
+        height: 35px;
+        border: 1px solid #ddd;
+        text-align: center;
+        font-size: 16px;
+        margin: 0 5px;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+      }
+
+      .action-buttons .btn {
+        padding: 10px 20px;
+        font-weight: 600;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-add-cart {
+        background-color: #4e85fd;
+        color: white;
+        flex: 2;
+      }
+
+      .btn-add-cart:hover {
+        background-color: #3a6fd4;
+        transform: translateY(-2px);
+      }
+
+      .btn-buy-now {
+        background-color: #ff6b6b;
+        color: white;
+        flex: 1;
+      }
+
+      .btn-buy-now:hover {
+        background-color: #ff5252;
+        transform: translateY(-2px);
+      }
+
+      .contact-options {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .contact-option {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .contact-option:hover {
+        background-color: #f8f9fa;
+        border-color: #4e85fd;
+      }
+
+      .contact-option i {
+        font-size: 20px;
+        color: #4e85fd;
+      }
+
+      .product-meta {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+
+      .meta-item {
+        display: flex;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
+
+      .meta-label {
+        width: 100px;
+        color: #777;
+      }
+
+      .social-share {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .social-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 16px;
+        transition: all 0.3s ease;
+      }
+
+      .social-icon:hover {
+        transform: translateY(-3px);
+      }
+
+      .facebook {
+        background-color: #1877f2;
+      }
+
+      .twitter {
+        background-color: #1da1f2;
+      }
+
+      .pinterest {
+        background-color: #bd081c;
+      }
+
+      .whatsapp {
+        background-color: #25d366;
+      }
+
+      .product-info-tabs {
+        margin-top: 50px;
+      }
+
+      .nav-tabs {
+        border-bottom: 2px solid #eee;
+        margin-bottom: 20px;
+      }
+
+      .nav-tabs .nav-link {
+        border: none;
+        font-weight: 600;
+        color: #777;
+        padding: 12px 20px;
+        margin-right: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-tabs .nav-link.active {
+        color: #4e85fd;
+        border-bottom: 2px solid #4e85fd;
+      }
+
+      .tab-content {
+        padding: 20px 0;
+      }
+
+      .specifications-table {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .specifications-table tr {
+        border-bottom: 1px solid #eee;
+      }
+
+      .specifications-table td {
+        padding: 10px;
+      }
+
+      .specifications-table td:first-child {
+        width: 30%;
+        font-weight: 600;
+        color: #555;
+      }
+
+      .related-products {
+        margin-top: 50px;
+      }
+
+      .section-title {
+        position: relative;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        font-weight: 700;
+        color: #333;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 80px;
+        height: 3px;
+        background-color: #4e85fd;
+      }
+
+      .product-card {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        height: 100%;
+      }
+
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .product-card-img {
+        height: 200px;
+        overflow: hidden;
+      }
+
+      .product-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .product-card:hover .product-card-img img {
+        transform: scale(1.1);
+      }
+
+      .product-card-body {
+        padding: 15px;
+      }
+
+      .product-card-title {
+        font-weight: 600;
+        margin-bottom: 10px;
+        height: 40px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+      }
+
+      .product-card-price {
+        font-weight: 700;
+        color: #ff6b6b;
+      }
+
+      .store-details {
+        position: sticky;
+        top: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .store-title {
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .store-info {
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .store-info-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 10px;
+      }
+
+      .store-info-item i {
+        color: #4e85fd;
+        margin-right: 10px;
+        margin-top: 5px;
+      }
+
+      .store-map-btn {
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      .benefits {
+        margin-top: 20px;
+      }
+
+      .benefit-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .benefit-icon {
+        width: 40px;
+        height: 40px;
+        background-color: rgba(78, 133, 253, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4e85fd;
+      }
+
+      .benefit-text {
+        font-size: 14px;
+      }
+
+      /* Reviews Section */
+      .reviews-section {
+        margin-top: 40px;
+      }
+
+      .review-item {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+      }
+
+      .review-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .reviewer-info {
+        display: flex;
+        align-items: center;
+      }
+
+      .reviewer-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
+      }
+
+      .reviewer-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .review-rating {
+        color: #ffc107;
+      }
+
+      .verified-badge {
+        background-color: #4caf50;
+        color: white;
+        font-size: 12px;
+        padding: 3px 8px;
+        border-radius: 20px;
+        margin-left: 10px;
+      }
+
+      /* Media Queries */
+      @media (max-width: 768px) {
+        .product-title {
+          font-size: 24px;
+        }
+
+        .action-buttons {
+          flex-direction: column;
+        }
+
+        .product-thumbnail {
+          width: 60px;
+          height: 60px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-section">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item">
+              <a href="/pages/home.html">Trang chủ</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="/pages/user/food.html">Thức ăn hạt</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Thức ăn hạt Dog On Green 5kg – Protein 24%
+            </li>
+          </ol>
+        </nav>
       </div>
     </div>
-  </section>
-  
-  <!-- Product Info Tabs -->
-  <section class="product-info-tabs">
-    <div class="container">
-      <ul class="nav nav-tabs" id="productTabs" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">Mô tả</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="specifications-tab" data-bs-toggle="tab" data-bs-target="#specifications" type="button" role="tab" aria-controls="specifications" aria-selected="false">Thông số kỹ thuật</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="ingredients-tab" data-bs-toggle="tab" data-bs-target="#ingredients" type="button" role="tab" aria-controls="ingredients" aria-selected="false">Thành phần</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="instructions-tab" data-bs-toggle="tab" data-bs-target="#instructions" type="button" role="tab" aria-controls="instructions" aria-selected="false">Hướng dẫn sử dụng</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Đánh giá (28)</button>
-        </li>
-      </ul>
-      
-      <div class="tab-content" id="productTabsContent">
-        <!-- Description Tab -->
-        <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-          <h4>Thức ăn hạt Dog On Green - Thúc đẩy phát triển toàn diện</h4>
-          <p>Thức ăn hạt Dog On Green 5kg với hàm lượng protein 24% là sản phẩm dinh dưỡng cao cấp dành cho chó ở mọi lứa tuổi. Đặc biệt phù hợp với các bé cún đang trong giai đoạn phát triển hoặc các bé cún biếng ăn, còi cọc cần bổ sung dinh dưỡng để tăng cân.</p>
-          
-          <h5>Đặc điểm nổi bật</h5>
-          <ul>
-            <li>Hàm lượng protein cao (24%) giúp phát triển cơ bắp và tăng trưởng khỏe mạnh</li>
-            <li>Cung cấp dồi dào năng lượng cho hoạt động hàng ngày</li>
-            <li>Bổ sung đầy đủ vitamin và khoáng chất cần thiết</li>
-            <li>Hỗ trợ tiêu hóa và tăng cường hệ miễn dịch</li>
-            <li>Tăng cường sức khỏe và độ bóng mượt cho lông</li>
-            <li>Kích thích vị giác giúp cún biếng ăn thèm ăn hơn</li>
-          </ul>
-          
-          <h5>Lợi ích khi sử dụng Dog On Green</h5>
-          <p>Dog On Green được sản xuất với công thức đặc biệt phù hợp với chó của nhiều giống khác nhau. Sản phẩm có nhiều công dụng tuyệt vời:</p>
-          <ul>
-            <li>Cải thiện tình trạng biếng ăn, chậm tăng cân</li>
-            <li>Tăng cường sức đề kháng, giảm nguy cơ mắc bệnh</li>
-            <li>Cung cấp đầy đủ dưỡng chất cho phát triển não bộ và thị giác</li>
-            <li>Tăng cường sức khỏe xương khớp và răng</li>
-            <li>Hỗ trợ hệ tiêu hóa khỏe mạnh, giảm các vấn đề về đường ruột</li>
-          </ul>
-          
-          <div class="row mt-4">
-            <div class="col-md-6 mb-3">
-              <img src="/assets/images/food2.png" alt="Dog On Green 1" class="img-fluid rounded">
-            </div>
-            <div class="col-md-6 mb-3">
-              <img src="/assets/images/food2.png" alt="Dog On Green 2" class="img-fluid rounded">
-            </div>
-          </div>
-        </div>
-        
-        <!-- Specifications Tab -->
-        <div class="tab-pane fade" id="specifications" role="tabpanel" aria-labelledby="specifications-tab">
-          <table class="specifications-table">
-            <tr>
-              <td>Tên sản phẩm</td>
-              <td>Thức ăn hạt Dog On Green 5kg – Protein 24%</td>
-            </tr>
-            <tr>
-              <td>Xuất xứ</td>
-              <td>Việt Nam</td>
-            </tr>
-            <tr>
-              <td>Thương hiệu</td>
-              <td>Dog On</td>
-            </tr>
-            <tr>
-              <td>Trọng lượng</td>
-              <td>5kg/bao</td>
-            </tr>
-            <tr>
-              <td>Protein thô</td>
-              <td>24%</td>
-            </tr>
-            <tr>
-              <td>Chất béo thô</td>
-              <td>10%</td>
-            </tr>
-            <tr>
-              <td>Độ ẩm</td>
-              <td>10% (tối đa)</td>
-            </tr>
-            <tr>
-              <td>Xơ thô</td>
-              <td>4% (tối đa)</td>
-            </tr>
-            <tr>
-              <td>Calcium</td>
-              <td>1.2%</td>
-            </tr>
-            <tr>
-              <td>Phosphorus</td>
-              <td>0.9%</td>
-            </tr>
-            <tr>
-              <td>Ngày sản xuất</td>
-              <td>Xem trên bao bì</td>
-            </tr>
-            <tr>
-              <td>Hạn sử dụng</td>
-              <td>12 tháng kể từ ngày sản xuất</td>
-            </tr>
-            <tr>
-              <td>Bảo quản</td>
-              <td>Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp</td>
-            </tr>
-          </table>
-        </div>
-        
-        <!-- Ingredients Tab -->
-        <div class="tab-pane fade" id="ingredients" role="tabpanel" aria-labelledby="ingredients-tab">
-          <h4>Thành phần</h4>
-          <p>Dog On Green được sản xuất từ những nguyên liệu chất lượng cao, đảm bảo cung cấp đầy đủ dưỡng chất cần thiết cho sự phát triển khỏe mạnh của thú cưng:</p>
-          <ul>
-            <li>Thịt gà, thịt cá biển (nguồn protein động vật)</li>
-            <li>Bột mì, gạo (nguồn carbohydrate)</li>
-            <li>Dầu cá (cung cấp axit béo omega-3, omega-6)</li>
-            <li>Bột trứng (cung cấp protein chất lượng cao)</li>
-            <li>Nấm men (nguồn vitamin B complex)</li>
-            <li>Dầu thực vật</li>
-            <li>Các vitamin: A, D3, E, K, B1, B2, B6, B12, C</li>
-            <li>Khoáng chất: Sắt, Đồng, Kẽm, Manganese, Iodine, Selenium</li>
-            <li>Canxi, Phospho</li>
-            <li>Chất chống oxy hóa tự nhiên</li>
-            <li>Probiotics (hỗ trợ tiêu hóa)</li>
-          </ul>
-          
-          <p><strong>Lưu ý:</strong> Sản phẩm không chứa chất bảo quản, phẩm màu và hương liệu nhân tạo có hại.</p>
-        </div>
-        
-        <!-- Instructions Tab -->
-        <div class="tab-pane fade" id="instructions" role="tabpanel" aria-labelledby="instructions-tab">
-          <h4>Hướng dẫn sử dụng</h4>
-          <p>Để đạt hiệu quả tốt nhất khi sử dụng Dog On Green, vui lòng tham khảo các hướng dẫn sau:</p>
-          
-          <h5>Liều lượng khuyến nghị mỗi ngày</h5>
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>Cân nặng của chó (kg)</th>
-                  <th>Lượng thức ăn (g/ngày)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1-5</td>
-                  <td>30-100</td>
-                </tr>
-                <tr>
-                  <td>5-10</td>
-                  <td>100-170</td>
-                </tr>
-                <tr>
-                  <td>10-20</td>
-                  <td>170-300</td>
-                </tr>
-                <tr>
-                  <td>20-30</td>
-                  <td>300-400</td>
-                </tr>
-                <tr>
-                  <td>30+</td>
-                  <td>400+</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          
-          <p><strong>Lưu ý:</strong> Liều lượng trên chỉ mang tính tham khảo. Điều chỉnh lượng thức ăn tùy vào độ tuổi, mức độ hoạt động và thể trạng của từng chú chó.</p>
-          
-          <h5>Cách cho ăn</h5>
-          <ul>
-            <li>Cho chó ăn 2-3 lần mỗi ngày, tùy vào lứa tuổi và thói quen</li>
-            <li>Chuẩn bị nước uống sạch luôn sẵn sàng bên cạnh</li>
-            <li>Đối với chó con hoặc chó già, có thể ngâm thức ăn với nước ấm khoảng 10-15 phút để làm mềm hạt</li>
-            <li>Khi chuyển đổi sang Dog On Green, nên trộn dần với thức ăn cũ trong 5-7 ngày để giúp hệ tiêu hóa của chó thích nghi</li>
-          </ul>
-          
-          <h5>Bảo quản sản phẩm</h5>
-          <ul>
-            <li>Giữ thức ăn trong bao bì gốc và đóng kín sau khi mở</li>
-            <li>Bảo quản nơi khô ráo, thoáng mát</li>
-            <li>Tránh ánh nắng trực tiếp và nhiệt độ cao</li>
-            <li>Nên sử dụng hết trong vòng 6 tuần sau khi mở bao</li>
-          </ul>
-        </div>
-        
-        <!-- Reviews Tab -->
-        <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-          <div class="row">
-            <div class="col-md-4">
-              <h4>Đánh giá từ khách hàng</h4>
-              <div class="d-flex align-items-center mb-3">
-                <div class="rating-stars me-3" style="font-size: 28px;">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
+
+    <!-- Product Section -->
+    <section class="product-section">
+      <div class="container">
+        <div class="row">
+          <!-- Product Images -->
+          <div class="col-lg-5 mb-4">
+            <div class="product-images">
+              <div class="discount-badge">-10%</div>
+              <div class="product-main-image">
+                <img
+                  src="/assets/images/food5.png"
+                  alt="Thức ăn hạt Dog On Green 5kg – Protein 24%"
+                  id="main-image"
+                />
+              </div>
+              <div class="product-thumbnails">
+                <div
+                  class="product-thumbnail active"
+                  onclick="changeImage('/assets/images/food2.png', this)"
+                >
+                  <img src="/assets/images/food5.png" alt="Thumbnail 1" />
                 </div>
-                <div>
-                  <h5 class="mb-0">4.5/5</h5>
-                  <span>(28 đánh giá)</span>
+                <div
+                  class="product-thumbnail"
+                  onclick="changeImage('/assets/images/food2-2.png', this)"
+                >
+                  <img src="/assets/images/food5.png" alt="Thumbnail 2" />
+                </div>
+                <div
+                  class="product-thumbnail"
+                  onclick="changeImage('/assets/images/food2-3.png', this)"
+                >
+                  <img src="/assets/images/food5.png" alt="Thumbnail 3" />
+                </div>
+                <div
+                  class="product-thumbnail"
+                  onclick="changeImage('/assets/images/food2-4.png', this)"
+                >
+                  <img src="/assets/images/food5.png" alt="Thumbnail 4" />
                 </div>
               </div>
-              
-              <div class="rating-progress mb-4">
-                <div class="d-flex align-items-center mb-1">
-                  <span class="me-2">5 sao</span>
-                  <div class="progress flex-grow-1" style="height: 8px;">
-                    <div class="progress-bar bg-success" style="width: 80%"></div>
-                  </div>
-                  <span class="ms-2">18</span>
-                </div>
-                <div class="d-flex align-items-center mb-1">
-                  <span class="me-2">4 sao</span>
-                  <div class="progress flex-grow-1" style="height: 8px;">
-                    <div class="progress-bar bg-success" style="width: 15%"></div>
-                  </div>
-                  <span class="ms-2">6</span>
-                </div>
-                <div class="d-flex align-items-center mb-1">
-                  <span class="me-2">3 sao</span>
-                  <div class="progress flex-grow-1" style="height: 8px;">
-                    <div class="progress-bar bg-warning" style="width: 10%"></div>
-                  </div>
-                  <span class="ms-2">3</span>
-                </div>
-                <div class="d-flex align-items-center mb-1">
-                  <span class="me-2">2 sao</span>
-                  <div class="progress flex-grow-1" style="height: 8px;">
-                    <div class="progress-bar bg-danger" style="width: 5%"></div>
-                  </div>
-                  <span class="ms-2">1</span>
-                </div>
-                <div class="d-flex align-items-center mb-1">
-                  <span class="me-2">1 sao</span>
-                  <div class="progress flex-grow-1" style="height: 8px;">
-                    <div class="progress-bar bg-danger" style="width: 0%"></div>
-                  </div>
-                  <span class="ms-2">0</span>
-                </div>
+            </div>
+          </div>
+
+          <!-- Product Info -->
+          <div class="col-lg-4 mb-4">
+            <h1 class="product-title">
+              Thức ăn hạt Dog On Green 5kg – Protein 24%
+            </h1>
+
+            <div class="product-rating">
+              <div class="rating-stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
               </div>
-              
-              <button class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#reviewModal">
-                <i class="fas fa-pen me-2"></i> Viết đánh giá
+              <span>(28 đánh giá)</span>
+            </div>
+
+            <div class="product-price">
+              <span class="original-price">410.000 ₫</span>
+              <span class="current-price">370.000 ₫</span>
+            </div>
+
+            <div class="product-description">
+              <p>
+                Với hàm lượng dinh dưỡng cao cùng mùi vị ngon miệng, thức ăn hạt
+                Dog On Green thích hợp dành cho các bé cún biếng ăn đang còi cọc
+                ốm yếu. Sản phẩm giúp cải thiện tình trạng biếng ăn, tăng cân và
+                phát triển cơ bắp khỏe mạnh.
+              </p>
+            </div>
+
+            <div class="quantity-selector">
+              <div class="quantity-btn" onclick="decreaseQuantity()">-</div>
+              <input
+                type="text"
+                class="quantity-input"
+                id="quantity"
+                value="1"
+                readonly
+              />
+              <div class="quantity-btn" onclick="increaseQuantity()">+</div>
+            </div>
+
+            <div class="action-buttons">
+              <button class="btn btn-add-cart" onclick="addToCart()">
+                <i class="fas fa-shopping-cart me-2"></i> Thêm vào giỏ hàng
+              </button>
+              <button class="btn btn-buy-now" onclick="buyNow()">
+                <i class="fas fa-bolt me-2"></i> Mua ngay
               </button>
             </div>
-            
-            <div class="col-md-8">
-              <div class="reviews-list">
-                <!-- Review 1 -->
-                <div class="review-item">
-                  <div class="review-header">
-                    <div class="reviewer-info">
-                      <div class="reviewer-avatar">
-                        <img src="https://i.pravatar.cc/150?img=12" alt="Avatar">
-                      </div>
-                      <div>
-                        <h5 class="mb-0">Nguyễn Thanh Hà <span class="verified-badge"><i class="fas fa-check-circle me-1"></i>Đã mua hàng</span></h5>
-                        <div class="review-rating">
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="review-date">
-                      <small class="text-muted">15/04/2025</small>
-                    </div>
-                  </div>
-                  <div class="review-content mt-2">
-                    <p>Cún nhà mình ăn tốt lắm, từ khi chuyển sang thức ăn này thì khỏe mạnh hơn hẳn. Lông bóng mượt, ít rụng và ít bị mắc các vấn đề về tiêu hóa. Hương vị có vẻ rất hấp dẫn vì bé ăn rất nhiệt tình, không còn biếng ăn như trước. Sẽ tiếp tục mua và sử dụng!</p>
+
+            <div class="contact-options">
+              <div
+                class="contact-option"
+                onclick="window.open('https://zalo.me/0932436585')"
+              >
+                <i class="fas fa-comments"></i>
+                <span>Chat Zalo</span>
+              </div>
+              <div
+                class="contact-option"
+                onclick="window.location.href='tel:0395560056'"
+              >
+                <i class="fas fa-phone-alt"></i>
+                <span>Gọi Hotline</span>
+              </div>
+            </div>
+
+            <div class="product-meta">
+              <div class="meta-item">
+                <div class="meta-label">Mã sản phẩm:</div>
+                <div>DOG-GREEN-5KG</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Danh mục:</div>
+                <div>Thức ăn hạt, Thức ăn chó</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Tags:</div>
+                <div>Protein cao, Tăng cân</div>
+              </div>
+              <div class="meta-item">
+                <div class="meta-label">Chia sẻ:</div>
+                <div class="social-share">
+                  <a href="#" class="social-icon facebook"
+                    ><i class="fab fa-facebook-f"></i
+                  ></a>
+                  <a href="#" class="social-icon twitter"
+                    ><i class="fab fa-twitter"></i
+                  ></a>
+                  <a href="#" class="social-icon pinterest"
+                    ><i class="fab fa-pinterest-p"></i
+                  ></a>
+                  <a href="#" class="social-icon whatsapp"
+                    ><i class="fab fa-whatsapp"></i
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Store Info -->
+          <div class="col-lg-3">
+            <div class="store-details">
+              <h4 class="store-title">
+                <i class="fas fa-store text-primary"></i>
+                Hệ thống cửa hàng
+              </h4>
+
+              <div class="store-info">
+                <div class="store-info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <strong>Cơ sở Cẩm Lệ:</strong><br />
+                    010 Trần Phước Thành, Quận Cẩm Lệ, TP. Đà Nẵng.
                   </div>
                 </div>
-                
-                <!-- Review 2 -->
-                <div class="review-item">
-                  <div class="review-header">
-                    <div class="reviewer-info">
-                      <div class="reviewer-avatar">
-                        <img src="https://i.pravatar.cc/150?img=5" alt="Avatar">
-                      </div>
-                      <div>
-                        <h5 class="mb-0">Trần Văn Minh <span class="verified-badge"><i class="fas fa-check-circle me-1"></i>Đã mua hàng</span></h5>
-                        <div class="review-rating">
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="far fa-star"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="review-date">
-                      <small class="text-muted">10/04/2025</small>
-                    </div>
-                  </div>
-                  <div class="review-content mt-2">
-                    <p>Sản phẩm chất lượng, đóng gói cẩn thận, giao hàng nhanh. Tôi có hai bé Pug, chúng đều rất thích ăn loại thức ăn này. Sau khoảng 1 tháng sử dụng, thấy bọn chúng tăng cân đều và khỏe mạnh hơn. Chỉ tiếc là giá hơi cao so với mặt bằng chung.</p>
+                <div class="store-info-item">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div>
+                    <strong>Cơ sở Hải Châu:</strong><br />
+                    015 Quang Trung, Quận Hải Châu, TP. Đà Nẵng.
                   </div>
                 </div>
-                
-                <!-- Review 3 -->
-                <div class="review-item">
-                  <div class="review-header">
-                    <div class="reviewer-info">
-                      <div class="reviewer-avatar">
-                        <img src="https://i.pravatar.cc/150?img=8" alt="Avatar">
-                      </div>
-                      <div>
-                        <h5 class="mb-0">Lê Thị Thu <span class="verified-badge"><i class="fas fa-check-circle me-1"></i>Đã mua hàng</span></h5>
-                        <div class="review-rating">
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="far fa-star"></i>
-                          <i class="far fa-star"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="review-date">
-                      <small class="text-muted">05/04/2025</small>
-                    </div>
-                  </div>
-                  <div class="review-content mt-2">
-                    <p>Cún nhà mình ban đầu ăn rất ngon miệng, nhưng sau khoảng 1 tuần thì có vẻ chán, không ăn nhiệt tình như trước. Phải trộn thêm đồ ăn ướt thì mới ăn. Chất lượng thì vẫn tốt, cún khỏe mạnh và đi tiêu bình thường, không bị đau bụng hay tiêu chảy.</p>
+                <div class="store-info-item">
+                  <i class="fas fa-phone-alt"></i>
+                  <div>
+                    <strong class="text-danger">Hotline: 0395560056</strong>
                   </div>
                 </div>
-                
-                <div class="text-center mt-4">
-                  <button class="btn btn-outline-primary">Xem thêm đánh giá</button>
+              </div>
+
+              <a
+                href="https://maps.google.com/?q=010+Trần+Phước+Thành,+Quận+Cẩm+Lệ,+Đà+Nẵng"
+                target="_blank"
+                class="btn btn-outline-primary store-map-btn"
+              >
+                <i class="fas fa-map-marked-alt me-2"></i> Xem bản đồ
+              </a>
+
+              <div class="benefits">
+                <div class="benefit-item">
+                  <div class="benefit-icon">
+                    <i class="fas fa-check"></i>
+                  </div>
+                  <div class="benefit-text">Chính hãng 100%</div>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">
+                    <i class="fas fa-truck"></i>
+                  </div>
+                  <div class="benefit-text">Giao hàng toàn quốc</div>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">
+                    <i class="fas fa-sync-alt"></i>
+                  </div>
+                  <div class="benefit-text">Đổi trả trong 7 ngày</div>
+                </div>
+                <div class="benefit-item">
+                  <div class="benefit-icon">
+                    <i class="fas fa-headset"></i>
+                  </div>
+                  <div class="benefit-text">Tư vấn 24/7</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-  
-  <!-- Related Products -->
-  <section class="related-products">
-    <div class="container">
-      <h3 class="section-title">Sản phẩm liên quan</h3>
-      
-      <div class="row">
-        <!-- Product 1 -->
-        <div class="col-lg-3 col-md-4 col-6 mb-4">
-          <div class="product-card">
-            <div class="product-card-img">
-              <img src="/assets/images/food.png" alt="Product 1">
-            </div>
-            <div class="product-card-body">
-              <h5 class="product-card-title">
-                <a href="/pages/user/sanpham/TA1.html">Thức ăn chó Ganador Adult Salmon & Rice</a>
-              </h5>
-              <div class="product-card-price">29.000 ₫</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Product 2 -->
-        <div class="col-lg-3 col-md-4 col-6 mb-4">
-          <div class="product-card">
-            <div class="product-card-img">
-              <img src="/assets/images/food1.png" alt="Product 2">
-            </div>
-            <div class="product-card-body">
-              <h5 class="product-card-title">
-                <a href="/pages/user/sanpham/TA2.html">Hạt Pedigree Puppy vị gà và trứng 400g</a>
-              </h5>
-              <div class="product-card-price">57.000 ₫</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Product 3 -->
-        <div class="col-lg-3 col-md-4 col-6 mb-4">
-          <div class="product-card">
-            <div class="product-card-img">
-              <img src="/assets/images/food3.png" alt="Product 3">
-            </div>
-            <div class="product-card-body">
-              <h5 class="product-card-title">
-                <a href="/pages/user/sanpham/TA5.html">Thức ăn hạt Hello Dog 400g dành cho chó</a>
-              </h5>
-              <div class="product-card-price">25.000 ₫</div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Product 4 -->
-        <div class="col-lg-3 col-md-4 col-6 mb-4">
-          <div class="product-card">
-            <div class="product-card-img">
-              <img src="/assets/images/food6.png" alt="Product 4">
-            </div>
-            <div class="product-card-body">
-              <h5 class="product-card-title">
-                <a href="/pages/user/sanpham/TA8.html">Hạt ZOI Dog thức ăn chó 1kg</a>
-              </h5>
-              <div class="product-card-price">35.000 ₫</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  
-  <!-- Review Modal -->
-  <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="reviewModalLabel">Viết đánh giá</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label for="reviewName" class="form-label">Họ và tên</label>
-              <input type="text" class="form-control" id="reviewName" required>
-            </div>
-            <div class="mb-3">
-              <label for="reviewEmail" class="form-label">Email</label>
-              <input type="email" class="form-control" id="reviewEmail" required>
-            </div>
-            <div class="mb-3">
-              <label for="reviewRating" class="form-label">Đánh giá</label>
-              <div class="rating-stars">
-                <i class="far fa-star rating-star" data-value="1"></i>
-                <i class="far fa-star rating-star" data-value="2"></i>
-                <i class="far fa-star rating-star" data-value="3"></i>
-                <i class="far fa-star rating-star" data-value="4"></i>
-                <i class="far fa-star rating-star" data-value="5"></i>
-                <input type="hidden" id="reviewRating" value="0">
+    </section>
+
+    <!-- Product Info Tabs -->
+    <section class="product-info-tabs">
+      <div class="container">
+        <ul class="nav nav-tabs" id="productTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="description-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#description"
+              type="button"
+              role="tab"
+              aria-controls="description"
+              aria-selected="true"
+            >
+              Mô tả
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="specifications-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#specifications"
+              type="button"
+              role="tab"
+              aria-controls="specifications"
+              aria-selected="false"
+            >
+              Thông số kỹ thuật
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="ingredients-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#ingredients"
+              type="button"
+              role="tab"
+              aria-controls="ingredients"
+              aria-selected="false"
+            >
+              Thành phần
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="instructions-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#instructions"
+              type="button"
+              role="tab"
+              aria-controls="instructions"
+              aria-selected="false"
+            >
+              Hướng dẫn sử dụng
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="reviews-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#reviews"
+              type="button"
+              role="tab"
+              aria-controls="reviews"
+              aria-selected="false"
+            >
+              Đánh giá (28)
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content" id="productTabsContent">
+          <!-- Description Tab -->
+          <div
+            class="tab-pane fade show active"
+            id="description"
+            role="tabpanel"
+            aria-labelledby="description-tab"
+          >
+            <h4>Thức ăn hạt Dog On Green - Thúc đẩy phát triển toàn diện</h4>
+            <p>
+              Thức ăn hạt Dog On Green 5kg với hàm lượng protein 24% là sản phẩm
+              dinh dưỡng cao cấp dành cho chó ở mọi lứa tuổi. Đặc biệt phù hợp
+              với các bé cún đang trong giai đoạn phát triển hoặc các bé cún
+              biếng ăn, còi cọc cần bổ sung dinh dưỡng để tăng cân.
+            </p>
+
+            <h5>Đặc điểm nổi bật</h5>
+            <ul>
+              <li>
+                Hàm lượng protein cao (24%) giúp phát triển cơ bắp và tăng
+                trưởng khỏe mạnh
+              </li>
+              <li>Cung cấp dồi dào năng lượng cho hoạt động hàng ngày</li>
+              <li>Bổ sung đầy đủ vitamin và khoáng chất cần thiết</li>
+              <li>Hỗ trợ tiêu hóa và tăng cường hệ miễn dịch</li>
+              <li>Tăng cường sức khỏe và độ bóng mượt cho lông</li>
+              <li>Kích thích vị giác giúp cún biếng ăn thèm ăn hơn</li>
+            </ul>
+
+            <h5>Lợi ích khi sử dụng Dog On Green</h5>
+            <p>
+              Dog On Green được sản xuất với công thức đặc biệt phù hợp với chó
+              của nhiều giống khác nhau. Sản phẩm có nhiều công dụng tuyệt vời:
+            </p>
+            <ul>
+              <li>Cải thiện tình trạng biếng ăn, chậm tăng cân</li>
+              <li>Tăng cường sức đề kháng, giảm nguy cơ mắc bệnh</li>
+              <li>
+                Cung cấp đầy đủ dưỡng chất cho phát triển não bộ và thị giác
+              </li>
+              <li>Tăng cường sức khỏe xương khớp và răng</li>
+              <li>
+                Hỗ trợ hệ tiêu hóa khỏe mạnh, giảm các vấn đề về đường ruột
+              </li>
+            </ul>
+
+            <div class="row mt-4">
+              <div class="col-md-6 mb-3">
+                <img
+                  src="/assets/images/food2.png"
+                  alt="Dog On Green 1"
+                  class="img-fluid rounded"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <img
+                  src="/assets/images/food2.png"
+                  alt="Dog On Green 2"
+                  class="img-fluid rounded"
+                />
               </div>
             </div>
-            <div class="mb-3">
-              <label for="reviewText" class="form-label">Nội dung đánh giá</label>
-              <textarea class="form-control" id="reviewText" rows="4" required></textarea>
+          </div>
+
+          <!-- Specifications Tab -->
+          <div
+            class="tab-pane fade"
+            id="specifications"
+            role="tabpanel"
+            aria-labelledby="specifications-tab"
+          >
+            <table class="specifications-table">
+              <tr>
+                <td>Tên sản phẩm</td>
+                <td>Thức ăn hạt Dog On Green 5kg – Protein 24%</td>
+              </tr>
+              <tr>
+                <td>Xuất xứ</td>
+                <td>Việt Nam</td>
+              </tr>
+              <tr>
+                <td>Thương hiệu</td>
+                <td>Dog On</td>
+              </tr>
+              <tr>
+                <td>Trọng lượng</td>
+                <td>5kg/bao</td>
+              </tr>
+              <tr>
+                <td>Protein thô</td>
+                <td>24%</td>
+              </tr>
+              <tr>
+                <td>Chất béo thô</td>
+                <td>10%</td>
+              </tr>
+              <tr>
+                <td>Độ ẩm</td>
+                <td>10% (tối đa)</td>
+              </tr>
+              <tr>
+                <td>Xơ thô</td>
+                <td>4% (tối đa)</td>
+              </tr>
+              <tr>
+                <td>Calcium</td>
+                <td>1.2%</td>
+              </tr>
+              <tr>
+                <td>Phosphorus</td>
+                <td>0.9%</td>
+              </tr>
+              <tr>
+                <td>Ngày sản xuất</td>
+                <td>Xem trên bao bì</td>
+              </tr>
+              <tr>
+                <td>Hạn sử dụng</td>
+                <td>12 tháng kể từ ngày sản xuất</td>
+              </tr>
+              <tr>
+                <td>Bảo quản</td>
+                <td>Nơi khô ráo, thoáng mát, tránh ánh nắng trực tiếp</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Ingredients Tab -->
+          <div
+            class="tab-pane fade"
+            id="ingredients"
+            role="tabpanel"
+            aria-labelledby="ingredients-tab"
+          >
+            <h4>Thành phần</h4>
+            <p>
+              Dog On Green được sản xuất từ những nguyên liệu chất lượng cao,
+              đảm bảo cung cấp đầy đủ dưỡng chất cần thiết cho sự phát triển
+              khỏe mạnh của thú cưng:
+            </p>
+            <ul>
+              <li>Thịt gà, thịt cá biển (nguồn protein động vật)</li>
+              <li>Bột mì, gạo (nguồn carbohydrate)</li>
+              <li>Dầu cá (cung cấp axit béo omega-3, omega-6)</li>
+              <li>Bột trứng (cung cấp protein chất lượng cao)</li>
+              <li>Nấm men (nguồn vitamin B complex)</li>
+              <li>Dầu thực vật</li>
+              <li>Các vitamin: A, D3, E, K, B1, B2, B6, B12, C</li>
+              <li>Khoáng chất: Sắt, Đồng, Kẽm, Manganese, Iodine, Selenium</li>
+              <li>Canxi, Phospho</li>
+              <li>Chất chống oxy hóa tự nhiên</li>
+              <li>Probiotics (hỗ trợ tiêu hóa)</li>
+            </ul>
+
+            <p>
+              <strong>Lưu ý:</strong> Sản phẩm không chứa chất bảo quản, phẩm
+              màu và hương liệu nhân tạo có hại.
+            </p>
+          </div>
+
+          <!-- Instructions Tab -->
+          <div
+            class="tab-pane fade"
+            id="instructions"
+            role="tabpanel"
+            aria-labelledby="instructions-tab"
+          >
+            <h4>Hướng dẫn sử dụng</h4>
+            <p>
+              Để đạt hiệu quả tốt nhất khi sử dụng Dog On Green, vui lòng tham
+              khảo các hướng dẫn sau:
+            </p>
+
+            <h5>Liều lượng khuyến nghị mỗi ngày</h5>
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>Cân nặng của chó (kg)</th>
+                    <th>Lượng thức ăn (g/ngày)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1-5</td>
+                    <td>30-100</td>
+                  </tr>
+                  <tr>
+                    <td>5-10</td>
+                    <td>100-170</td>
+                  </tr>
+                  <tr>
+                    <td>10-20</td>
+                    <td>170-300</td>
+                  </tr>
+                  <tr>
+                    <td>20-30</td>
+                    <td>300-400</td>
+                  </tr>
+                  <tr>
+                    <td>30+</td>
+                    <td>400+</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-          </form>
+
+            <p>
+              <strong>Lưu ý:</strong> Liều lượng trên chỉ mang tính tham khảo.
+              Điều chỉnh lượng thức ăn tùy vào độ tuổi, mức độ hoạt động và thể
+              trạng của từng chú chó.
+            </p>
+
+            <h5>Cách cho ăn</h5>
+            <ul>
+              <li>
+                Cho chó ăn 2-3 lần mỗi ngày, tùy vào lứa tuổi và thói quen
+              </li>
+              <li>Chuẩn bị nước uống sạch luôn sẵn sàng bên cạnh</li>
+              <li>
+                Đối với chó con hoặc chó già, có thể ngâm thức ăn với nước ấm
+                khoảng 10-15 phút để làm mềm hạt
+              </li>
+              <li>
+                Khi chuyển đổi sang Dog On Green, nên trộn dần với thức ăn cũ
+                trong 5-7 ngày để giúp hệ tiêu hóa của chó thích nghi
+              </li>
+            </ul>
+
+            <h5>Bảo quản sản phẩm</h5>
+            <ul>
+              <li>Giữ thức ăn trong bao bì gốc và đóng kín sau khi mở</li>
+              <li>Bảo quản nơi khô ráo, thoáng mát</li>
+              <li>Tránh ánh nắng trực tiếp và nhiệt độ cao</li>
+              <li>Nên sử dụng hết trong vòng 6 tuần sau khi mở bao</li>
+            </ul>
+          </div>
+
+          <!-- Reviews Tab -->
+          <div
+            class="tab-pane fade"
+            id="reviews"
+            role="tabpanel"
+            aria-labelledby="reviews-tab"
+          >
+            <div class="row">
+              <div class="col-md-4">
+                <h4>Đánh giá từ khách hàng</h4>
+                <div class="d-flex align-items-center mb-3">
+                  <div class="rating-stars me-3" style="font-size: 28px">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                  </div>
+                  <div>
+                    <h5 class="mb-0">4.5/5</h5>
+                    <span>(28 đánh giá)</span>
+                  </div>
+                </div>
+
+                <div class="rating-progress mb-4">
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2">5 sao</span>
+                    <div class="progress flex-grow-1" style="height: 8px">
+                      <div
+                        class="progress-bar bg-success"
+                        style="width: 80%"
+                      ></div>
+                    </div>
+                    <span class="ms-2">18</span>
+                  </div>
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2">4 sao</span>
+                    <div class="progress flex-grow-1" style="height: 8px">
+                      <div
+                        class="progress-bar bg-success"
+                        style="width: 15%"
+                      ></div>
+                    </div>
+                    <span class="ms-2">6</span>
+                  </div>
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2">3 sao</span>
+                    <div class="progress flex-grow-1" style="height: 8px">
+                      <div
+                        class="progress-bar bg-warning"
+                        style="width: 10%"
+                      ></div>
+                    </div>
+                    <span class="ms-2">3</span>
+                  </div>
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2">2 sao</span>
+                    <div class="progress flex-grow-1" style="height: 8px">
+                      <div
+                        class="progress-bar bg-danger"
+                        style="width: 5%"
+                      ></div>
+                    </div>
+                    <span class="ms-2">1</span>
+                  </div>
+                  <div class="d-flex align-items-center mb-1">
+                    <span class="me-2">1 sao</span>
+                    <div class="progress flex-grow-1" style="height: 8px">
+                      <div
+                        class="progress-bar bg-danger"
+                        style="width: 0%"
+                      ></div>
+                    </div>
+                    <span class="ms-2">0</span>
+                  </div>
+                </div>
+
+                <button
+                  class="btn btn-primary w-100"
+                  data-bs-toggle="modal"
+                  data-bs-target="#reviewModal"
+                >
+                  <i class="fas fa-pen me-2"></i> Viết đánh giá
+                </button>
+              </div>
+
+              <div class="col-md-8">
+                <div class="reviews-list">
+                  <!-- Review 1 -->
+                  <div class="review-item">
+                    <div class="review-header">
+                      <div class="reviewer-info">
+                        <div class="reviewer-avatar">
+                          <img
+                            src="https://i.pravatar.cc/150?img=12"
+                            alt="Avatar"
+                          />
+                        </div>
+                        <div>
+                          <h5 class="mb-0">
+                            Nguyễn Thanh Hà
+                            <span class="verified-badge"
+                              ><i class="fas fa-check-circle me-1"></i>Đã mua
+                              hàng</span
+                            >
+                          </h5>
+                          <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="review-date">
+                        <small class="text-muted">15/04/2025</small>
+                      </div>
+                    </div>
+                    <div class="review-content mt-2">
+                      <p>
+                        Cún nhà mình ăn tốt lắm, từ khi chuyển sang thức ăn này
+                        thì khỏe mạnh hơn hẳn. Lông bóng mượt, ít rụng và ít bị
+                        mắc các vấn đề về tiêu hóa. Hương vị có vẻ rất hấp dẫn
+                        vì bé ăn rất nhiệt tình, không còn biếng ăn như trước.
+                        Sẽ tiếp tục mua và sử dụng!
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Review 2 -->
+                  <div class="review-item">
+                    <div class="review-header">
+                      <div class="reviewer-info">
+                        <div class="reviewer-avatar">
+                          <img
+                            src="https://i.pravatar.cc/150?img=5"
+                            alt="Avatar"
+                          />
+                        </div>
+                        <div>
+                          <h5 class="mb-0">
+                            Trần Văn Minh
+                            <span class="verified-badge"
+                              ><i class="fas fa-check-circle me-1"></i>Đã mua
+                              hàng</span
+                            >
+                          </h5>
+                          <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="review-date">
+                        <small class="text-muted">10/04/2025</small>
+                      </div>
+                    </div>
+                    <div class="review-content mt-2">
+                      <p>
+                        Sản phẩm chất lượng, đóng gói cẩn thận, giao hàng nhanh.
+                        Tôi có hai bé Pug, chúng đều rất thích ăn loại thức ăn
+                        này. Sau khoảng 1 tháng sử dụng, thấy bọn chúng tăng cân
+                        đều và khỏe mạnh hơn. Chỉ tiếc là giá hơi cao so với mặt
+                        bằng chung.
+                      </p>
+                    </div>
+                  </div>
+
+                  <!-- Review 3 -->
+                  <div class="review-item">
+                    <div class="review-header">
+                      <div class="reviewer-info">
+                        <div class="reviewer-avatar">
+                          <img
+                            src="https://i.pravatar.cc/150?img=8"
+                            alt="Avatar"
+                          />
+                        </div>
+                        <div>
+                          <h5 class="mb-0">
+                            Lê Thị Thu
+                            <span class="verified-badge"
+                              ><i class="fas fa-check-circle me-1"></i>Đã mua
+                              hàng</span
+                            >
+                          </h5>
+                          <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="review-date">
+                        <small class="text-muted">05/04/2025</small>
+                      </div>
+                    </div>
+                    <div class="review-content mt-2">
+                      <p>
+                        Cún nhà mình ban đầu ăn rất ngon miệng, nhưng sau khoảng
+                        1 tuần thì có vẻ chán, không ăn nhiệt tình như trước.
+                        Phải trộn thêm đồ ăn ướt thì mới ăn. Chất lượng thì vẫn
+                        tốt, cún khỏe mạnh và đi tiêu bình thường, không bị đau
+                        bụng hay tiêu chảy.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="text-center mt-4">
+                    <button class="btn btn-outline-primary">
+                      Xem thêm đánh giá
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-          <button type="button" class="btn btn-primary">Gửi đánh giá</button>
+      </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="related-products">
+      <div class="container">
+        <h3 class="section-title">Sản phẩm liên quan</h3>
+
+        <div class="row">
+          <!-- Product 1 -->
+          <div class="col-lg-3 col-md-4 col-6 mb-4">
+            <div class="product-card">
+              <div class="product-card-img">
+                <img src="/assets/images/food.png" alt="Product 1" />
+              </div>
+              <div class="product-card-body">
+                <h5 class="product-card-title">
+                  <a href="/pages/user/sanpham/TA1.html"
+                    >Thức ăn chó Ganador Adult Salmon & Rice</a
+                  >
+                </h5>
+                <div class="product-card-price">29.000 ₫</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 2 -->
+          <div class="col-lg-3 col-md-4 col-6 mb-4">
+            <div class="product-card">
+              <div class="product-card-img">
+                <img src="/assets/images/food1.png" alt="Product 2" />
+              </div>
+              <div class="product-card-body">
+                <h5 class="product-card-title">
+                  <a href="/pages/user/sanpham/TA2.html"
+                    >Hạt Pedigree Puppy vị gà và trứng 400g</a
+                  >
+                </h5>
+                <div class="product-card-price">57.000 ₫</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 3 -->
+          <div class="col-lg-3 col-md-4 col-6 mb-4">
+            <div class="product-card">
+              <div class="product-card-img">
+                <img src="/assets/images/food3.png" alt="Product 3" />
+              </div>
+              <div class="product-card-body">
+                <h5 class="product-card-title">
+                  <a href="/pages/user/sanpham/TA5.html"
+                    >Thức ăn hạt Hello Dog 400g dành cho chó</a
+                  >
+                </h5>
+                <div class="product-card-price">25.000 ₫</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product 4 -->
+          <div class="col-lg-3 col-md-4 col-6 mb-4">
+            <div class="product-card">
+              <div class="product-card-img">
+                <img src="/assets/images/food6.png" alt="Product 4" />
+              </div>
+              <div class="product-card-body">
+                <h5 class="product-card-title">
+                  <a href="/pages/user/sanpham/TA8.html"
+                    >Hạt ZOI Dog thức ăn chó 1kg</a
+                  >
+                </h5>
+                <div class="product-card-price">35.000 ₫</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Review Modal -->
+    <div
+      class="modal fade"
+      id="reviewModal"
+      tabindex="-1"
+      aria-labelledby="reviewModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reviewModalLabel">Viết đánh giá</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="reviewName" class="form-label">Họ và tên</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="reviewName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="reviewEmail" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="reviewEmail"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="reviewRating" class="form-label">Đánh giá</label>
+                <div class="rating-stars">
+                  <i class="far fa-star rating-star" data-value="1"></i>
+                  <i class="far fa-star rating-star" data-value="2"></i>
+                  <i class="far fa-star rating-star" data-value="3"></i>
+                  <i class="far fa-star rating-star" data-value="4"></i>
+                  <i class="far fa-star rating-star" data-value="5"></i>
+                  <input type="hidden" id="reviewRating" value="0" />
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="reviewText" class="form-label"
+                  >Nội dung đánh giá</label
+                >
+                <textarea
+                  class="form-control"
+                  id="reviewText"
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Đóng
+            </button>
+            <button type="button" class="btn btn-primary">Gửi đánh giá</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  <div id="footer"></div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    // Load header and footer
-    fetch('/components/header.html')
-      .then(response => response.text())
-      .then(data => document.getElementById('header').innerHTML = data);
-      
-    fetch('/components/footer.html')
-      .then(response => response.text())
-      .then(data => document.getElementById('footer').innerHTML = data);
-    
-    // Change main image
-    function changeImage(src, element) {
-      document.getElementById('main-image').src = src;
-      // Remove active class from all thumbnails
-      document.querySelectorAll('.product-thumbnail').forEach(thumbnail => {
-        thumbnail.classList.remove('active');
-      });
-      // Add active class to clicked thumbnail
-      element.classList.add('active');
-    }
-    
-    // Quantity functions
-    function decreaseQuantity() {
-      const input = document.getElementById('quantity');
-      const value = parseInt(input.value);
-      if (value > 1) {
-        input.value = value - 1;
+
+    <div id="footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      fetch("/components/header.html")
+        .then((response) => response.text())
+        .then((data) => (document.getElementById("header").innerHTML = data));
+
+      fetch("/components/footer.html")
+        .then((response) => response.text())
+        .then((data) => (document.getElementById("footer").innerHTML = data));
+
+      function changeImage(src, element) {
+        document.getElementById("main-image").src = src;
+        document.querySelectorAll(".product-thumbnail").forEach((thumbnail) => {
+          thumbnail.classList.remove("active");
+        });
+        element.classList.add("active");
       }
-    }
-    
-    function increaseQuantity() {
-      const input = document.getElementById('quantity');
-      const value = parseInt(input.value);
-      input.value = value + 1;
-    }
-    
-    // Add to cart function
-    function addToCart() {
-      const quantity = document.getElementById('quantity').value;
-      alert(`Đã thêm ${quantity} sản phẩm vào giỏ hàng!`);
-    }
-    
-    // Buy now function
-    function buyNow() {
-      const quantity = document.getElementById('quantity').value;
-      alert(`Đã mua ngay ${quantity} sản phẩm!`);
-      // Redirect to checkout page
-      // window.location.href = '/pages/user/checkout.html';
-    }
-    
-    // Review rating functionality
-    document.querySelectorAll('.rating-star').forEach(star => {
-      star.addEventListener('click', function() {
-        const value = this.getAttribute('data-value');
-        document.getElementById('reviewRating').value = value;
-        
-        // Update stars display
-        document.querySelectorAll('.rating-star').forEach(s => {
-          const starValue = s.getAttribute('data-value');
-          if (starValue <= value) {
-            s.classList.remove('far');
-            s.classList.add('fas');
+
+      function decreaseQuantity() {
+        const input = document.getElementById("quantity");
+        const value = parseInt(input.value);
+        if (value > 1) {
+          input.value = value - 1;
+        }
+      }
+
+      function increaseQuantity() {
+        const input = document.getElementById("quantity");
+        const value = parseInt(input.value);
+        input.value = value + 1;
+      }
+
+      function addToCart() {
+        const quantity = parseInt(document.getElementById("quantity").value);
+
+        const product = {
+          id: 7,
+          name: "Thức ăn hạt Dog On Green 5kg – Protein 24%",
+          price: 370000,
+          quantity: quantity,
+          image: "/assets/images/food5.png",
+        };
+
+        try {
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+          const existingIndex = cart.findIndex(
+            (item) => item.id === product.id
+          );
+
+          if (existingIndex > -1) {
+            cart[existingIndex].quantity += quantity;
           } else {
-            s.classList.remove('fas');
-            s.classList.add('far');
+            cart.push(product);
           }
+
+          localStorage.setItem("cart", JSON.stringify(cart));
+
+          showNotification("Đã thêm vào giỏ hàng!", "success");
+
+          setTimeout(() => {
+            window.location.href = "/pages/user/cart.html";
+          }, 1000);
+        } catch (error) {
+          console.error("Lỗi:", error);
+          showNotification("Có lỗi xảy ra!", "error");
+        }
+      }
+
+      function showNotification(message, type = "success") {
+        const toast = document.createElement("div");
+        toast.className = `alert alert-${type} position-fixed`;
+        toast.style.cssText =
+          "top: 20px; right: 20px; z-index: 9999; min-width: 300px;";
+        toast.innerHTML = `
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.remove();
+          }
+        }, 3000);
+      }
+
+      function buyNow() {
+        const quantity = document.getElementById("quantity").value;
+        alert(`Đã mua ngay ${quantity} sản phẩm!`);
+        
+      }
+
+      document.querySelectorAll(".rating-star").forEach((star) => {
+        star.addEventListener("click", function () {
+          const value = this.getAttribute("data-value");
+          document.getElementById("reviewRating").value = value;
+
+          document.querySelectorAll(".rating-star").forEach((s) => {
+            const starValue = s.getAttribute("data-value");
+            if (starValue <= value) {
+              s.classList.remove("far");
+              s.classList.add("fas");
+            } else {
+              s.classList.remove("fas");
+              s.classList.add("far");
+            }
+          });
         });
       });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

@@ -103,7 +103,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Đặt Lịch Thành Công",
                 `Đã đặt lịch ${service} tại ${branch} vào ${date} lúc ${time} cho thú cưng ${petName}.`,
                 function () {
-                  // Optional: redirect or refresh
                   window.location.reload();
                 }
               );

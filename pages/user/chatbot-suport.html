@@ -1,180 +1,332 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chatbot Hỗ Trợ - Petcare</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/user.css">
-</head>
-<body>
-     <!-- Banner Chatbot -->
-<div class="promo-banner position-relative text-center text-white">
-    <img src="/assets/images/banner.png" alt="Khuyến mãi" class="img-fluid w-100 banner-img">
-    <div class="banner-overlay position-absolute top-50 start-50 translate-middle">
-        <h1 class="fw-bold">CHATBOT</h1>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../css/chatbot.css" />
+  </head>
+  <body>
+    <div class="promo-banner position-relative text-center text-white">
+      <img
+        src="/assets/images/banner.png"
+        alt="Banner Chatbot"
+        class="img-fluid w-100 banner-img"
+      />
+      <div
+        class="banner-overlay position-absolute top-50 start-50 translate-middle"
+      >
+        <h1 class="fw-bold">CHATBOT HỖ TRỢ</h1>
         <nav class="mt-3">
-            <a href="../home.html" class="text-white text-decoration-none fw-light">TRANG CHỦ</a>
-            <span class="mx-2">•</span>
-            <span class="text-white fw-light">CHATBOT</span>
+          <a
+            href="../home.html"
+            class="text-white text-decoration-none fw-light"
+            >TRANG CHỦ</a
+          >
+          <span class="mx-2">•</span>
+          <span class="text-white fw-light">CHATBOT</span>
         </nav>
-    </div>  
-</div>
+      </div>
+    </div>
 
-    <div class="container chatbot-section py-5">
-        <h1 class="text-center mb-5">Chatbot Hỗ Trợ</h1>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card chatbot-card">
-                    <div class="card-body">
-                        <div class="chat-window" id="chatWindow">
-                            <!-- Tin nhắn sẽ được thêm động từ localStorage hoặc tin nhắn mặc định -->
-                        </div>
-                        <form id="chatForm" class="mt-3">
-                            <div class="input-group">
-                                <input type="text" id="chatInput" class="form-control" placeholder="Nhập tin nhắn..." required>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-paper-plane"></i> Gửi
-                                </button>
-                            </div>
-                        </form>
-                        <div class="text-end mt-2">
-                            <button class="btn btn-danger btn-sm" onclick="clearChatHistory()">
-                                <i class="fas fa-trash"></i> Xóa Lịch Sử Chat
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <div class="container chatbot-main-container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-10">
+          <div class="chatbot-interface">
+            <div class="chat-header">
+              <div class="bot-avatar">
+                <img
+                  src="/assets/images/chatbot-avatar.png"
+                  alt="Petcare Bot"
+                  onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiNmZmYiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMmM1LjUgMCAxMCA0LjUgMTAgMTBzLTQuNSAxMC0xMCAxMFMyIDcuNSAyIDJTNi41IDIgMTIgMnoiLz48L3N2Zz4='"
+                />
+              </div>
+              <div class="bot-info">
+                <h4 class="bot-name">Petcare Assistant</h4>
+                <p class="bot-status">
+                  <span class="status-dot"></span>
+                  Trực tuyến - Sẵn sàng hỗ trợ
+                </p>
+              </div>
+              <div class="chat-actions">
+                <button
+                  class="btn btn-sm btn-outline-light"
+                  onclick="clearChat()"
+                  title="Xóa cuộc trò chuyện"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-light"
+                  onclick="toggleChatSettings()"
+                  title="Cài đặt"
+                >
+                  <i class="fas fa-cog"></i>
+                </button>
+              </div>
             </div>
+
+            <div class="quick-actions">
+              <div
+                class="quick-action-item"
+                onclick="sendQuickMessage('Xin chào')"
+              >
+                <i class="fas fa-hand-wave"></i>
+                <span>Xin chào</span>
+              </div>
+              <div
+                class="quick-action-item"
+                onclick="sendQuickMessage('Đặt lịch khám')"
+              >
+                <i class="fas fa-calendar-plus"></i>
+                <span>Đặt lịch</span>
+              </div>
+              <div
+                class="quick-action-item"
+                onclick="sendQuickMessage('Giá dịch vụ')"
+              >
+                <i class="fas fa-money-bill"></i>
+                <span>Giá cả</span>
+              </div>
+              <div
+                class="quick-action-item"
+                onclick="sendQuickMessage('Giờ làm việc')"
+              >
+                <i class="fas fa-clock"></i>
+                <span>Giờ mở cửa</span>
+              </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+              <div class="message bot-message">
+                <div class="message-avatar">
+                  <img
+                    src="/assets/images/chatbot-avatar.png"
+                    alt="Bot"
+                    onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIGZpbGw9IiM0ZTg1ZmQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMmM1LjUgMCAxMCA0LjUgMTAgMTBzLTQuNSAxMC0xMCAxMFMyIDcuNSAyIDE3UzYuNSAyIDEyIDJ6Ii8+PC9zdmc+'"
+                  />
+                </div>
+                <div class="message-content">
+                  <div class="message-bubble bot-bubble">
+                    <div class="typing-indicator">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                  </div>
+                  <div class="message-time">Vừa xong</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="suggested-questions" id="suggestedQuestions">
+              <h6>Câu hỏi thường gặp:</h6>
+              <div class="suggestion-chips">
+                <span
+                  class="chip"
+                  onclick="sendSuggestion('Petcare có những dịch vụ gì?')"
+                  >Dịch vụ của Petcare</span
+                >
+                <span
+                  class="chip"
+                  onclick="sendSuggestion('Làm thế nào để đặt lịch khám?')"
+                  >Cách đặt lịch</span
+                >
+                <span
+                  class="chip"
+                  onclick="sendSuggestion('Chi phí khám bệnh là bao nhiêu?')"
+                  >Chi phí dịch vụ</span
+                >
+                <span
+                  class="chip"
+                  onclick="sendSuggestion('Petcare có mấy chi nhánh?')"
+                  >Địa chỉ chi nhánh</span
+                >
+                <span
+                  class="chip"
+                  onclick="sendSuggestion('Giờ làm việc của Petcare')"
+                  >Giờ hoạt động</span
+                >
+              </div>
+            </div>
+
+            <div class="chat-input-container">
+              <div class="chat-input-wrapper">
+                <button
+                  class="btn btn-attachment"
+                  onclick="showAttachmentOptions()"
+                  title="Đính kèm"
+                >
+                  <i class="fas fa-paperclip"></i>
+                </button>
+                <input
+                  type="text"
+                  id="messageInput"
+                  class="chat-input"
+                  placeholder="Nhập tin nhắn của bạn..."
+                  onkeypress="handleKeyPress(event)"
+                />
+                <button
+                  class="btn btn-emoji"
+                  onclick="showEmojiPicker()"
+                  title="Biểu tượng cảm xúc"
+                >
+                  <i class="fas fa-smile"></i>
+                </button>
+                <button
+                  class="btn btn-send"
+                  onclick="sendMessage()"
+                  title="Gửi tin nhắn"
+                >
+                  <i class="fas fa-paper-plane"></i>
+                </button>
+              </div>
+              <div class="input-suggestions" id="inputSuggestions"></div>
+            </div>
+          </div>
+
+          <div class="chat-features">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-robot"></i>
+              </div>
+              <h5>AI Thông minh</h5>
+              <p>
+                Chatbot được trang bị AI hiện đại, hiểu và phản hồi chính xác
+                các câu hỏi của bạn.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <h5>Hỗ trợ 24/7</h5>
+              <p>
+                Luôn sẵn sàng hỗ trợ bạn mọi lúc, mọi nơi, ngay cả ngoài giờ làm
+                việc.
+              </p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-bolt"></i>
+              </div>
+              <h5>Phản hồi nhanh</h5>
+              <p>
+                Nhận được câu trả lời tức thì cho các thắc mắc về dịch vụ chăm
+                sóc thú cưng.
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+
+    <div class="faq-section py-5 bg-light">
+      <div class="container">
+        <h2 class="text-center mb-5">Câu hỏi thường gặp</h2>
+        <div class="row">
+          <div class="col-lg-8 mx-auto">
+            <div class="accordion" id="faqAccordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#faq1"
+                  >
+                    Petcare cung cấp những dịch vụ gì?
+                  </button>
+                </h2>
+                <div
+                  id="faq1"
+                  class="accordion-collapse collapse show"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    Petcare cung cấp đầy đủ các dịch vụ chăm sóc thú cưng: khám
+                    bệnh, điều trị, phẫu thuật, tiêm phòng, spa grooming, cắt
+                    tỉa lông, và nhiều dịch vụ khác.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#faq2"
+                  >
+                    Làm thế nào để đặt lịch khám cho thú cưng?
+                  </button>
+                </h2>
+                <div
+                  id="faq2"
+                  class="accordion-collapse collapse"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    Bạn có thể đặt lịch qua website, gọi điện trực tiếp, hoặc sử
+                    dụng chatbot. Chỉ cần cung cấp thông tin thú cưng và chọn
+                    thời gian phù hợp.
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#faq3"
+                  >
+                    Chi phí các dịch vụ như thế nào?
+                  </button>
+                </h2>
+                <div
+                  id="faq3"
+                  class="accordion-collapse collapse"
+                  data-bs-parent="#faqAccordion"
+                >
+                  <div class="accordion-body">
+                    Chi phí phụ thuộc vào từng dịch vụ cụ thể. Khám cơ bản từ
+                    200.000đ, spa grooming từ 150.000đ. Liên hệ để được tư vấn
+                    chi tiết.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="footer"></div>
-    <div id="modalContainer"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/chatbot-ai.js"></script>
     <script>
-
-        fetch('../../components/footer.html')
-            .then(response => response.text())
-            .then(data => document.getElementById('footer').innerHTML = data);
-
-        fetch('../../components/modal.html')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('modalContainer').innerHTML = data;
-            });
-
-        function openModal(title, content, onConfirm) {
-            const modal = new bootstrap.Modal(document.getElementById('commonModal'));
-            document.getElementById('commonModalLabel').innerText = title;
-            document.querySelector('.modal-body').innerText = content;
-
-            const confirmBtn = document.getElementById('modalConfirmBtn');
-            confirmBtn.onclick = function() {
-                onConfirm();
-                modal.hide();
-            };
-
-            modal.show();
-        }
-
-        // Tải lịch sử chat từ localStorage
-        function loadChatHistory() {
-            const chatWindow = document.getElementById('chatWindow');
-            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-
-            if (chatHistory.length === 0) {
-                // Nếu không có lịch sử, hiển thị tin nhắn mặc định
-                const defaultMessage = {
-                    type: 'bot',
-                    text: 'Xin chào! Tôi là chatbot của Petcare. Bạn cần giúp gì? Ví dụ: "Đặt lịch", "Xem khuyến mãi", "Giỏ hàng" ,"Đơn hàng" ,"Tiêm phòng".',
-                    time: '10:00 AM'
-                };
-                chatHistory.push(defaultMessage);
-            }
-
-            chatHistory.forEach(message => {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `chat-message ${message.type}-message`;
-                messageDiv.innerHTML = `<p>${message.text}</p><small class="text-muted">${message.time}</small>`;
-                chatWindow.appendChild(messageDiv);
-            });
-
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        }
-
-        // Lưu tin nhắn vào localStorage
-        function saveChatMessage(type, text, time) {
-            const chatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-            chatHistory.push({ type, text, time });
-            localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
-        }
-
-        // Xóa lịch sử chat
-        function clearChatHistory() {
-            openModal('Xóa Lịch Sử Chat', 'Bạn có chắc chắn muốn xóa toàn bộ lịch sử chat không?', function() {
-                localStorage.removeItem('chatHistory');
-                const chatWindow = document.getElementById('chatWindow');
-                chatWindow.innerHTML = '';
-                loadChatHistory(); // Tải lại tin nhắn mặc định
-            });
-        }
-
-        // Xử lý form chat
-        document.getElementById('chatForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const chatInput = document.getElementById('chatInput');
-            const message = chatInput.value.trim();
-            if (!message) return;
-
-            // Thêm tin nhắn của người dùng
-            const chatWindow = document.getElementById('chatWindow');
-            const userMessageTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const userMessage = document.createElement('div');
-            userMessage.className = 'chat-message user-message';
-            userMessage.innerHTML = `<p>${message}</p><small class="text-muted">${userMessageTime}</small>`;
-            chatWindow.appendChild(userMessage);
-
-            // Lưu tin nhắn của người dùng vào localStorage
-            saveChatMessage('user', message, userMessageTime);
-
-            // Giả lập phản hồi từ bot
-            setTimeout(() => {
-                let botResponse = 'Tôi không hiểu yêu cầu của bạn. Vui lòng thử lại!';
-                if (message.toLowerCase().includes('đặt lịch')) {
-                    botResponse = 'Bạn có muốn đặt lịch dịch vụ không? Hãy vào <a href="booking.html">Đặt Lịch</a> để tiếp tục!';
-                } else if (message.toLowerCase().includes('khuyến mãi')) {
-                    botResponse = 'Xem các chương trình khuyến mãi tại đây: <a href="promotions.html">Khuyến Mãi</a>';
-                } else if (message.toLowerCase().includes('giỏ hàng')) {
-                    botResponse = 'Bạn muốn xem giỏ hàng? Truy cập tại đây: <a href="cart.html">Giỏ Hàng</a>';
-                } else if (message.toLowerCase().includes('đơn hàng')) {
-                    botResponse = 'Kiểm tra đơn hàng của bạn tại đây: <a href="orders.html">Đơn Hàng</a>';
-                } else if (message.toLowerCase().includes('tiêm phòng')) {
-                    botResponse = 'Xem lịch sử tiêm phòng của thú cưng tại đây: <a href="vaccination.html">Tiêm Phòng</a>';
-                }
-
-                const botMessageTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-                const botMessage = document.createElement('div');
-                botMessage.className = 'chat-message bot-message';
-                botMessage.innerHTML = `<p>${botResponse}</p><small class="text-muted">${botMessageTime}</small>`;
-                chatWindow.appendChild(botMessage);
-
-                // Lưu tin nhắn của bot vào localStorage
-                saveChatMessage('bot', botResponse, botMessageTime);
-
-                // Cuộn xuống tin nhắn mới nhất
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-            }, 1000);
-
-            // Reset input
-            chatInput.value = '';
-        });
-
-        // Tải lịch sử chat khi trang được tải
-        window.onload = loadChatHistory;
+      // Load footer
+      fetch("../../components/footer.html")
+        .then((response) => response.text())
+        .then((data) => (document.getElementById("footer").innerHTML = data));
     </script>
-</body>
+  </body>
 </html>

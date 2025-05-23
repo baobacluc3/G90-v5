@@ -1,0 +1,337 @@
+<div id="chatbot-widget" class="chatbot-widget">
+  <div class="widget-toggle" onclick="toggleWidget()">
+    <i class="fas fa-comments"></i>
+    <span class="notification-dot">1</span>
+  </div>
+
+  <div class="widget-chat" id="widgetChat">
+    <div class="widget-header">
+      <div class="widget-bot-info">
+        <img src="/assets/images/chatbot-avatar.png" alt="Bot" />
+        <div>
+          <h6>Petcare Assistant</h6>
+          <span class="status">Trực tuyến</span>
+        </div>
+      </div>
+      <button onclick="toggleWidget()" class="widget-close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <div class="widget-messages" id="widgetMessages">
+      <div class="widget-welcome">Xin chào! Tôi có thể giúp gì cho bạn? 😊</div>
+    </div>
+
+    <div class="widget-quick-buttons">
+      <button onclick="sendWidgetMessage('Đặt lịch khám')" class="quick-btn">
+        📅 Đặt lịch
+      </button>
+      <button onclick="sendWidgetMessage('Xem giá dịch vụ')" class="quick-btn">
+        💰 Giá cả
+      </button>
+      <button
+        onclick="sendWidgetMessage('Địa chỉ chi nhánh')"
+        class="quick-btn"
+      >
+        📍 Địa chỉ
+      </button>
+    </div>
+
+    <div class="widget-input">
+      <input
+        type="text"
+        id="widgetInput"
+        placeholder="Nhập tin nhắn..."
+        onkeypress="handleWidgetKeyPress(event)"
+      />
+      <button onclick="sendWidgetMessage()" class="send-btn">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Widget CSS */
+  .chatbot-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    font-family: "Poppins", sans-serif;
+  }
+
+  .widget-toggle {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4e85fd, #667eea);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(78, 133, 253, 0.4);
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .widget-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(78, 133, 253, 0.6);
+  }
+
+  .widget-toggle i {
+    color: white;
+    font-size: 24px;
+  }
+
+  .notification-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 20px;
+    height: 20px;
+    background: #ff4757;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+    font-weight: 600;
+  }
+
+  .widget-chat {
+    position: absolute;
+    bottom: 80px;
+    right: 0;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .widget-chat.show {
+    display: flex;
+    animation: slideUp 0.3s ease;
+  }
+
+  .widget-header {
+    background: linear-gradient(135deg, #4e85fd, #667eea);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .widget-bot-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .widget-bot-info img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+  }
+
+  .widget-bot-info h6 {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .widget-bot-info .status {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  .widget-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .widget-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f8f9fa;
+  }
+
+  .widget-welcome {
+    background: white;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border-left: 4px solid #4e85fd;
+    font-size: 14px;
+  }
+
+  .widget-quick-buttons {
+    display: flex;
+    gap: 5px;
+    padding: 10px 15px;
+    background: white;
+    border-top: 1px solid #e9ecef;
+    overflow-x: auto;
+  }
+
+  .quick-btn {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 20px;
+    padding: 8px 12px;
+    font-size: 12px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .quick-btn:hover {
+    background: #4e85fd;
+    color: white;
+    border-color: #4e85fd;
+  }
+
+  .widget-input {
+    display: flex;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #e9ecef;
+    gap: 10px;
+  }
+
+  .widget-input input {
+    flex: 1;
+    border: 1px solid #dee2e6;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .widget-input input:focus {
+    border-color: #4e85fd;
+  }
+
+  .send-btn {
+    width: 35px;
+    height: 35px;
+    background: #4e85fd;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 480px) {
+    .widget-chat {
+      width: calc(100vw - 40px);
+      height: calc(100vh - 140px);
+      bottom: 80px;
+      right: -10px;
+    }
+  }
+</style>
+
+<script>
+  let widgetBot;
+
+  function toggleWidget() {
+    const widget = document.getElementById("widgetChat");
+    const dot = document.querySelector(".notification-dot");
+
+    if (widget.classList.contains("show")) {
+      widget.classList.remove("show");
+    } else {
+      widget.classList.add("show");
+      if (dot) dot.style.display = "none";
+
+      if (!widgetBot) {
+        widgetBot = new WidgetChatbot();
+      }
+    }
+  }
+
+  function sendWidgetMessage(message) {
+    if (!message) {
+      message = document.getElementById("widgetInput").value.trim();
+      if (!message) return;
+      document.getElementById("widgetInput").value = "";
+    }
+
+    if (widgetBot) {
+      widgetBot.sendMessage(message);
+    }
+  }
+
+  function handleWidgetKeyPress(event) {
+    if (event.key === "Enter") {
+      sendWidgetMessage();
+    }
+  }
+
+  class WidgetChatbot {
+    constructor() {
+      this.messages = document.getElementById("widgetMessages");
+      this.knowledgeBase = {
+        "đặt lịch":
+          "Bạn có thể đặt lịch qua:\n📞 Hotline: 0395.560.056\n💻 Website: petcare.vn\nHoặc tôi có thể hỗ trợ đặt lịch ngay!",
+        giá: "Bảng giá dịch vụ:\n🏥 Khám: 200k-300k\n💉 Tiêm phòng: 150k-400k\n✨ Spa: 150k-500k\nLiên hệ để biết chi tiết!",
+        "địa chỉ":
+          "📍 Chi nhánh:\n🏢 Cẩm Lệ: 010 Trần Phước Thành\n🏢 Hải Châu: 015 Quang Trung\n📞 Hotline: 0395.560.056",
+      };
+    }
+
+    sendMessage(message) {
+      this.addMessage(message, "user");
+
+      setTimeout(() => {
+        const response = this.getResponse(message.toLowerCase());
+        this.addMessage(response, "bot");
+      }, 500);
+    }
+
+    addMessage(text, sender) {
+      const messageDiv = document.createElement("div");
+      messageDiv.className = `widget-message ${sender}-message`;
+      messageDiv.style.cssText = `
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            ${
+              sender === "user"
+                ? "background: #4e85fd; color: white; margin-left: 50px; text-align: right;"
+                : "background: white; margin-right: 50px; border-left: 4px solid #4e85fd;"
+            }
+        `;
+      messageDiv.textContent = text;
+
+      this.messages.appendChild(messageDiv);
+      this.messages.scrollTop = this.messages.scrollHeight;
+    }
+
+    getResponse(message) {
+      for (const [key, response] of Object.entries(this.knowledgeBase)) {
+        if (message.includes(key)) {
+          return response;
+        }
+      }
+
+      return "Xin lỗi, tôi chưa hiểu câu hỏi. Vui lòng liên hệ:\n📞 0395.560.056\n📧 PetCare@gmail.com";
+    }
+  }
+</script>

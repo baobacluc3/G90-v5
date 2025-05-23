@@ -197,7 +197,7 @@ window.viewAppointment = async function (id) {
 };
 
 window.addAppointment = function () {
-  console.log("Add appointment clicked"); // Debug log
+  console.log("Add appointment clicked");
   document.getElementById("appointmentModalLabel").textContent =
     "Thêm Lịch Hẹn";
   document.getElementById("appointmentForm").reset();
@@ -269,7 +269,7 @@ async function deleteAppointmentConfirm(id) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("Appointment DOM loaded"); // Debug log
+  console.log("Appointment DOM loaded");
 
   loadAppointments();
 
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (appointmentForm) {
     appointmentForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      console.log("Form submitted"); // Debug log
+      console.log("Form submitted");
 
       const appointmentId = document.getElementById("appointmentId").value;
       const hoTen = document.getElementById("hoTen").value;

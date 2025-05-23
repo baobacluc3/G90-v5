@@ -141,7 +141,7 @@ function searchUsers() {
 }
 
 function addUser() {
-  console.log("Add user clicked"); // Debug log
+  console.log("Add user clicked");
   document.getElementById("userModalLabel").textContent = "Thêm Người Dùng";
   document.getElementById("userForm").reset();
   document.getElementById("userId").value = "";

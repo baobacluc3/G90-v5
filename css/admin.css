@@ -1,248 +1,236 @@
-/* === Kiểu dáng cho Project (Admin Dashboard) === */
 .project-section {
-    background-color: #f4f7fa;
-    border-radius: 15px;
-    padding: 30px;
+  background-color: #f4f7fa;
+  border-radius: 15px;
+  padding: 30px;
 }
 
 .admin-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
 }
 
 .admin-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .admin-card .card-body {
-    padding: 20px;
+  padding: 20px;
 }
 
 .admin-card i {
-    color: #16a085;
+  color: #16a085;
 }
 
 .admin-card .card-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #2d4a5e;
-    margin-bottom: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2d4a5e;
+  margin-bottom: 10px;
 }
 
 .admin-card .card-text {
-    font-size: 0.9rem;
-    color: #6c757d;
-    margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 15px;
 }
 
 .admin-card .btn-primary {
-    background-color: #16a085;
-    border-color: #16a085;
-    font-weight: 500;
-    transition: all 0.3s ease;
+  background-color: #16a085;
+  border-color: #16a085;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .admin-card .btn-primary:hover {
-    background-color: #1abc9c;
-    border-color: #1abc9c;
+  background-color: #1abc9c;
+  border-color: #1abc9c;
 }
 
-
-/* === Kiểu dáng cho Users === */
 .users-section {
-    background-color: #f4f7fa;
-    border-radius: 15px;
+  background-color: #f4f7fa;
+  border-radius: 15px;
 }
 
 .users-table {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .users-table th,
 .users-table td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .users-table .badge {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
-/* Responsive cho users */
 @media (max-width: 768px) {
-    .users-section h1 {
-        font-size: 2rem;
-    }
+  .users-section h1 {
+    font-size: 2rem;
+  }
 
-    .users-table {
-        font-size: 0.9rem;
-    }
+  .users-table {
+    font-size: 0.9rem;
+  }
 }
-/* === Kiểu dáng cho Reports === */
 .reports-section {
-    background-color: #f4f7fa;
-    border-radius: 15px;
+  background-color: #f4f7fa;
+  border-radius: 15px;
 }
 
 .report-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .report-table {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .report-table th,
 .report-table td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
-/* Responsive cho reports */
 @media (max-width: 768px) {
-    .reports-section h1 {
-        font-size: 2rem;
-    }
+  .reports-section h1 {
+    font-size: 2rem;
+  }
 
-    .report-table {
-        font-size: 0.9rem;
-    }
+  .report-table {
+    font-size: 0.9rem;
+  }
 }
 
-/* === Kiểu dáng cho Invoices === */
 .invoices-section {
-    background-color: #f4f7fa;
-    border-radius: 15px;
+  background-color: #f4f7fa;
+  border-radius: 15px;
 }
 
 .invoice-table {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .invoice-table th,
 .invoice-table td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .invoice-table .badge {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
 
-/* Responsive cho invoices */
 @media (max-width: 768px) {
-    .invoices-section h1 {
-        font-size: 2rem;
-    }
+  .invoices-section h1 {
+    font-size: 2rem;
+  }
 
-    .invoice-table {
-        font-size: 0.9rem;
-    }
+  .invoice-table {
+    font-size: 0.9rem;
+  }
 }
 
-/* === Kiểu dáng cho Appointments === */
 .appointments-section {
-    background-color: #f4f7fa;
-    border-radius: 15px;
+  background-color: #f4f7fa;
+  border-radius: 15px;
 }
 
 .appointment-table {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .appointment-table th,
 .appointment-table td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
 .appointment-table .badge {
-    font-size: 0.9rem;
+  font-size: 0.9rem;
 }
-/*  footer */
 .footer-section {
-    background: linear-gradient(90deg, #1a3c34, #2d4a5e); /* Gradient xanh đậm */
-    color: #ffffff;
-    padding: 20px 0 5px;
+  background: linear-gradient(90deg, #1a3c34, #2d4a5e);
+  color: #ffffff;
+  padding: 20px 0 5px;
 }
 
 .footer-logo a {
-    color: #ffffff;
-    font-weight: 600;
-    font-size: 1.6rem;
-    text-decoration: none;
-    transition: color 0.3s ease;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1.6rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .footer-logo a:hover {
-    color: #16a085;
+  color: #16a085;
 }
 
 .footer-logo img {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .footer-section h5 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #16a085; /* Màu xanh sáng cho tiêu đề */
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #16a085;
 }
 
 .footer-section p {
-    color: #d1d5db; /* Màu xám nhạt cho văn bản */
-    font-size: 1rem;
+  color: #d1d5db;
+  font-size: 1rem;
 }
 
 .footer-section ul li {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .footer-section ul li a {
-    color: #d1d5db;
-    text-decoration: none;
-    transition: color 0.3s ease;
+  color: #d1d5db;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .footer-section ul li a:hover {
-    color: #16a085;
+  color: #16a085;
 }
 
 .footer-section ul li i {
-    color: #16a085;
+  color: #16a085;
 }
 
 .social-links a {
-    color: #ffffff;
-    font-size: 1.5rem;
-    margin-right: 15px;
-    transition: color 0.3s ease;
+  color: #ffffff;
+  font-size: 1.5rem;
+  margin-right: 15px;
+  transition: color 0.3s ease;
 }
 
 .social-links a:hover {
-    color: #16a085;
+  color: #16a085;
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    margin-top: 30px;
-    padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 30px;
+  padding-top: 20px;
 }
 
 .footer-bottom p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: #d1d5db;
+  margin: 0;
+  font-size: 0.9rem;
+  color: #d1d5db;
 }
-
-

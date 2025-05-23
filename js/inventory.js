@@ -134,7 +134,6 @@ function updatePagination(total, page, limit) {
 
   let paginationHTML = "";
 
-  // Previous button
   if (page > 1) {
     paginationHTML += `<li class="page-item">
             <a class="page-link" href="#" onclick="changePage(${
@@ -143,7 +142,6 @@ function updatePagination(total, page, limit) {
         </li>`;
   }
 
-  // Page numbers
   for (
     let i = Math.max(1, page - 2);
     i <= Math.min(totalPages, page + 2);
@@ -155,7 +153,6 @@ function updatePagination(total, page, limit) {
         </li>`;
   }
 
-  // Next button
   if (page < totalPages) {
     paginationHTML += `<li class="page-item">
             <a class="page-link" href="#" onclick="changePage(${
@@ -180,13 +177,11 @@ function updateSummaryStats(stats) {
   }
 }
 
-// Change page
 window.changePage = function (page) {
   currentPage = page;
   loadInventory();
 };
 
-// Search items
 window.searchInventory = function () {
   const searchInput = document.getElementById("searchInput");
   currentSearch = searchInput.value.trim();

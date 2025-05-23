@@ -141,7 +141,8 @@ function updateStatistics(stats) {
   if (stats) {
     document.getElementById("totalPets").textContent = stats.total || 0;
     document.getElementById("healthyPets").textContent = stats.healthy || 0;
-    document.getElementById("needCheckupPets").textContent = stats.needCheckup || 0;
+    document.getElementById("needCheckupPets").textContent =
+      stats.needCheckup || 0;
     document.getElementById("treatmentPets").textContent = stats.treatment || 0;
   }
 }
@@ -179,7 +180,8 @@ window.editPet = async function (id) {
   if (result.success) {
     const pet = result.data;
 
-    document.getElementById("petModalLabel").textContent = "Sửa Thông Tin Thú Cưng";
+    document.getElementById("petModalLabel").textContent =
+      "Sửa Thông Tin Thú Cưng";
     document.getElementById("petId").value = pet.ID_ThuCung;
     document.getElementById("petName").value = pet.TenThuCung;
     document.getElementById("ownerName").value = pet.TenChuSoHuu;
@@ -217,12 +219,14 @@ window.updateHealth = async function (petId) {
   if (result.success) {
     const pet = result.data;
 
-    document.getElementById("healthModalLabel").textContent = "Cập Nhật Sức Khỏe";
+    document.getElementById("healthModalLabel").textContent =
+      "Cập Nhật Sức Khỏe";
     document.getElementById("healthPetId").value = pet.ID_ThuCung;
-    document.getElementById("healthPetInfo").textContent = 
-      `${pet.TenThuCung} - ${pet.Loai} (${pet.TenChuSoHuu})`;
+    document.getElementById(
+      "healthPetInfo"
+    ).textContent = `${pet.TenThuCung} - ${pet.Loai} (${pet.TenChuSoHuu})`;
 
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split("T")[0];
     document.getElementById("checkupDate").value = today;
 
     document.getElementById("healthForm").reset();
@@ -240,8 +244,9 @@ window.viewHealthHistory = async function (petId) {
     const pet = result.pet;
     const history = result.history;
 
-    document.getElementById("historyModalLabel").textContent = 
-      `Lịch Sử Sức Khỏe - ${pet.TenThuCung}`;
+    document.getElementById(
+      "historyModalLabel"
+    ).textContent = `Lịch Sử Sức Khỏe - ${pet.TenThuCung}`;
 
     let historyHTML = `
       <div class="pet-info mb-4">
@@ -254,7 +259,9 @@ window.viewHealthHistory = async function (petId) {
           <div class="col-md-6">
             <p><strong>Chủ sở hữu:</strong> ${pet.TenChuSoHuu}</p>
             <p><strong>Giống:</strong> ${pet.Giong || "Không xác định"}</p>
-            <p><strong>Cân nặng:</strong> ${pet.CanNang || "Chưa cập nhật"} kg</p>
+            <p><strong>Cân nặng:</strong> ${
+              pet.CanNang || "Chưa cập nhật"
+            } kg</p>
           </div>
         </div>
       </div>
@@ -264,7 +271,7 @@ window.viewHealthHistory = async function (petId) {
 
     if (history && history.length > 0) {
       historyHTML += '<div class="health-timeline">';
-      history.forEach(record => {
+      history.forEach((record) => {
         const statusClass = getStatusClass(record.TrangThaiSucKhoe);
         historyHTML += `
           <div class="timeline-item mb-3 p-3 border-start border-${statusClass} border-3">
@@ -272,24 +279,60 @@ window.viewHealthHistory = async function (petId) {
               <div class="flex-grow-1">
                 <h6 class="mb-1">
                   ${getHealthStatusBadge(record.TrangThaiSucKhoe)}
-                  <span class="ms-2 text-muted">${formatDateTime(record.NgayKham)}</span>
+                  <span class="ms-2 text-muted">${formatDateTime(
+                    record.NgayKham
+                  )}</span>
                 </h6>
-                ${record.TrieuChung ? `<p class="mb-1"><strong>Triệu chứng:</strong> ${record.TrieuChung}</p>` : ''}
-                ${record.ChanDoan ? `<p class="mb-1"><strong>Chẩn đoán:</strong> ${record.ChanDoan}</p>` : ''}
-                ${record.PhuongPhapDieuTri ? `<p class="mb-1"><strong>Điều trị:</strong> ${record.PhuongPhapDieuTri}</p>` : ''}
-                ${record.BacSiPhuTrach ? `<p class="mb-1"><strong>Bác sĩ:</strong> ${record.BacSiPhuTrach}</p>` : ''}
+                ${
+                  record.TrieuChung
+                    ? `<p class="mb-1"><strong>Triệu chứng:</strong> ${record.TrieuChung}</p>`
+                    : ""
+                }
+                ${
+                  record.ChanDoan
+                    ? `<p class="mb-1"><strong>Chẩn đoán:</strong> ${record.ChanDoan}</p>`
+                    : ""
+                }
+                ${
+                  record.PhuongPhapDieuTri
+                    ? `<p class="mb-1"><strong>Điều trị:</strong> ${record.PhuongPhapDieuTri}</p>`
+                    : ""
+                }
+                ${
+                  record.BacSiPhuTrach
+                    ? `<p class="mb-1"><strong>Bác sĩ:</strong> ${record.BacSiPhuTrach}</p>`
+                    : ""
+                }
                 <div class="row">
-                  ${record.NhietDo ? `<div class="col-md-4"><small><strong>Nhiệt độ:</strong> ${record.NhietDo}°C</small></div>` : ''}
-                  ${record.CanNang ? `<div class="col-md-4"><small><strong>Cân nặng:</strong> ${record.CanNang} kg</small></div>` : ''}
-                  ${record.NgayTaiKham ? `<div class="col-md-4"><small><strong>Tái khám:</strong> ${formatDate(record.NgayTaiKham)}</small></div>` : ''}
+                  ${
+                    record.NhietDo
+                      ? `<div class="col-md-4"><small><strong>Nhiệt độ:</strong> ${record.NhietDo}°C</small></div>`
+                      : ""
+                  }
+                  ${
+                    record.CanNang
+                      ? `<div class="col-md-4"><small><strong>Cân nặng:</strong> ${record.CanNang} kg</small></div>`
+                      : ""
+                  }
+                  ${
+                    record.NgayTaiKham
+                      ? `<div class="col-md-4"><small><strong>Tái khám:</strong> ${formatDate(
+                          record.NgayTaiKham
+                        )}</small></div>`
+                      : ""
+                  }
                 </div>
-                ${record.GhiChu ? `<p class="mt-2 text-muted"><em>${record.GhiChu}</em></p>` : ''}
+                ${
+                  record.GhiChu
+                    ? `<p class="mt-2 text-muted"><em>${record.GhiChu}</em></p>`
+                    : ""
+                }
               </div>
             </div>
           </div>
         `;
       });
-      historyHTML += '</div>';
+      historyHTML += "</div>";
     } else {
       historyHTML += '<p class="text-muted">Chưa có lịch sử khám bệnh</p>';
     }
@@ -303,11 +346,16 @@ window.viewHealthHistory = async function (petId) {
 
 function getStatusClass(status) {
   switch (status) {
-    case "Khỏe mạnh": return "success";
-    case "Cần theo dõi": return "warning";
-    case "Đang điều trị": return "danger";
-    case "Đã khỏi": return "info";
-    default: return "secondary";
+    case "Khỏe mạnh":
+      return "success";
+    case "Cần theo dõi":
+      return "warning";
+    case "Đang điều trị":
+      return "danger";
+    case "Đã khỏi":
+      return "info";
+    default:
+      return "secondary";
   }
 }
 
@@ -319,7 +367,9 @@ window.exportHealthData = async function () {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `suc-khoe-thu-cung-${new Date().toISOString().split("T")[0]}.csv`;
+    a.download = `suc-khoe-thu-cung-${
+      new Date().toISOString().split("T")[0]
+    }.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   } else {
@@ -365,11 +415,17 @@ document.addEventListener("DOMContentLoaded", function () {
       const formData = new FormData(healthForm);
       const healthData = Object.fromEntries(formData);
 
-      const result = await apiRequest(`/pet-health/${petId}/health`, "POST", healthData);
+      const result = await apiRequest(
+        `/pet-health/${petId}/health`,
+        "POST",
+        healthData
+      );
 
       if (result.success) {
         alert("Cập nhật sức khỏe thành công!");
-        bootstrap.Modal.getInstance(document.getElementById("healthModal")).hide();
+        bootstrap.Modal.getInstance(
+          document.getElementById("healthModal")
+        ).hide();
         loadPetHealth();
       } else {
         alert("Lỗi: " + (result.message || "Không thể cập nhật sức khỏe"));
@@ -393,52 +449,3 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 export { loadPetHealth };
-
-// import { apiRequest } from './api.js';
-
-// document.getElementById('addPetForm')?.addEventListener('submit', async (e) => {
-//     e.preventDefault();
-//     const name = document.getElementById('petName').value;
-//     const age = document.getElementById('petAge').value;
-//     const breed = document.getElementById('petBreed').value;
-
-//     const result = await apiRequest('/pets', 'POST', { name, age, breed });
-//     if (result.success) {
-//         loadPets();
-//         bootstrap.Modal.getInstance(document.getElementById('addPetModal')).hide();
-//     }
-// });
-
-// async function loadPets() {
-//     const result = await apiRequest('/pets');
-//     if (result.success) {
-//         const petList = document.getElementById('petList');
-//         petList.innerHTML = '';
-//         result.data.forEach(pet => {
-//             petList.innerHTML += `
-//                 <tr>
-//                     <td>${pet.name}</td>
-//                     <td>${pet.age}</td>
-//                     <td>${pet.breed}</td>
-//                     <td>
-//                         <button class="btn btn-warning btn-sm" onclick="editPet('${pet.id}')">Sửa</button>
-//                         <button class="btn btn-danger btn-sm" onclick="deletePet('${pet.id}')">Xóa</button>
-//                     </td>
-//                 </tr>
-//             `;
-//         });
-//     }
-// }
-
-// async function editPet(id) {
-//     alert(`Chỉnh sửa thú cưng ID: ${id}`);
-// }
-
-// async function deletePet(id) {
-//     if (confirm('Bạn có chắc muốn xóa?')) {
-//         const result = await apiRequest(`/pets/${id}`, 'DELETE');
-//         if (result.success) loadPets();
-//     }
-// }
-
-// loadPets();

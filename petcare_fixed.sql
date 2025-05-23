@@ -563,23 +563,6 @@ NgayCapNhatCuoi = (
 );
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--- Thêm vào petcare_fixed.sql
-
--- Bảng phòng chat
 CREATE TABLE ChatRooms (
     ID_Room INT AUTO_INCREMENT PRIMARY KEY,
     TenRoom VARCHAR(255) NOT NULL,
@@ -589,7 +572,6 @@ CREATE TABLE ChatRooms (
     TrangThai ENUM('active', 'inactive') DEFAULT 'active'
 );
 
--- Bảng thành viên trong phòng chat
 CREATE TABLE ChatRoomMembers (
     ID_Member INT AUTO_INCREMENT PRIMARY KEY,
     ID_Room INT NOT NULL,
@@ -602,7 +584,6 @@ CREATE TABLE ChatRoomMembers (
     UNIQUE KEY unique_room_member (ID_Room, ID_TaiKhoan)
 );
 
--- Bảng tin nhắn
 CREATE TABLE ChatMessages (
     ID_Message INT AUTO_INCREMENT PRIMARY KEY,
     ID_Room INT NOT NULL,
@@ -619,7 +600,6 @@ CREATE TABLE ChatMessages (
     INDEX idx_status (TrangThai)
 );
 
--- Bảng theo dõi tin nhắn đã đọc
 CREATE TABLE ChatMessageReads (
     ID_Read INT AUTO_INCREMENT PRIMARY KEY,
     ID_Message INT NOT NULL,
@@ -630,7 +610,6 @@ CREATE TABLE ChatMessageReads (
     UNIQUE KEY unique_message_reader (ID_Message, ID_TaiKhoan)
 );
 
--- Bảng hỗ trợ khách hàng
 CREATE TABLE ChatSupport (
     ID_Support INT AUTO_INCREMENT PRIMARY KEY,
     ID_KhachHang INT NULL,
@@ -648,18 +627,20 @@ CREATE TABLE ChatSupport (
     FOREIGN KEY (ID_Room) REFERENCES ChatRooms(ID_Room) ON DELETE CASCADE
 );
 
--- Thêm dữ liệu mẫu
 INSERT INTO ChatRooms (TenRoom, LoaiRoom, MoTa) VALUES
 ('Support General', 'support', 'Phòng hỗ trợ khách hàng chung'),
 ('Admins', 'group', 'Nhóm quản trị viên'),
 ('Staff Meeting', 'group', 'Cuộc họp nhân viên');
 
--- Thêm thành viên vào phòng
 INSERT INTO ChatRoomMembers (ID_Room, ID_TaiKhoan, VaiTro) VALUES
-(1, 1, 'admin'),  -- Admin vào phòng support
-(1, 2, 'admin'),  -- Admin 2 vào phòng support
-(2, 1, 'admin'),  -- Admin vào nhóm admin
-(2, 2, 'member'), -- Admin 2 vào nhóm admin
-(3, 1, 'admin'),  -- Admin vào cuộc họp
-(3, 2, 'member'), -- Admin 2 vào cuộc họp
-(3, 3, 'member'); -- User vào cuộc họp
+(1, 1, 'admin'),  
+(1, 2, 'admin'),  
+(2, 1, 'admin'),  
+(2, 2, 'member'), 
+(3, 1, 'admin'), 
+(3, 2, 'member'), 
+(3, 3, 'member'); 
+
+
+ALTER TABLE DonHang 
+ADD COLUMN MaGiaoDichMoMo VARCHAR(100) NULL AFTER PhuongThucThanhToan;
