@@ -19,6 +19,50 @@ let currentSearch = "";
 let currentStatus = "all";
 const itemsPerPage = 15;
 
+// Sample orders used when the API is unavailable
+const sampleOrders = [
+  {
+    ID_DonHang: "SAMPLE001",
+    NgayDat: "2024-05-20T10:00:00",
+    NgayCapNhat: "2024-05-21T09:00:00",
+    TrangThai: "Chờ xác nhận",
+    MucDoUuTien: "Cao",
+    TongTien: 150000,
+    SoLuongSanPham: 2,
+    TenKhachHang: "Nguyễn Văn A",
+    SoDienThoai: "0901234567",
+    DiaChiGiaoHang: "123 Đường ABC, Quận 1",
+    SanPham: [
+      { TenSP: "Thức ăn cho chó", SoLuong: 1, Gia: 100000 },
+      { TenSP: "Vòng cổ", SoLuong: 1, Gia: 50000 },
+    ],
+    LichSuTrangThai: [
+      { ThoiGian: "2024-05-20T10:00:00", TrangThai: "Chờ xác nhận", GhiChu: "" },
+    ],
+  },
+  {
+    ID_DonHang: "SAMPLE002",
+    NgayDat: "2024-05-18T14:30:00",
+    NgayCapNhat: "2024-05-20T08:00:00",
+    TrangThai: "Đang giao hàng",
+    MucDoUuTien: "Trung bình",
+    TongTien: 250000,
+    SoLuongSanPham: 3,
+    TenKhachHang: "Trần Thị B",
+    SoDienThoai: "0909876543",
+    DiaChiGiaoHang: "456 Đường XYZ, Quận 5",
+    SanPham: [
+      { TenSP: "Dây dắt", SoLuong: 2, Gia: 70000 },
+      { TenSP: "Thức ăn cho mèo", SoLuong: 1, Gia: 110000 },
+    ],
+    LichSuTrangThai: [
+      { ThoiGian: "2024-05-18T14:30:00", TrangThai: "Chờ xác nhận", GhiChu: "" },
+      { ThoiGian: "2024-05-19T09:00:00", TrangThai: "Đã xác nhận", GhiChu: "" },
+      { ThoiGian: "2024-05-20T08:00:00", TrangThai: "Đang giao hàng", GhiChu: "" },
+    ],
+  },
+];
+
 async function loadOrders() {
   console.log("Loading orders...", {
     currentPage,
@@ -51,36 +95,18 @@ async function loadOrders() {
         "error"
       );
 
-      document.getElementById("orderTrackingList").innerHTML = `
-                <tr>
-                    <td colspan="6" class="text-center text-muted">
-                        <div class="py-4">
-                            <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
-                            <div>Lỗi tải dữ liệu: ${
-                              result.message || "Không thể kết nối đến server"
-                            }</div>
-                        </div>
-                    </td>
-                </tr>
-            `;
+      // Fallback to sample data
+      displayOrders(sampleOrders);
+      updatePagination(sampleOrders.length, 1, itemsPerPage);
+      updateOrderStats(calculateStats(sampleOrders));
     }
   } catch (error) {
     console.error("Network error:", error);
     showNotification("Lỗi kết nối: " + error.message, "error");
-
-    document.getElementById("orderTrackingList").innerHTML = `
-            <tr>
-                <td colspan="6" class="text-center text-muted">
-                    <div class="py-4">
-                        <i class="fas fa-wifi fa-2x mb-2"></i>
-                        <div>Lỗi kết nối mạng</div>
-                        <button class="btn btn-sm btn-primary mt-2" onclick="loadOrders()">
-                            <i class="fas fa-redo"></i> Thử lại
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        `;
+    // Use sample data when network fails
+    displayOrders(sampleOrders);
+    updatePagination(sampleOrders.length, 1, itemsPerPage);
+    updateOrderStats(calculateStats(sampleOrders));
   }
 }
 
@@ -259,6 +285,29 @@ function getQuickActionButtons(orderId, status) {
   return buttons;
 }
 
+function calculateStats(orders) {
+  const stats = { total: 0, pending: 0, processing: 0, completed: 0 };
+  if (!orders || orders.length === 0) return stats;
+
+  stats.total = orders.length;
+  orders.forEach((o) => {
+    switch (o.TrangThai) {
+      case "Chờ xác nhận":
+        stats.pending++;
+        break;
+      case "Đã xác nhận":
+      case "Đang chuẩn bị":
+      case "Đang giao hàng":
+        stats.processing++;
+        break;
+      case "Đã giao hàng":
+        stats.completed++;
+        break;
+    }
+  });
+  return stats;
+}
+
 function updateOrderStats(stats) {
   if (!stats) return;
 
@@ -331,6 +380,12 @@ window.filterByStatus = function () {
 };
 
 window.viewOrderDetails = async function (orderId) {
+  const sample = sampleOrders.find((o) => o.ID_DonHang === String(orderId));
+  if (sample) {
+    showOrderDetailsModal(sample);
+    return;
+  }
+
   const result = await apiRequest(`/orders/${orderId}/details`);
   if (result.success) {
     showOrderDetailsModal(result.data);
@@ -338,6 +393,12 @@ window.viewOrderDetails = async function (orderId) {
 };
 
 window.editOrderStatus = async function (orderId) {
+  const sample = sampleOrders.find((o) => o.ID_DonHang === String(orderId));
+  if (sample) {
+    showEditStatusModal(sample);
+    return;
+  }
+
   const result = await apiRequest(`/orders/${orderId}`);
   if (result.success) {
     showEditStatusModal(result.data);
@@ -345,6 +406,12 @@ window.editOrderStatus = async function (orderId) {
 };
 
 window.quickUpdateStatus = async function (orderId, newStatus) {
+  const sample = sampleOrders.find((o) => o.ID_DonHang === String(orderId));
+  if (sample) {
+    showNotification("Không thể thay đổi trạng thái mẫu", "error");
+    return;
+  }
+
   if (
     confirm(`Bạn có chắc chắn muốn cập nhật trạng thái thành "${newStatus}"?`)
   ) {
