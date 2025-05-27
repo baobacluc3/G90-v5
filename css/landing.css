@@ -1,0 +1,46 @@
+.intro-section {
+    background: url('../assets/images/banner.png') no-repeat center/cover;
+    color: #fff;
+}
+
+.fab-buy {
+    background: var(--gradient-primary);
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    z-index: 1000;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 50%;
+    box-shadow: var(--shadow-lg);
+}
+
+.order-notify {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 1000;
+}
+
+.order-toast {
+    background: var(--gradient-secondary);
+    color: #fff;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin-top: 10px;
+    box-shadow: var(--shadow-md);
+    animation: fadein 0.5s, fadeout 0.5s 4.5s;
+}
+
+@keyframes fadein {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeout {
+    to { opacity: 0; transform: translateY(20px); }
+}
