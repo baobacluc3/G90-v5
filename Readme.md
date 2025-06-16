@@ -18,6 +18,7 @@ Petcare
 │ ├── booking.js # Đặt lịch khám bệnh
 │ ├── cart.js # Giỏ hàng, thanh toán
 │ ├── order.js # Theo dõi đơn hàng
+│ ├── profileRoutes.js # API hồ sơ người dùng
 │ ├── promotion.js # Ưu đãi, khuyến mãi
 │ ├── review.js # Đánh giá, phản hồi
 │ ├── project.js # Quản lý dự án
