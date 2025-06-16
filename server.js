@@ -12,6 +12,7 @@ const cartRouter = require("./js/routes/cartRoutes");
 const chatbotRouter = require("./js/routes/chatbotRoutes");
 const paymentRouter = require("./js/routes/paymentRoutes");
 const passwordRouter = require("./js/routes/passwordRoutes");
+const profileRouter = require("./js/routes/profileRoutes");
 
 app.use("/api", chatbotRouter);
 app.use("/api", authRouter);
@@ -20,6 +21,7 @@ app.use("/api", orderTrackingRouter);
 app.use("/api", cartRouter);
 app.use("/api", paymentRouter);
 app.use("/api", passwordRouter);
+app.use("/api", profileRouter);
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
